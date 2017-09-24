@@ -1,0 +1,1027 @@
+\documentclass{article}
+\usepackage[magyar]{babel}
+\usepackage[latin2]{inputenc}
+\usepackage{t1enc}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage[a4paper]{geometry}
+\usepackage{hyperref}
+
+%\usepackage{authblk} % for headings
+%\usepackage{pifont}
+%\usepackage{graphicx}
+%\usepackage{xtab} % tackle the long tables
+%\usepackage{longtable} % tackle the long tables
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\usepackage{tabularx}
+%\usepackage{tabu}
+\usepackage{rotating}
+
+\def\url#1{\expandafter\string\csname #1\endcsname}
+
+\usepackage{enumitem}
+\usepackage{color}
+\usepackage{amsmath}% http://ctan.org/pkg/amsmath
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\Abs}[1]{\left\lvert#1\right\rvert}
+
+% \highlight[<colour>]{<stuff>}
+\newcommand{\highlight}[2][yellow]{\mathchoice%
+  {\colorbox{#1}{$\displaystyle#2$}}%
+  {\colorbox{#1}{$\textstyle#2$}}%
+  {\colorbox{#1}{$\scriptstyle#2$}}%
+  {\colorbox{#1}{$\scriptscriptstyle#2$}}}%
+%-----------------------------------------------------------
+
+\theoremstyle{plain}
+\newtheorem*{conjecture}{Sejtés}
+\newtheorem*{corollary}{Következmény}
+\newtheorem*{definition}{Definíció}
+\newtheorem*{example}{Példa}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{problem}{Probléma}
+\newtheorem*{openproblem}{Nyitott kérdés}
+\newtheorem*{proposition}{Állítás}
+\newtheorem*{remark}{Megjegyzés}
+\newtheorem*{theorem}{Tétel}
+\newcommand{\aproof}{\hfill{\ding{111}}}
+
+%\theoremstyle{plain}
+%\newtheorem{conjecture}{Conjecture}
+%\newtheorem{corollary}{Corollary}
+%\newtheorem{definition}{Definition}[section]
+%\newtheorem{example}{Example}[section]
+%\newtheorem{lemma}{Lemma}[section]
+%\newtheorem{problem}{Problem}
+%\newtheorem{openproblem}{Open problem}
+%\newtheorem{proposition}{Proposition}[section]
+%\newtheorem{remark}{Remark}
+%\newtheorem{theorem}{Theorem}[section]
+%\newcommand{\aproof}{\hfill{\ding{111}}}
+
+\def\keywords{\vspace{.5em} % Add keywords
+{\textit{Keywords}:\,\relax%
+}}
+\def\endkeywords{\par}
+
+
+
+\usepackage{hyperref}
+%\usepackage{url}
+\begin{document}
+\hyphenation{ha-té-kony-ság}
+\hyphenation{ha-té-kony-sá-gá-nak}
+\begin{center}
+\Large{Páros összehasonlítás mátrixokból számolt súlyvektorok hatékonysága} \\
+\end{center}
+
+\begin{center}
+Bozóki Sándor$^{\,\,1,2}$
+\footnotetext[1]{MTA SZTAKI Mérnöki és Üzleti Intelligencia Kutatólaboratórium, Operációkutatás és Döntési Rendszerek Kutatócsoport}
+\footnotetext[2]{Budapesti Corvinus Egyetem, Operációkutatás és Aktuáriustudományok Tanszék \\
+ \textit{E-mail: bozoki.sandor@sztaki.mta.hu}}
+Fülöp János$^{\,\,1,3}$
+\footnotetext[3]{Óbudai Egyetem, Neumann Informatikai Kar, Alkalmazott Matematikai Intézet \\
+ \textit{E-mail: fulop.janos@sztaki.mta.hu}}
+
+\end{center}
+\begin{abstract}
+A többkritériumú döntéshozatal módszereiben gyakran alkalmaznak páros összehasonlítás mátrixokat,
+amelyekbõl megfelelõ módszerekkel az összehasonlításokban részt vevõ alternatívákra vonatkozóan
+egy fontossági súlyvektor nyerhetõ ki. A vektoroptimalizálás terminológiáját alkalmazva egy súlyvektor hatékony,
+ha nem létezik egy másik olyan súlyvektor, amely minden komponensben legalább olyan jól közelít,
+sõt legalább egy pozícióban szigorúan jobban. Egy súlyvektor gyengén hatékony,
+ha a páronkénti hányadosokkal való közelítés nem javítható meg egyszerre minden
+diagonálison kívüli pozícióban. Megmutatjuk, hogy a sajátvektor módszer során alkalmazott,
+a legnagyobb sajátértékhez tartozó sajátvektor mindig gyengén hatékony,
+viszont numerikus példákat mutatunk arra is, hogy lehet nem hatékony is.
+Lineáris programozási feladatokat vezetünk be annak ellenõrzésére,
+hogy egy adott súlyvektor (gyengén) hatékony-e, és ha nem az, akkor egy (erõsen) domináló
+hatékony súlyvektort is kapunk. Kitérünk a  
+ \href{http://pcmc.online}{pcmc.online} 
+helyen elérhetõ, böngészõben futtatható Pairwise
+Comparison Matrix Calculator alkalmazásra is, amelyben az itt bemutatott módszereket is implementáltuk.\\
+
+\textbf{Kulcsszavak:} többszempontú döntési modellek, páros összehasonlítás mátrix, hatékonyság, Pareto optimalitás, lineáris programozás
+\end{abstract}
+\section{Bevezetés} \label{section:1} % \ref{section:1}
+\label{intro}
+
+
+\subsection{Páros összehasonlítás mátrixok}
+A többszempontú döntési feladatok -- ld. pl. Temesi József \cite{Temesi1991} --
+ egyik kulcslépése az egyes szempontok fontossági súlyainak számszer\H{u}sítése.
+A gyakorlati feladatokban ugyanis ritka az olyan döntési alternatíva, amely minden szempontból jobb a többinél.
+A szempontok súlyozása nélkül legfeljebb sz\H{u}kíteni lehet az alternatívák körét -- például azon alternatívák
+kizárásával, amelyeknél van (minden szerint legalább olyan jó és legalább egy szempont szerint szigorúan) jobb
+alternatíva. A hatékonyság (Pareto optimalitás) így már a döntési folyamat els\H{o} fázisában is megjelenik,
+de a dolgozatunk központi témája a döntési folyamat egy kés\H{o}bbi fázisában felmerül\H{o} hatékonyság,
+a súlyvektor hatékonysága lesz.
+
+
+Ha a döntéshozó nem tudja közvetlenül megadni a szempontsúlyokat (pl. öt szempont esetén 35\%, 15\%, 20\%, 5\%, 25\%),
+akkor jól alkalmazható egyszer\H{u}bb kérdések sorozatán keresztül felmérni a preferenciákat.
+Ezt az alapgondolatot fejlesztette tovább Saaty 1977-ben \cite{Saaty1977}.
+Modelljében a páronkénti összehasonlítások több évszázados hagyományára és gyakorlatára építve
+a döntéshozót egyszerre egy kérdéssel szembesíti: a két adott szempont közül melyik a fontosabb és hányszor.
+Hasonlóan, a döntési alternatívák értékelése, pontozása során egy adott szempont szerint melyik alternatíva erõsebb,
+és az hányszor annyi pontot érdemel, mint a gyengébb. Az $n \geq 3$ elem (szempont, alternatíva, vagy akár szavazóer\H{o})
+összehasonlításából az $\mathbf{A}$ $n \times n$-es páros összehasonlítás mátrixot kapjuk, amelynek
+minden eleme pozitív, $a_{ij} = 1/a_{ji}$ minden $1 \leq i,j \leq n$ esetén, speciálisan a
+f\H{o}átlóban 1-esek állnak. Abban a leginkább elméleti esetben, amikor fennáll a kardinális tranzitivitás, azaz
+$a_{ij} a_{jk} = a_{ik} $ minden $i,j,k$ indexhármasra, a páros összehasonlítás mátrixot konzisztensnek, különben
+pedig inkonzisztensnek nevezzük.
+
+
+Egy, a döntéshozó által kitöltött $A = [a_{ij}]$ páros összehasonlítás mátrix ismeretében megfogalmazható
+a súlyvektor számításának alapfeladata: keressük azt a
+$\mathbf{w}=(w_1, w_2, \ldots, w_n)^{\top} \in \mathbb{R}^n_{+}$ súlyvektort,
+amelyre teljesül, hogy a $w_i/w_j$ arányok jól közelítik a döntéshozó által megadott $a_{ij}$ értékeket.
+Attól függ\H{o}en, hogy hogyan specifikáljuk a jól közelítést, számos súlyozási módszer adódik.
+Saaty \cite{Saaty1977} az $\mathbf{A}$ mátrix legnagyobb sajátértékéhez tartozó jobb oldali sajátvektort javasolta,
+de a $\min\limits_{i,j}\left( \log a_{ij} - \log (w_i/w_j) \right)^2,$ azaz a logaritmikus legkisebb négyzetes
+ célfüggvényt \cite{CrawfordWilliams1980,CrawfordWilliams1985,deGraan1980} minimalizáló súlyvektor is a legnépszer\H{u}bb és a legtöbbet kutatott módszerek közé sorolható.
+További súlyozási módszerek ismertetése található Rapcsák Tamás jegyzetének \cite{Rapcsak2007} I.2.2.~alfejezetében,
+valamint Komáromi Éva cikkében \cite{Komaromi2013}.
+A súlyozási módszereket számos alkalommal és több szempont szerint összehasonlították
+-- mi csak Bajwa, Choo és Wedley \cite{BajwaChooWedley2008} tanulmányát említjük --,
+de a szakmai vita arról, hogy melyik módszer tekinthet\H{o} a legjobbnak, ma is tart.
+
+
+A páros összehasonlítás mátrixok inkonzisztenciájának mérése szintén aktív kutatási téma, a hazai
+eredmények közül Kéri Gerzson gráfelméleti megközelítésére \cite{Keri2005} és
+Poesz Attila doktori értekezésére \cite{Poesz2017} hívjuk fel az Olvasó figyelmét.
+
+
+A páros összehasonlítás mátrixok hagyományos alkalmazási területe 
+-- a már említett többszempontú döntési modellezés --
+mellett megemlítjük Duleba Szabolcs \cite{Duleba2009} munkáját trendek el\H{o}rejelzésére,
+és Csató László részletes áttekintését \cite{Csato2013} a rangsorolási problémákra vonatkozóan.
+
+
+Dolgozatunk \ref{section:2}.~fejezetében a -- páros összehasonlítás mátrixból számolt --
+ súlyvektor hatékonyságának alapfogalmait ismertetjük.
+Mivel ebben a témában még nincs magyar nyelv\H{u} tanulmány,
+a szokásosnál hosszabb terjedelmet szemléltet\H{o} számpéldákkal ellensúlyozzuk.
+Az ezt követ\H{o} fejezetekben a saját eredményeinket foglaljuk össze,
+különös tekintettel a \cite{BozokiFulop2017} publikációban szerepl\H{o}kre.
+A hatékonyság és a gyenge hatékonyság három definíciójának ekvivalenciáját a \ref{section:3}.~fejezetben
+mutatjuk meg.
+
+\color{black}
+
+\section{A súlyvektor hatékonysága} \label{section:2} % \ref{section:2}
+
+Ahogyan a bevezet\H{o}ben említettük, a páros összehasonlítás mátrixból számolt
+súlyvektorok számítási módjaira számos javaslat, elméleti és számítási eredmény született
+Saaty 1977-es cikkét követ\H{o}en. Tudománytörténeti szempontból is érdekesnek és meglep\H{o}nek tartjuk,
+hogy közel 30 évnek kellett eltelnie ahhoz, hogy a súlyvektor hatékonyságának kérdése felmerüljön.
+Jelenlegi ismereteink szerint Blanquero, Carrizosa és Conde \cite{BlanqueroCarrizosaConde2006}
+foglalkozott el\H{o}ször e problémával.
+Adott $\mathbf{A} = \left[ a_{ij} \right]_{i,j=1,\ldots,n}$ páros összehasonlítás mátrix esetén
+a súlyvektor számítása egy olyan többcélú optimalizálási feladat, amelynek célfüggvényei
+a minimalizálandó $\left| x_i/x_j - a_{ij}  \right|$, $1 \leq i \neq j \leq n$ függvények,
+ összesen $n^2-n$ darab.
+
+\begin{equation}
+\min\limits_{\mathbf{x} \in \mathbb{R}^n_{++}}
+\left| \frac{x_i}{x_j} - a_{ij}  \right|_{1 \leq i \neq j \leq n}. \label{eq:xMultiObjectiveOptimizationProblem} %(\ref{eq:xMultiObjectiveOptimizationProblem})
+\end{equation}
+
+Legyen
+$\mathbf{w} = (w_1, w_2, \ldots, w_n)^{\top}$ egy pozitív súlyvektor. \\[3mm]
+
+\begin{definition} \label{def:DefinitionEfficient}  % \ref{def:DefinitionEfficient}
+A $\mathbf{w}$ súlyvektor \emph{hatékony}, ha nem létezik olyan
+$\mathbf{w^{\prime}} = (w^{\prime}_1, w^{\prime}_2, \ldots, w^{\prime}_n)^{\top}$
+súlyvektor, hogy
+\begin{align}
+ \left|a_{ij} - \frac{w^{\prime}_i}{w^{\prime}_j} \right| &\leq \left|a_{ij} - \frac{w_i}{w_j} \right| \qquad
+ \text{ minden } 1 \leq i,j \leq n, \text{ esetén, és } \label{def:DefinitionEfficientProperty1}  \\   %(\ref{def:DefinitionEfficientProperty1})
+ \left|a_{k{\ell}} - \frac{w^{\prime}_k}{w^{\prime}_{\ell}} \right| &<  \left|a_{k{\ell}} - \frac{w_k}{w_{\ell}} \right|
+  \qquad \text{ valamely } 1 \leq k,\ell \leq n \text{ esetén.}  \label{def:DefinitionEfficientProperty2}    %(\ref{def:DefinitionEfficientProperty2})
+\end{align}
+\end{definition}
+
+Ha a $\mathbf{w}$ súlyvektor nem hatékony, azaz létezik egy $\mathbf{w^{\prime}}$
+súlyvektor a (\ref{def:DefinitionEfficientProperty1})-(\ref{def:DefinitionEfficientProperty2})
+tulajdonságokkal, akkor azt mondjuk, hogy $\mathbf{w^{\prime}}$ dominálja $\mathbf{w}$-t.
+A dominancia tranzitív reláció.
+
+
+Egy hatékony súlyvektort tehát nem lehet dominálni,
+azaz megjavítani úgy, hogy legalább egy pozícióban jobban
+közelítse a döntéshozó által megadott értéket, miközben egyetlen
+más pozícióban sem keletkezik rosszabb közelítés.
+
+
+A definícióból következik, hogy egy súlyvektor hatékonysága nem függ a normalizálástól,
+azaz a $\mathbf{w}$ és a $c\mathbf{w}$ súlyvektorok egyszerre hatékonyak vagy nem hatékonyak
+bármely $c >0$ esetén. Ennek az észrevételnek a kés\H{o}bbiekben szerepe lesz, mert egy nem
+hatékony súlyvektor és egy \H{o}t domináló súlyvektor összehasonlítását nem feltétlenül könnyíti meg, ha
+mindketten 1-re normalizáltak, azaz a komponensek összege 1.
+
+\begin{example}  \label{example:0a}
+% \ref{example:0a}
+% nlepesesLPv21-egyedi.mw
+Tekintsük az alábbi $4 \times 4$-es páros összehasonlítás mátrixot és annak
+$\mathbf{w}$ sajátvektorát:
+\begin{equation*}
+\mathbf{A} =
+\begin{pmatrix}
+$\,\,$   1  $\,\,$   & $\,\,$    2  $\,\,$   & $\,\,$    7   $\,\,$ & $\,\,$    9   $\,\,$     \\
+$\,\,$  1/2 $\,\,$   & $\,\,$    1  $\,\,$   & $\,\,$    2   $\,\,$ & $\,\,$    8   $\,\,$     \\
+$\,\,$  1/7 $\,\,$   & $\,\,$   1/2 $\,\,$   & $\,\,$    1   $\,\,$ & $\,\,$    7   $\,\,$     \\
+$\,\,$  1/9 $\,\,$   & $\,\,$   1/8 $\,\,$   & $\,\,$   1/7  $\,\,$ & $\,\,$    1   $\,\,$
+\end{pmatrix},
+\qquad \qquad {\mathbf{w}} =
+\begin{pmatrix}
+0.562646 \\
+0.260697 \\
+0.141195 \\
+0.035463
+\end{pmatrix},
+\qquad \qquad {\mathbf{w}^{\prime}} =
+\begin{pmatrix}
+0.562646 \\
+\mathbf{0.281323} \\
+0.141195 \\
+0.035463
+\end{pmatrix}. %\label{example:0aAw}  % \ref{example:0aAw}
+\end{equation*}
+Ahhoz, hogy a $\mathbf{w}$ sajátvektor nem hatékonyságára rámutassunk, elegend\H{o}
+mutatni egy \H{o}t domináló ${\mathbf{w}}^{\prime}$ súlyvektort. Esetünkben legyen
+${w}^{\prime}_2 :=  {w}_1/2  = 0.281323, \, {w}^{\prime}_i := {w}_i, i =1,3,4.$
+A ${\mathbf{w}}^{\prime}$ súlyvektor ugyan nem 1-re normalizált, de a korábbiak szerint
+ennek nincs jelent\H{o}sége.
+
+A $\mathbf{w}$ sajátvektorból, valamint a ${\mathbf{w}}^{\prime}$ súlyvektorból
+képzett
+\begin{equation*}
+\left[ \frac{{w}_i}{{w}_j} \right] =
+\begin{pmatrix}
+$\,$   1    $\,\,$ & $\,\,$ 2.1582 $\,\,$ & $\,\,$ 3.9849 $\,\,$ & $\,\,$ 15.866 $\,$    \\
+$\,$ 0.4633 $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ 1.8464 $\,\,$ & $\,\,$ 7.3513 $\,$    \\
+$\,$ 0.2509 $\,\,$ & $\,\,$ 0.5416 $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ 3.9815 $\,$   \\
+$\,$ 0.0630 $\,\,$ & $\,\,$ 0.1360 $\,\,$ & $\,\,$ 0.2512 $\,\,$ & $\,\,$   1    $\,$
+\end{pmatrix},   \label{example:0awiperwj}    % (\ref{example:0awiperwj}).
+%$\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,$    \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,$    \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,$   \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,$\end{pmatrix},
+\end{equation*}
+\[
+\left[ \frac{{w}^{\prime}_i}{{w}^{\prime}_j} \right] =
+\begin{pmatrix}
+$\,$   1    $\,\,$ & $\,\,$ \mathbf{2} $\,\,$ & $\,\,$ 3.9849 $\,\,$ & $\,\,$ 15.866 $\,$    \\
+$\,$ \mathbf{0.5} $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ \mathbf{1.9924} $\,\,$ & $\,\,$ \mathbf{7.9329} $\,$    \\
+$\,$ 0.2509 $\,\,$ & $\,\,$ \mathbf{0.5019} $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ 3.9815 $\,$   \\
+$\,$ 0.0630 $\,\,$ & $\,\,$ \mathbf{0.1261} $\,\,$ & $\,\,$ 0.2512 $\,\,$ & $\,\,$   1    $\,$
+\end{pmatrix},
+%$\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,$    \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,$    \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,$   \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,$\end{pmatrix},
+        \]
+konzisztens páros összehasonlítás mátrixok mutatják, hogy
+\color{red} a (\ref{def:DefinitionEfficientProperty1}) \color{black}
+egyenl\H{o}tlenség minden $1\leq i,j \leq 4$ indexpárra teljesül,
+\color{red} a (\ref{def:DefinitionEfficientProperty2})  \color{black}
+szigorú egyenl\H{o}tlenség pedig a $(k,\ell) \in
+\{(1,2), (2,1), (2,3), (2,4), (3,2),$ 
+$(4,2)  \}$ indexpárokra.
+A $k=1, \ell=2$ indexpár esetén például $|\frac{{w}^{\prime}_1}{{w}^{\prime}_2} - a_{12}|
+= |2 - 2 | =0 < |\frac{{w}_1}{{w}_2} - a_{12}| = |2.1582 - 2| = 0.1582.$
+
+\end{example}
+
+
+Megjegyezzük, hogy els\H{o}ként Blanquero, Carrizosa és Conde \cite[3.~fejezet]{BlanqueroCarrizosaConde2006}
+mutatott példát arra, hogy a sajátvektor nem hatékony. Szintén \H{o}k definiálták a
+súlyvektor lokális hatékonyságát az alábbiak szerint.
+
+\begin{definition} \label{def:DefinitionlocalEfficient} %(\ref{def:DefinitionlocalEfficient})
+A $\mathbf{w}$ súlyvektor \emph{lokálisan hatékony,}
+ha van olyan $V(\mathbf{w})$ környezet, amelyben
+egyetlen $\mathbf{w^{\prime}} = (w^{\prime}_1, w^{\prime}_2, \ldots, w^{\prime}_n)^{\top}$
+súlyvektorra sem teljesül, hogy
+\begin{align*}
+\left|a_{ij} - \frac{w^{\prime}_i}{w^{\prime}_j} \right|
+ &\leq \left|a_{ij} - \frac{w_i}{w_j} \right| \qquad \text{ minden } 1 \leq i,j \leq n, \text{ esetén, és }  \\
+ \left|a_{k{\ell}} - \frac{w^{\prime}_k}{w^{\prime}_{\ell}} \right|
+ &<  \left|a_{k{\ell}} - \frac{w_k}{w_{\ell}} \right|  \qquad \text{ valamely } 1 \leq k,\ell \leq n \text{ esetén.}
+\end{align*}
+\end{definition}
+
+
+A hatékonyság harmadik változatát Boz\'oki Sándor \cite{Bozoki2014} definiálta.
+\begin{definition} \label{def:DefinitionInternallyEfficient} %(\ref{def:DefinitionInternallyEfficient})
+A $\mathbf{w}$ súlyvektor \emph{belülr\H{o}l hatékony,} ha nem létezik olyan
+$\mathbf{w^{\prime}} = (w^{\prime}_1, w^{\prime}_2, \ldots, w^{\prime}_n)^{\top}$
+súlyvektor, hogy
+\begin{align}
+\left.
+\begin{array}{ccc}
+a_{ij} \leq \frac{w_i}{w_j} & \Longrightarrow &
+a_{ij} \leq \frac{w^{\prime}_i}{w^{\prime}_j} \leq \frac{w_i}{w_j} \\
+a_{ij} \geq \frac{w_i}{w_j} & \Longrightarrow &
+a_{ij} \geq \frac{w^{\prime}_i}{w^{\prime}_j} \geq \frac{w_i}{w_j}
+\end{array}
+\right\}
+\qquad
+\text{ minden } 1 \leq i,j \leq n, \text{ esetén, és }
+\label{def:DefinitionInternallyEfficientProperty1}  \\   %(\ref{def:DefinitionInternallyEfficientProperty1})
+\left.
+\begin{array}{ccc}
+a_{k{\ell}} \leq \frac{w_k}{w_{\ell}} & \Longrightarrow &
+\frac{w^{\prime}_k}{w^{\prime}_{\ell}} < \frac{w_k}{w_{\ell}} \\
+a_{k{\ell}} \geq \frac{w_k}{w_{\ell}} & \Longrightarrow &
+\frac{w^{\prime}_k}{w^{\prime}_{\ell}} > \frac{w_k}{w_{\ell}}
+\end{array}
+\right\}
+\qquad
+\text{ valamely } 1 \leq k,\ell \leq n \text{ esetén.}
+ \label{def:DefinitionInternallyEfficientProperty2}    %(\ref{def:DefinitionInternallyEfficientProperty2})
+\end{align}
+\end{definition}
+
+A bels\H{o} hatékonyság mögötti intuíció az, hogy ha például a döntéshozó által adott mátrixelem 4,
+amit egy adott súlyvektor felülbecsül, mondjuk 6-tal, akkor minden 4 és 6 közötti értéket jobb közelítésnek
+tekintünk, mint a 6, ugyanakkor nem foglalkozunk a 4 alatti becslések min\H{o}sítésével. Míg a hatékonyság
+definíciójában a 3 is jobban közelíti a 4-et, mint a 6, a bels\H{o} hatékonyság definíciója kizárólag
+a 4 és 6 közötti közelítéseket engedi meg.
+
+
+Vegyük észre, hogy az el\H{o}z\H{o} példában szerepl\H{o} $\mathbf{w^{\prime}}$ súlyvektor nemcsak dominálja
+$\mathbf{w}$-t, hanem belülr\H{o}l dominálja: a (\ref{def:DefinitionInternallyEfficientProperty2}) szigorú
+egyenl\H{o}tlenségek a 2.~sor, ill. oszlop f\H{o}átlón kívüli elemeire teljesülnek.
+
+\begin{example}
+Az el\H{o}z\H{o} példa folytatásaként
+érdemes megvizsgálni a
+\[
+\mathbf{w}^{\prime\prime} =
+\begin{pmatrix}
+0.562646 \\
+\mathbf{0.283701} \\
+0.141195 \\
+0.035463
+\end{pmatrix}
+\]
+súlyvektort is. A
+\[
+\left[ \frac{{w}^{\prime\prime}_i}{{w}^{\prime\prime}_j} \right] =
+\begin{pmatrix}
+$\,$   1    $\,\,$ & $\,\,$ \mathbf{1.9832} $\,\,$ & $\,\,$ 3.9849 $\,\,$ & $\,\,$ 15.866 $\,$    \\
+$\,$ \mathbf{0.5042} $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ \mathbf{2.0093} $\,\,$ & $\,\,$ \mathbf{8} $\,$    \\
+$\,$ 0.2509 $\,\,$ & $\,\,$ \mathbf{0.4977} $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ 3.9815 $\,$   \\
+$\,$ 0.0630 $\,\,$ & $\,\,$ \mathbf{0.125} $\,\,$ & $\,\,$ 0.2512 $\,\,$ & $\,\,$   1    $\,$
+\end{pmatrix},
+%$\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,$    \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,$    \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,\,$ & $\,\,$ xxxxxx $\,$   \\
+%$\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$ xxxxxx $\,\,$ & $\,\,$   1    $\,$\end{pmatrix},
+        \]
+szemlélteti, hogy a $\mathbf{w}^{\prime\prime}$ súlyvektor is dominálja $\mathbf{w}$-t, de nem belülr\H{o}l.
+\end{example}
+
+A definíciókból következik, hogy egy hatékony súlyvektor egyúttal lokálisan
+és belülr\H{o}l is hatékony. Blanquero, Carrizosa és Conde \cite{BlanqueroCarrizosaConde2006}
+pedig megmutatta, hogy a hatékonyság és a lokális hatékonyság ekvivalensek.
+Az alábbi állítás alapján a bels\H{o} hatékonyság is ekvivalens a hatékonysággal.
+
+\begin{proposition} \label{proposition:EfficientInternallyEfficient}
+% \ref{proposition:EfficientInternallyEfficient}
+A $\mathbf{w}$ súlyvektor akkor és csak akkor hatékony, ha belülr\H{o}l hatékony.
+\end{proposition}
+
+\begin{proof}[\textbf{Bizonyítás.}]
+Amint azt tisztáztuk, elegend\H{o} azt belátni, hogy ha a $\mathbf{w}$ súlyvektor
+nem hatékony, akkor belülr\H{o}l sem hatékony. A hatékonyság és a lokális hatékonyság
+ekvivalenciája szerint ekkor $\mathbf{w}$ lokálisan sem hatékony, azaz $\mathbf{w}$ tetsz\H{o}leges
+$U(\mathbf{w})$ környezetében létezik olyan $\mathbf{w^{\prime}} \in U(\mathbf{w})$ súlyvektor,
+ami dominálja $\mathbf{w}$-t.
+Egy kell\H{o}en sz\H{u}k $U(\mathbf{w})$ környezetben azonban
+\begin{align} \label{eq:wprimedominatesw} %(\ref{eq:wprimedominatesw})
+\begin{array}{ccc}
+a_{ij} < \frac{w_i}{w_j} & \Longrightarrow &
+a_{ij} < \frac{w^{\prime}_i}{w^{\prime}_j} \leq \frac{w_i}{w_j} \\[2mm]
+a_{ij} > \frac{w_i}{w_j} & \Longrightarrow &
+a_{ij} > \frac{w^{\prime}_i}{w^{\prime}_j} \geq \frac{w_i}{w_j} \\[2mm]
+a_{ij} = \frac{w_i}{w_j} & \Longrightarrow &
+a_{ij} = \frac{w^{\prime}_i}{w^{\prime}_j} = \frac{w_i}{w_j},
+\end{array}
+\end{align}
+amib\H{o}l következik, hogy $\mathbf{w}$ belülr\H{o}l nem hatékony.
+\end{proof}
+
+\begin{corollary} \label{corollary:EfficiencyDefinitionsAreEquivalent}
+% \ref{corollary:EfficiencyDefinitionsAreEquivalent}
+A hatékonyság, a lokális hatékonyság és a bels\H{o} hatékonyság ekvivalensek.
+\end{corollary}
+
+
+Blanquero, Carrizosa és Conde {\cite[Remark 12]{BlanqueroCarrizosaConde2006}},
+valamint Conde és P\'erez \cite[Theorem 2.2]{CondePerez2010}
+a hatékonyság gyenge változatát is definiálta.
+\begin{definition} \label{def:DefinitionWeaklyEfficient}  % \ref{def:DefinitionWeaklyEfficient}
+A $\mathbf{w}$ súlyvektor \emph{gyengén hatékony}, ha nem létezik olyan
+$\mathbf{w^{\prime}} = (w^{\prime}_1, w^{\prime}_2, \ldots, w^{\prime}_n)^{\top}$
+súlyvektor, hogy
+\begin{align}
+ \left|a_{ij} - \frac{w^{\prime}_i}{w^{\prime}_j} \right| &< \left|a_{ij} - \frac{w_i}{w_j} \right|
+ \qquad \text{ minden } 1 \leq i \neq j \leq n \text{ esetén.} \label{def:WeakEfficiency}    %(\ref{def:WeakEfficiency})
+\end{align}
+\end{definition}
+
+Ha a $\mathbf{w}$ és $\mathbf{w^{\prime}}$ súlyvektorokra teljesülnek a (\ref{def:WeakEfficiency})
+egyenl\H{o}tlenségek, akkor azt mondjuk, hogy $\mathbf{w^{\prime}}$ szigorúan dominálja $\mathbf{w}$.
+A szigorú dominancia is tranzitív.
+
+A definíciókból következik, hogy minden hatékony súlyvektor egyúttal gyengén hatékony is,
+ugyanakkor nem minden gyengén hatékony súlyvektor hatékony.
+
+\begin{example}  \label{example:1}
+% \ref{example:1}
+Rögzítsük az
+\[
+\mathbf{A} =
+\begin{pmatrix}
+$\,\,$   1   $\,\,$ & $\,\,$   2   $\,\,$ & $\,\,$   4   $\,\,$  \\
+$\,\,$  1/2  $\,\,$ & $\,\,$   1   $\,\,$ & $\,\,$   2   $\,\,$  \\
+$\,\,$  1/4  $\,\,$ & $\,\,$  1/2  $\,\,$ & $\,\,$   1   $\,\,$
+\end{pmatrix}
+\]
+páros összehasonlítás mátrixot.
+Ekkor a
+\[
+\mathbf{w} =
+\begin{pmatrix}
+9   \\
+3   \\
+1
+\end{pmatrix}.
+\]
+súlyvektor nem gyengén hatékony, mert a
+\[
+\mathbf{w^{\prime}} =
+\begin{pmatrix}
+4  \\
+2  \\
+1
+\end{pmatrix}
+\]
+súlyvektorból képzett
+$\left[\frac{w_i^{\prime}}{w_j^{\prime}}\right] $
+konzisztens páros összehasonlítás mátrix minden diagonálison kívüli pozícióban
+szigorúan jobban közelíti az $\mathbf{A}$ elemeit, mint a
+\[
+\left[\frac{w_i}{w_j}\right] =
+\begin{pmatrix}
+$\,\,$   1   $\,\,$ & $\,\,$   3   $\,\,$ & $\,\,$   9   $\,\,$   \\
+$\,\,$  1/3  $\,\,$ & $\,\,$   1   $\,\,$ & $\,\,$   3   $\,\,$   \\
+$\,\,$  1/9  $\,\,$ & $\,\,$  1/3  $\,\,$ & $\,\,$   1   $\,\,$
+\end{pmatrix}
+\]
+mátrix. A példában ráadásul $\left[\frac{w_i^{\prime}}{w_j^{\prime}}\right] = \mathbf{A}$,
+tehát minden mátrixelem közelítése tökéletes, de ez általában nem szükségszer\H{u}.
+\end{example}
+
+Amint azt korábban láttuk, a sajátvektor nem mindig hatékony. Megmutatható azonban, hogy mindig gyengén hatékony.
+
+\begin{theorem} (\cite[2.~fejezet]{BozokiFulop2017})
+A sajátvektor gyengén hatékony.
+\end{theorem}
+
+
+\section{A hatékonyság és a gyenge hatékonyság ekvivalens definíciói}
+\label{section:3} % \ref{section:3}
+
+A hatékony esethez hasonlóan a lokálian és a belülrõl gyengén hatékony pontokat is lehet explicit módon, feladat-specifikusan definiálni.
+
+Jelölje $E$, $E_L$ és $E_I$ a hatékony, lokálisa hatékony és belülrõl hatékony megoldások halmazát. Hasonlóan, jelölje  $W\!E$, $W\!E_L$ és $W\!E_I$ a gyengén hatékony, lokálisan gyengén hatékony és belülrõl gyengén hatékony  megoldások halmazát.
+
+A gyenge hatékonyság definíciója alapján
+$$  W\!E = \{\mathbf{w}>\mathbf{0}\mid\text{nincsen olyan  }\mathbf{w^{\prime}}>\mathbf{0} \text{, amelyre  (\ref{def:WeakEfficiency}) teljesülne}\}.
+$$
+
+Hasonló módon
+\begin{align}
+  W\!E_L  =\{\mathbf{w}>\mathbf{0}\mid  &\text{ van olyan }
+U(\mathbf{w}) \text{ környezet, hogy} \nonumber \\
+  &\text{ nincsen }  \mathbf{w^{\prime}} \in U(\mathbf{w}) \text{, amelyre }
+(\ref{def:WeakEfficiency})
+\text{ teljesülne}\} \nonumber
+\end{align}
+és
+\begin{align}
+W\!E_I = \{\mathbf{w}>\mathbf{0}\mid  &
+ \text{ nincsen olyan }\mathbf{w^{\prime}}>\mathbf{0},
+\text{ amelyre az teljesülne, hogy}\nonumber \\
+&\begin{array}{lll}
+a_{ij} \leq \frac{w_i}{w_j} & \Longrightarrow &
+a_{ij} \leq \frac{w^{\prime}_i}{w^{\prime}_j} <\frac{w_i}{w_j}
+\quad
+\forall \  1 \leq i\ne j \leq n,\\
+a_{ij} \ge \frac{w_i}{w_j} & \Longrightarrow &
+a_{ij} \ge \frac{w^{\prime}_i}{w^{\prime}_j} > \frac{w_i}{w_j}
+\quad
+\forall \  1 \leq i\ne j \leq n \}.
+\end{array}
+\nonumber
+\end{align}
+
+A fenti összefüggésekbõl azonnal következik, hogy ha egy adott $\mathbf{w}>\mathbf{0}$ esetén van olyan $(k,\ell), k\ne\ell$ indexpár, hogy   $a_{k\ell}= \frac{w_k}{w_\ell}$, akkor $\mathbf{w}\in W\!E$,  $\mathbf{w}\in W\!E_L$ és  $\mathbf{w}\in W\!E_I$.
+
+Nyilvánvaló, hogy $E\subseteqq W\!E$,
+$E_L\subseteqq W\!E_L$ és $E_I\subseteqq W\!E_I$. Megmutatjuk, hogy  $E=E_L=E_I$ és $W\!E=W\!E_L=W\!E_I$ is teljesül. Ez azt jelenti, hogy a három definíció ekvivalens az erõsebb és a gyengébb hatékonyság esetén egyaránt.
+A számpéldák viszont arról tanúskodnak, hogy $E\subsetneqq W\!E$.
+
+Vezessük be az $f_{ij}: \mathbb{R}^n_{++}\to \mathbb{R},\  i,j=1,\dots , n$ függvényeket az alábbi módon:
+\begin{equation*}
+f_{ij}(\mathbf{x})= \left| \frac{x_i}{x_j} - a_{ij}  \right|,\ i,j=1,\dots , n.
+%(\ref{eq:fijx})
+\end{equation*}
+
+Adott $\mathbf{w}>\mathbf{0}$ esetén jelölje $D(\mathbf{w})$ a $\mathbf{w}$ pontot \textit{domináló} pontok halmazát, azaz
+\begin{align}
+D(\mathbf{w}) = \{\mathbf{x}>\mathbf{0}\mid &
+f_{ij}(\mathbf{x})\le f_{ij}(\mathbf{w})\text{ minden } i\ne j \text{ esetén, és }\nonumber\\
+&f_{k\ell}(\mathbf{x})< f_{k\ell}(\mathbf{w})\text{ valamely } k\ne \ell \text{ esetén}\}.
+\nonumber
+\end{align}
+
+Hasonlóképpen, jelölje $SD(\mathbf{w})$ a $\mathbf{w}$ pontot \textit{erõsen domináló} pontok halmazát, azaz
+\begin{align}
+SD(\mathbf{w}) = \{\mathbf{x}>\mathbf{0}\mid
+f_{ij}(\mathbf{x}) < f_{ij}(\mathbf{w})\text{ minden } i\ne j  \text{ esetén }\}.
+\nonumber
+\end{align}
+Könnyen látható, hogy ha  $SD(\mathbf{w})\ne\emptyset$, akkor  $SD(\mathbf{w}) =\text{int}(D(\mathbf{w}))$ és $\text{cl}(SD(\mathbf{w})) =\text{cl}(D(\mathbf{w}))$, ahol int és cl egy adott halmaz belsõ pontjait, illetve lezártját jelöli.
+
+\begin{proposition} \label{proposition:DandSDareConvex}
+% \ref{proposition:DandSDareConvex}
+$D(\mathbf{w})$ és $SD(\mathbf{w})$ konvex halmazok, és ha valamelyikük nem üres, akkor
+$\mathbf{w}$ a halmaz határán fekszik.
+\end{proposition}
+\begin{proof}[\textbf{Bizonyítás.}]
+A bizonyítást az egyszerûbb $SD(\mathbf{w})$ esettel kezdjük. Könnyen látható, hog  y
+\begin{align}
+\mathbf{x}\in SD(\mathbf{w})
+ \Longleftrightarrow
+ &\left| \frac{x_i}{x_j} - a_{ij}\right| < f_{ij}(\mathbf{w})\
+ \ \forall \   i\ne j
+ \Longleftrightarrow  \nonumber  \\
+ &\frac{x_i}{x_j} - a_{ij} < f_{ij}(\mathbf{w}),\ -\frac{x_i}{x_j} + a_{ij} < f_{ij}(\mathbf{w})\  \ \forall \  i\ne j
+ \Longleftrightarrow  \nonumber \\
+ &x_i + (- a_{ij}-f_{ij}(\mathbf{w}))x_j< 0,\
+ -x_i + (a_{ij}-f_{ij}(\mathbf{w}))x_j< 0,
+ \  \ \forall \  i\ne j
+ \nonumber
+\end{align}
+Azon pontok halmaza, amelyek eleget tesznek az utóbbi szigorú egyenlõtlenségek rendszerének véges számú nyílt féltér metszete, tehát egy nyílt konvex halmaz. Ugyanakkor
+ $\mathbf{x} = \mathbf{w}$ esetén a fenti lineáris egyenlõtlenségek egyenlõségként teljesülnek, így $\mathbf{w}$ a  $SD(\mathbf{w})$ halmaz határán fekszik, már amennyiben az nem üres.
+
+Hasonló átrendezések után azt kapjuk, hogy
+\begin{align}
+\mathbf{x}\in D(\mathbf{w})
+ \Longleftrightarrow
+ &x_i + (- a_{ij}-f_{ij}(\mathbf{w}))x_j\le 0,\
+ -x_i + (a_{ij}-f_{ij}(\mathbf{w}))x_j\le 0
+ \ \ \forall \  i\ne j, \text{ és}
+ \label{eq:Dw1} %(\ref{eq:Dw1})
+  \\
+  &x_k + (- a_{k\ell}-f_{k\ell}(\mathbf{w}))x_\ell< 0,\
+ -x_k + (a_{k\ell}-f_{k\ell}(\mathbf{w}))x_\ell< 0
+ \text{ valamely } k\ne \ell \text{ esetén}.
+ \label{eq:Dw2} %(\ref{eq:Dw2})
+\end{align}
+
+Megmutatjuk, hogy  $D(\mathbf{w})$ konvex halmaz.
+Legyen $\mathbf{y}\ne\mathbf{z}\in D(\mathbf{w})$, $0<\lambda<1$ és
+${\mathbf{\hat x}}=\lambda\mathbf{y} +
+(1-\lambda )\mathbf{z}$.
+A (\ref{eq:Dw1}) lineáris egyenlõtlenségei teljesülnek az ${\mathbf{\hat x}}, \mathbf{y}$ és $\mathbf{z}$ pontokban.
+
+Jelöljön $(\hat{k},\hat{\ell)}, \hat{k}\ne\hat{\ell}$ egy olyan indexpárt, amelyre (\ref{eq:Dw2}) is teljesül az $\mathbf{x}=\mathbf{y}$ pontban. Ekkor $\mathbf{x}=\mathbf{\hat x}$ esetén (\ref{eq:Dw2}) szintén teljesül a $(\hat{k},\hat{\ell)}$ indexpárra. Ebbõl azonnal következik $\mathbf{\hat x}\in D(\mathbf{w})$ és $D(\mathbf{w})$ konvexitása.
+
+Az $\mathbf{x}=\mathbf{w}$ pontra (\ref{eq:Dw1}) egyenlõségként teljesül. Így $\mathbf{w}\not\in D(\mathbf{w})$, de $\mathbf{w}$ a
+$D(\mathbf{w})$ egy határpontja, ha a halmaz nem üres.
+\end{proof}
+
+\medskip
+\begin{proposition} \label{proposition:EandWEandEquivalentForms}
+%\ref{proposition:EandWEandEquivalentForms}
+$E=E_L=E_I$ és $W\!E=W\!E_L=W\!E_I$.
+\end{proposition}
+\begin{proof}[\textbf{Bizonyítás.}]
+Nyilván
+$$
+\begin{array}{lllll}
+E\ \ =\{\mathbf{w}>\mathbf{0}\mid D(\mathbf{w})=\emptyset\},\\
+E_L=\{\mathbf{w}>\mathbf{0}\mid D(\mathbf{w})\cap U(\mathbf{w})=\emptyset\},
+\text{ ahol } U(\mathbf{w})
+\text{ egy megfelelõen kis környeze}\\ ~~~~~~~~ \mathbf{w}\text{ körül, és }\\
+E_I=\{\mathbf{w}>\mathbf{0}\mid D(\mathbf{w})\cap V_I(\mathbf{w})=\emptyset\},
+\text{ ahol } \\
+~~~~~~~~V_I(\mathbf{w})=\{\mathbf{x}>\mathbf{0}\mid a_{ij}\le \frac{x_i}{x_j}\le  \frac{w_i}{w_j}\text{ for }  a_{ij}\le   \frac{w_i}{w_j}, \forall i\ne j,
+ a_{ij}\ge \frac{x_i}{x_j}\ge  \frac{w_i}{w_j}\text{ for }  a_{ij}\ge   \frac{w_i}{w_j}, \forall i\ne j \}\\
+~~~~~~~~\text{ egy a } \mathbf{w} \text{ pontot tartalmazó konvex halmaz}.
+\end{array}
+$$
+
+Ha $\mathbf{w}\in E$, akkor $D(\mathbf{w})=\emptyset$, így $\mathbf{w}\in E_L$ and $\mathbf{w}\in E_I$, következésképpen $E\subseteq E_L$ és $E\subseteq E_I$.
+
+Megmutatjuk, hogy $E_L\subseteq E$ is teljesül. Legyen $\mathbf{w}\in E_L$ és tegyük fel, hogy $\mathbf{w}\not\in E$, azaz  $D(\mathbf{w})\ne\emptyset$. Legyen $\mathbf{\hat{x}}\in D(\mathbf{w})$.  Mivel
+$\mathbf{w}$ a $D(\mathbf{w})$ konvex halmaz egy határpontja, ezért az $[\mathbf{\hat{x}}, \mathbf{w})$ félig nyílt szakasz minden pontja a $D(\mathbf{w})$ halmazban fekszik. Azonban $[\mathbf{\hat{x}}, \mathbf{w})$ azon pontjai, amelyek elég közel vannak a $\mathbf{w}$-hez, benne vannak $U(\mathbf{w})$-ben is. Ez ellentmond a
+$\mathbf{w}\in E_L$ feltevésnek. mivel $D(\mathbf{w})\cap U(\mathbf{w})\ne\emptyset$. Tehát $\mathbf{w}\in E$, így
+$E_L\subseteq E$, ebbõl pedig $E_L = E$ következik.
+
+Az $E_I\subseteq E$ bizonyítása hasonló
+Legyen $\mathbf{w}\in E_I$ és tegyük fel,hogy $\mathbf{w}\not\in E$. Legyen $\mathbf{\hat{x}}\in D(\mathbf{w})$. Ha $a_{ij}=\frac{w_i}{w_j}$, akkor
+$a_{ij}=\frac{x_i}{x_j}$ minden $\mathbf{x}\in [\mathbf{\hat{x}},\mathbf{w}]$ esetén. Ha  $a_{ij}<\frac{w_i}{w_j}$, akkor
+$a_{ij}<\frac{x_i}{x_j}<\frac{w_i}{w_j}$ a $\mathbf{w}$-hez elég közel fekvõ $\mathbf{x}\in [\mathbf{\hat{x}},\mathbf{w}]$ pontok esetén.
+hasonló teljesül  $a_{ij}>\frac{w_i}{w_j}$ esetén, csak ellenkezõ elõjellel.Ebbõl $[\mathbf{\hat{x}},\mathbf{w})\cap D(\mathbf{w})\cap V_I(\mathbf{w})\ne\emptyset$ adódik,ez pedig újra ellentmondás. Következésképpen
+$E_I\subseteq E$, így $E_I = E$ .
+
+A $W\!E=W\!E_L=W\!E_I$ bizonyítása teljesen hasonló, egyszerûen az  $SD(\mathbf{w})$ halmazt kell használni a $D(\mathbf{w})$ helyett. A bizonyítás hátralevõ részét így az Olvasóra bízzuk.
+\end{proof}
+
+
+\section{Hatékonysági teszt és hatékony domináló súlyvektor keresése lineáris programozás segítségével}
+\label{section:4} % \ref{section:4}
+
+Mint korábban is, legyen adott egy
+$\mathbf{A} =
+\left[
+a_{ij}
+\right]_{i,j=1,\ldots,n}$ páros összehasonlítás mátrix és egy
+$\mathbf{w} = (w_1, w_2, \ldots, w_n)^{\top}$ pozitív súlyvektor. Elõször egy lineáris programozás feladatott állítunk fel annak ellenõrzésére, hogy vajon $\mathbf{w}$ hatékony megoldása-e az
+(\ref{eq:xMultiObjectiveOptimizationProblem}) feladatnak. Ezután, ha az derül ki, hogy
+$\mathbf{w}$ nem hatékony, megmutatjuk, hogy a lineáris programozási feladat optimális megoldása olyan hatékony vektor, amely belülrõl dominálja a $\mathbf{w}$ vektort. \\
+
+Tekintsük a bels\H{o} hatékonyság definíciójában szereplõ
+ (\ref{def:DefinitionInternallyEfficientProperty1})
+ kettõs egyenlõtlenségeket. Minden pozitív
+$\mathbf{x}=(x_1,x_2,\ldots,x_n)^{\top}$ súlyvektor esetén
+\begin{equation}
+\label{aijxixjeq1} %(\ref{aijxixjeq1})
+\begin{aligned}
+a_{ij} \leq \frac{x_i}{x_j} \underset{(<)}{\leq} \frac{w_i}{w_j} \, &\Longleftrightarrow \,
+\left( \frac{a_{ij}x_j}{x_i}  \leq 1, \, \frac{x_i}{x_j} \frac{w_j}{w_i} \underset{(<)}{\leq} 1 \right) \, \Longleftrightarrow \\
+&\Longleftrightarrow \, \left( \frac{a_{ij}x_j}{x_i}  \leq 1, \, \frac{x_i}{x_j} \frac{w_j}{w_i} \frac{1}{t_{ij}} \leq 1 \text{ valamely }
+0 < t_{ij} \underset{(<)}{\leq} 1 \text{ esetén}\right),
+\end{aligned}
+\end{equation}
+és
+\begin{equation}
+\label{aijxixjeq2}  %(\ref{aijxixjeq2})
+\begin{aligned}
+a_{ij} \geq \frac{x_i}{x_j} \underset{(>)}{\geq} \frac{w_i}{w_j} \, &\Longleftrightarrow \,
+\left( \frac{x_i}{a_{ij}x_j}  \leq 1, \, \frac{x_j}{x_i} \frac{w_i}{w_j} \underset{(<)}{\leq} 1 \right) \, \Longleftrightarrow \\
+&\Longleftrightarrow \, \left( \frac{x_i}{a_{ij}x_j}  \leq 1, \, \frac{x_j}{x_i} \frac{w_i}{w_j} \frac{1}{t_{ij}} \leq 1 \text{ valamely }
+0 < t_{ij} \underset{(<)}{\leq} 1 \text{ esetén}\right),
+\end{aligned}
+\end{equation}
+és
+\begin{equation}
+\label{aijxixjeq3}  %(\ref{aijxixjeq3})
+\begin{aligned}
+a_{ij}  = \frac{x_i}{x_j}  \, \Longleftrightarrow \, \frac{x_i}{a_{ij}x_j}  = 1.
+\end{aligned}
+\end{equation}
+A fenti összefüggések alapján állítjuk össze a következõ optimalizálási feladatot.\\
+
+Legyen
+\begin{align}
+ I &= \left\{ (i,j) \left|  a_{ij} < \frac{w_i}{w_j}   \right. \right\} \nonumber  \\
+ J &= \left\{ (i,j) \left|  a_{ij} = \frac{w_i}{w_j}, i < j   \right. \right\} \nonumber
+\end{align}
+Ha az $I$ indexhalmaz üres, akkor az $\mathbf{A}$ mátrix konzisztens. Ebben az esetben a $\mathbf{w}$ súlyvektor hatékony és $|J| = n(n-1)/2$.
+A továbbiakban feltesszük, hogy $I$ nem üres. A $J$ indexhalmazra vonatkozóan nem élünk hasonló feltevéssel.
+
+\begin{align}
+\min  \prod\limits_{(i,j)\in I } t_{ij}
+       \nonumber  \\
+\frac{x_j}{x_i} a_{ij} & \leq 1  \qquad \qquad \forall \, (i,j) \in I, \nonumber  \\
+\frac{x_i}{x_j} \frac{w_j}{w_i} \frac{1}{t_{ij}}  & \leq 1  \qquad \qquad \forall \, (i,j) \in I,  \label{P}  \\
+0 < t_{ij}  & \leq 1 \qquad \qquad \forall \, (i,j) \in I, \nonumber  \\
+a_{ji} \frac{x_i}{x_j} & = 1   \qquad \qquad \forall \, (i,j) \in J, \nonumber \\
+                   x_1 & = 1 .   & \nonumber
+\end{align}
+A feladat változói  $x_i > 0, \,  1 \leq i \leq n$ és $t_{ij}, \, (i,j) \in I.$ \\
+
+\begin{proposition} \label{prop:P}
+A (\ref{P}) optimalizálási feladat optimumértéke legfeljebb 1, és pontosan akkor 1, ha a $\mathbf{w}$ súlyvektor
+az (\ref{eq:xMultiObjectiveOptimizationProblem}) többcélú optimalizálási feladat
+ hatékony megoldása. Jelölje $(\mathbf{x}^{\ast},\mathbf{t}^{\ast}) \in \mathbb{R}^{n+|I|}_{+}$ a  (\ref{P}) feladat optimális megoldását.
+Ha $\mathbf{w}$ nem hatékony, akkor az  $\mathbf{x}^{\ast}$ súlyvektor hatékony és belülrõl dominálja   a $\mathbf{w}$ vektort.
+\end{proposition}
+
+\begin{proof}[\textbf{Bizonyítás.}]
+A (\ref{aijxixjeq1})-(\ref{aijxixjeq3}) feltételeket egyszerû átrendezéssel kaphatjuk meg. Nyilvánvaló, hogy (\ref{aijxixjeq1})
+ $\frac{x_i}{x_j} \frac{w_j}{w_i} \leq 1$
+akkor és csak akkor teljesül, ha létezik olyan $0 < t_{ij} {\leq} 1$ skalár, hogy
+$\frac{x_i}{x_j} \frac{w_j}{w_i} \frac{1}{t_{ij}}\le 1$. Ráadásul a szigorú egyenlõtlenségek egyszerre teljesülnek a két oldalon.               A (\ref{aijxixjeq2}) indoklása hasonló, a (\ref{aijxixjeq3}) pedig evidens.
+
+A (\ref{P}) feladatban csak az $I$ és $J$ halmazok indexpárjaihoz tartozó feltételek jelennek meg. A reciprocitási tulajdonság miatt a többi hasonló feltétel redundáns.  Elõször azt mutatjuk meg, hogy a (\ref{P}) feladat megengedett halmaza nem üres és kompakt. Mivel a célfüggvény folytonos, azt kapjuk, hogy a (\ref{P}) feladatnak van véges optimumértéke és optimális megoldása.
+
+A (\ref{P}) feladatnak van megengedett megoldása, például  $\mathbf{x}=\frac{1}{w_1}\mathbf{w}$ és $t_{ij}=1,\,\forall \, (i,j)\in I$ teljesíti a feltételeket. Az  $x_1=1$ normalizálási feltétel miatt a többi $x_i, i\ne 1$változónak pozitív alsó és felsõ korlátja van a megengedett tartományon. Ezt úgy kapjuk, hogy minden $i\ne 1$  esetén $(i,1)$ és $(1,i)$ közül egy mindenképpen az $I\cup J$ indexhalmaz eleme. A negyedik feltétel rögzíti $x_i$  értékét, az elsõ és második feltételbõl pedig pozitív alsó és felsõ  korlát számolható ki rá vonatkozóan. Mivel az $\mathbf{x}$ komponensei pozitív alsó és felsõ korláttal rendelkeznek, a második feltételbõl pozitív alsó korlátok határozhatók meg a $t_{ij}, (i,j)\in I$ változókra is.
+
+A célfüggvény $\mathbf{w}$ belsõ hatékonysága tesztelésére szolgál. Értéke nem lehet nagyobb, mint 1.
+Ha értéke kisebb, mint 1, akkor létezik olyan
+$(i_0, j_0)$ indexpár, amelyre
+$\frac{x_{i_0}}{x_{j_0}} \frac{w_{j_0}}{w_{i_0}}\le t_{{i_0}{j_0}}<1$,
+így $\frac{x_{i_0}}{x_{j_0}}<\frac{w_{i_0}}{w_{j_0}}$ teljesül. Ebbõl, valamint a  (\ref{aijxixjeq1}) és (\ref{aijxixjeq3}) ekvivalens alakjaiból kapjuk hogy, $\mathbf{x}$ belülrõl dominálja a $\mathbf{w}$ vektort. Fordítva, tegyük fel, hogy $\mathbf{x}$ belülrõl dominálja a $\mathbf{w}$ vektort. Könnyen látható, hogy az  $\mathbf{x}$ normalizált vektor és a $t_{{i}{j}} = \frac{x_{i}}{x_{j}} \frac{w_{j}}{w_{i}},\,(i,j)\in I$ komponensek (\ref{P}) megengedett megoldását alkotják. Ráadásul, minden olyan $(i_0, j_0)$ indexpárra, amelyre a belsõ dominancia miatt $\frac{x_{i_0}}{x_{j_0}}<\frac{w_{i_0}}{w_{j_0}}$ teljesül, fennáll $t_{{i_0}{j_0}}<1$ is. Ezért a tekintett megengedett megoldás célfüggvényértéke kisebb, mint 1, tehát az optimumérték szintén kisebb, mint 1.
+
+Azzal az esettel kell még foglalkoznunk, amikor a  $\mathbf{w}$ vektorról az derül ki, hogy nem hatékony. Nyilvánvaló, hogy a (\ref{P}) feladat $(\mathbf{x}^{\ast},\mathbf{t}^{\ast})$ optimális megoldásának  $\mathbf{x}$-része belülrõl dominálja a $\mathbf{w}$ vektort, és $t_{{i}{j}}^{\ast}= \frac{x_{i}^{\ast}}{x_{j}^{\ast}} \frac{w_{j}}{w_{i}}\,\text{ minden } (i,j)\in I$ esetén. Tegyük fel, hogy $\mathbf{x}^{\ast}$ nem hatékony. Ekkor van olyan $\mathbf{\bar x}$ vektor, amely belülrõl dominálja õt. Ekkor $a_{ij}=\frac{\bar x_i}{\bar x_j},\,\forall (i,j)\in J$, továbbá
+$a_{ij}\le\frac{\bar x_i}{\bar x_j}\le\frac{x_i^{\ast}}{{x_j}^{\ast}}\le\frac{ w_i}{w_j},\,\forall (i,j)\in I$ és létezik legalább egy olyan
+$(i_0, j_0)\in I$ indexpár, amelynél a második egyenlõtlenség szigorú egyenlõtlenségként teljesül. Legyen
+$\bar t_{{i}{j}}= \frac{\bar x_{i}}{\bar x_{j}} \frac{w_{j}}{w_{i}},\,\forall  (i,j)\in I$.
+Könnyen látható, hogy a normalizálás után  $(\mathbf{\bar x},\mathbf{\bar t})$ a (\ref{P}) megengedett megoldása. Azonban most  $\bar t_{{i}{j}}\le t_{{i}{j}}^{\ast}, \,\forall (i,j)\in I$ és
+$\bar t_{{i_0}{j_0}} < t_{{i_0}{j_0}}^{\ast}$. Ebbõl azt kapjuk, hogy a célfüggvény értéke az $(\mathbf{\bar x},\mathbf{\bar t})$ pontban kisebb, mint az $(\mathbf{x}^{\ast},\mathbf{t}^{\ast})$ pontban. Ez ellentmond annak, hogy
+$(\mathbf{x}^{\ast},\mathbf{t}^{\ast})$ a (\ref{P}) feladat optimális megoldása. Következõleg, $\mathbf{x}^{\ast}$ hatékony megoldás.
+
+\end{proof}
+
+Bár (\ref{P}) egy nemlineáris optimalizálási feladat, egy ekvivalens lineáris optimalizálási feladattá alakítható át.
+Legyen
+$y_i = \log x_i,  \, v_i = \log w_i, \, 1 \leq i \leq n;$
+$s_{ij} = - \log t_{ij}, \, (i,j) \in I;$ és
+$b_{ij} = \log a_{ij}, \, 1 \leq i,j \leq n.$
+A szigorúan monoton növekvõ logaritmus függvényt alkalmazva a célfüggvényre és a feltételek két oldalára, a következõ ekvivalens lineáris optimalizálási feladatot kapjuk:
+\begin{align}
+\min  \sum\limits_{(i,j)\in I } - s_{ij} &
+      \nonumber  \\
+y_j - y_i  & \leq - b_{ij}  &\forall \, (i,j) \in I, \nonumber  \\
+y_i - y_j + s_{ij} & \leq  v_i - v_j &\forall \, (i,j) \in I,  \label{LP3} \\
+y_i - y_j  & = b_{ij}   &\forall \, (i,j) \in J, \nonumber \\
+s_{ij}  & \geq 0 &\forall \, (i,j) \in I, \nonumber \\
+                   y_1 & = 0.     \nonumber
+\end{align}
+A feladat változói $y_i, \,  1 \leq i \leq n$ és $s_{ij} \geq 0, \, (i,j) \in I.$ \\
+
+\begin{theorem} \label{thm:LP}   % \ref{thm:LP}
+A (\ref{LP3}) lineáris programozási feladat optimumértéke legfeljebb 0, és pontosan akkor 0, ha a  $\mathbf{w}$ súlyvektor
+az (\ref{eq:xMultiObjectiveOptimizationProblem}) többcélú optimalizálási feladat hatékony megoldása.
+Jelölje $(\mathbf{y}^{\ast},\mathbf{s}^{\ast}) \in \mathbb{R}^{n+|I|}$ a (\ref{LP3}) feladat optimális megoldását.
+Ha $\mathbf{w}$ nem hatékony, akkor az  $\exp({\mathbf{y}}^{\ast})$ súlyvektor hatékony és belülrõl dominálja a $\mathbf{w}$ vektort.
+\end{theorem}
+
+
+A (\ref{LP3}) lineáris programozási feladatot a Pairwise Comparison Matrix Calculator
+programunkban implementáltuk. A  
+ \href{http://pcmc.online}{pcmc.online}
+  címen elérhetõ, böngészõbõl közvetlenül futtatható
+ környezetben szabadon tesztelhet\H{o} a súlyvektorok hatékonysága és
+ha az adott súlyvektor nem hatékony, akkor egy \H{o}t belülr\H{o}l domináló hatékony súlyvektor is találtatik.
+
+%\newpage
+\section{Gyenge hatékonysági teszt és gyengén hatékony domináló súlyvektor keresése lineáris programozás segítségével}
+\label{section:5} % \ref{section:5}
+
+A gyenge hatékonyság ellenõrzése és egy domináló gyengén hatékony domináló vektor keresése a hatékony esethez hasonlóan történik. Tekintsünk egy  $\mathbf{w}>\mathbf{0}$ vektort. Nyilván ha  $J\ne\emptyset$, azaz ha $f_{ij}(\mathbf{w})=0$ valamely  $i\ne j$ indexpár esetén, akkor $\mathbf{w}\in W\!E$, így máris készen vagyunk a gyenge hatékonyság ellenõrzésével.
+
+Most a $J=\emptyset$ esetet vizsgáljuk meg. Ekkor  $|I| = n(n-1)/2$.
+Íme néhány ekvivalens alak az erõs nem-hatékonyságra vonatkozóan. Minden $(i,j) \in I$ esetén
+\begin{align}
+a_{ij} \leq \frac{x_i}{x_j} < \frac{w_i}{w_j}   \Longleftrightarrow &  \,
+\left( \frac{a_{ij}x_j}{x_i}  \leq 1, \,
+\frac{x_i}{x_j} \frac{w_j}{w_i} < 1 \right)\ \nonumber
+\\
+\Longleftrightarrow & \, \left( \frac{a_{ij}x_j}{x_i}  \leq 1, \, \frac{x_i}{x_j} \frac{w_j}{w_i} \frac{1}{t} \leq 1,
+0 < t < 1 \right) . %(i,j)\in I.
+\label{eq:WEforms} %(\ref{eq:WEforms})
+\end{align}
+
+A (\ref{eq:WEforms}) utolsó alakja alapján felállíthatjuk a (\ref{P}) feladat egy módosítását is, megfelelõen adaptálva azt a gyenge hatékonyság esetére.
+\begin{align}
+\min t
+     &    \nonumber  \\
+\frac{x_j}{x_i} a_{ij} & \leq 1 \qquad \qquad \forall \, (i,j) \in I, \nonumber  \\
+\frac{x_i}{x_j} \frac{w_j}{w_i} \frac{1}{t}  & \leq 1 \qquad \qquad \forall \, (i,j) \in I, \label{eq:WP}  \\
+0 < t & \leq 1  \nonumber  \\                   x_1 & = 1.    \nonumber
+\end{align}
+A feladat változói
+ $x_i > 0, \,  1 \leq i \leq n$ és $t$. \\
+
+\begin{proposition} \label{prop:WP}
+A (\ref{eq:WP}) optimalizálási feladat optimumértéke legfeljebb 1, és pontosan akkor 1,
+ha a $\mathbf{w}$ súlyvektor az (\ref{eq:xMultiObjectiveOptimizationProblem})
+többcélú optimalizálási feladat
+gyengén hatékony megoldása. Jelölje $(\mathbf{x}^{\ast},t^{\ast}) \in \mathbb{R}^{n+1}_{+}$ a
+(\ref{eq:WP}) optimális megoldását.
+Ha a $\mathbf{w}$ erõsen nem-hatékony, akkor az $\mathbf{x}^{\ast}$ súlyvektor gyengén hatékony és szigorúan belülrõl dominálja a  $\mathbf{w}$ vektort.
+\end{proposition}
+
+\begin{proof}[\textbf{Bizonyítás.}]
+Az állítások az el\H{o}z\H{o} fejezet állításának bizonyításához hasonlóan igazolhatók. Az ottani indoklást használva itt is, könnyen megmutatható, hogy (\ref{eq:WP}) megengedett halmaza nem üres, valamint pozitív alsó és felsõ korlát  határozható meg minden változóra. Tehát a (\ref{eq:WP}) feladatnak szintén van optimális megoldása és egy véges $t^{\ast}\le 1$ optimumértéke.
+
+Ha $t^{\ast} < 1$, akkor
+$\frac{x_{i}}{x_{j}} \frac{w_{j}}{w_{i}}\le t^{\ast} < 1$ minden $i \neq j$ esetén, következésképpen $\mathbf{x}$ belülrõl erõsen dominálja  a $\mathbf{w}$ vektort. Fordítva, tegyük fel, hogy  $\mathbf{x}$ belülrõl erõsen dominálja  a $\mathbf{w}$ vektort. Könnyen látható, hogy a normalizált $\mathbf{x}$ vektor a
+$t = \max_{i \neq j}\frac{x_{i}}{x_{j}} \frac{w_{j}}{w_{i}}$ skalárral kiegészítve a (\ref{eq:WP}) egy megengedett megoldását alkotja. Nyilván ennél a megengedett megoldásnál $0<t<1$, ezért az optimumértékre is $t^{\ast} < 1$ teljesül.
+
+Tekintsük végül azt az esetet, amikor a $\mathbf{w}$ vektorról az derül ki hogy erõsen nem-hatékony, azaz erõsen dominált. A (\ref{eq:WP}) feladat  $(\mathbf{x}^{\ast},\mathbf{t}^{\ast})$ optimális megoldásának  $\mathbf{x}$-része belülrõl erõsen dominálja a $\mathbf{w}$ vektort és  $t^{\ast}=\max_{i \neq j} \frac{x_{i}^{\ast}}{x_{j}^{\ast}} \frac{w_{j}}{w_{i}}$. Tegyük fel, hogy $\mathbf{x}^{\ast}$ erõsen nem-hatékony. Ekkor õt belülrõl erõsen dominálja egy $\mathbf{\bar x}$ vektor. Nyilván
+$a_{ij}\le\frac{\bar x_i}{\bar x_j} < \frac{x_i^{\ast}}{{x_j}^{\ast}}\le\frac{ w_i}{w_j} $ minden  $i \neq j$ esetén.  Legyen
+$\bar t=\max_{i \neq j} \frac{\bar x_{i}}{\bar x_{j}} \frac{w_{j}}{w_{i}}$.
+Könnyen látható, hogy a megfelelõ normalizálás után kapott $(\mathbf{\bar x},\mathbf{\bar t})$ vektor a (\ref{eq:WP}) feladat megengedett megoldása. Nyilván  $\bar t < t^{\ast}$, ez pedig ellentmond $(\mathbf{x}^{\ast},{t}^{\ast})$ optimalitásának. Következésképpen  $\mathbf{x}^{\ast}$ gyengén hatékony megoldás.
+\end{proof}
+
+Ugyanazt a logaritmizálási ötletet alkalmazva, amellyel a (\ref{LP3}) feladatot kaptuk a nemlineáris (\ref{P}) feladatból, (\ref{eq:WP}) is lineáris alakra transzformálható. A korábbi jelöléseket használva és bevezetve az
+$s = - \log t$ változót, kapjuk a következõ ekvivalens lineáris programozási feladatot:
+\begin{align}
+\min - s
+     &   \nonumber  \\
+y_j - y_i  & \leq - b_{ij} \ \ \ \ \forall (i,j) \in I, \nonumber  \\
+y_i - y_j + s & \leq  v_i - v_j  \ \forall (i,j) \in I \label{eq:WLP} \\ %\ref{eq:WLP}
+s  & \geq 0,  \nonumber \\
+                   y_1 & = 0.     \nonumber
+\end{align}
+A változók $y_i, \,  1 \leq i \leq n$ és $s$. \\
+
+\begin{theorem} \label{thm:WLP} % (\ref{thm:WLP})
+A (\ref{eq:WLP}) lineáris programozási feladat optimumértéke legfeljebb 0, és pontosan akkor 0, ha a  $\mathbf{w}$ súlyvektor
+ az (\ref{eq:xMultiObjectiveOptimizationProblem}) többcélú optimalizálási feladat gyengén hatékony  megoldása.
+Jelölje $(\mathbf{y}^{\ast},s) \in \mathbb{R}^{n+1} $ a (\ref{eq:WLP}) optimális megoldását. Ha
+$\mathbf{w}$ erõsen nem-hatékony, akkor az  $\exp({\mathbf{y}}^{\ast})$ súlyvektor gyengén hatékony és belülrõl szigorúan dominálja a $\mathbf{w}$ vektort.
+\end{theorem}
+
+\begin{remark}
+ Ha
+$\mathbf{w}$ az (\ref{eq:xMultiObjectiveOptimizationProblem}) többcélú optimalizálási feladat
+egy erõsen nem-hatékony megoldása, akkor a fenti tétel alapján kapott $\exp({\mathbf{y}}^{\ast})$ súlyvektor gyengén hatékony, de nem feltétlenül hatékony. 
+Az elõzõ fejezet  (\ref{LP3}) feladata segítségével azonban tesztelhetjük, hogy a kapott vektor hatékony-e. Ha nem az, akkor a
+(\ref{LP3})  feladat talál egy belülrõl domináló hatékony megoldást, amely egyúttal belülrõl és szigorúan dominálja a kiinduló, erõsen nem-hatékony  $\mathbf{w}$ súlyvektort is.
+\end{remark}
+
+A Pairwise Comparison Matrix Calculator  
+(\href{http://pcmc.online}{pcmc.online})  a gyenge hatékonyságot is vizsgálja.
+Ha a megadott súlyvektor nem gyengén hatékony, akkor  a program keres egy \H{o}t belülr\H{o}l és er\H{o}sen
+domináló hatékony súlyvektort.
+
+\section{Összefoglalás és nyitott kérdések}
+\label{section:6} % \ref{section:6}
+
+A páros összehasonlítás mátrixból számolt súlyvektorok hatékonyságának vizsgálatával
+Blanquero, Carrizosa és Conde \cite{BlanqueroCarrizosaConde2006} foglalkozott el\H{o}ször.
+Az általuk a hatékonyság tesztelésére javasolt lineáris programozási feladatokból kiindulva
+olyan lineáris programozási feladatokat konstruáltunk, amely nemcsak tesztelésre alkalmas, hanem
+ha a súlyvektor nem (gyengén) hatékony, akkor egy \H{o}t (er\H{o}sen) domináló hatékony súlyvektort is talál.
+
+
+A hatékonyság gráfelméleti eszközökkel is jellemezhet\H{o}, amelynek alapjait szintén
+Blanquero, Carrizosa és Conde \cite{BlanqueroCarrizosaConde2006} dolgozta ki.
+Mivel a cikkünkben kidolgozott lineáris programozási feladatokhoz nem volt szükség erre a
+gráfelméleti megközelítésre, a részleteket sem közöltük. Kidolgozásra vár a lineáris programozási és
+a gráfelméleti módszerek ekvivalenciájának megértése, amelyt\H{o}l egyrészt a
+domináló hatékony súlyvektorok halmazának el\H{o}állítása, másrészt a sajátvektor hatékonyságának
+jellemzése remélhet\H{o}. Jelenleg csak néhány, nagyon speciális esetben sikerült bizonyítani,
+hogy a sajátvektor hatékony: ha a páros összehasonlítás mátrix
+egy \cite{Abele-NagyBozoki2016}
+vagy
+két \cite{Abele-NagyBozokiRebak2017}
+elemének megváltoztatásával
+konzisztenssé tehet\H{o}. Szintén nagyon speciális az a
+mátrixosztály \cite{Bozoki2014}, amely sajátvektora sosem hatékony.
+
+
+Folyamatban van a $4 \times 4$-es páros összehasonlítás mátrixok sajátvektorának
+hatékonyságának numerikus vizsgálata is, amelyb\H{o} ötletet vagy sejtést meríthetünk.
+Jelenleg még az sem világos, hogy mennyire messze vagyunk az általános eset megértését\H{o}l.
+
+
+\section*{Köszönetnyilvánítás}
+A kutatást az OTKA K 111797 támogatta. Bozóki Sándor köszöni
+az MTA Bolyai János Kutatási Ösztöndíj (BO/00154/16/3) támogatását.
+
+
+\begin{thebibliography}{99}
+\bibitem{Abele-NagyBozoki2016}
+\'Abele-Nagy, K., Boz\'oki, S. (2016) Ef{\kern0pt}f{\kern0pt}iciency
+analysis of simple perturbed pairwise comparison matrices.
+Fundamenta Informaticae 144(3-4):279--289
+% DOI 10.3233/FI-2016-1310
+
+\bibitem{Abele-NagyBozokiRebak2017}
+\'Abele-Nagy, K., Boz\'oki, S., Reb\'ak, \"O. ($\geq$ 2017)
+Ef{\kern0pt}f{\kern0pt}iciency analysis of double perturbed
+pairwise comparison matrices. Bírálat alatti kézirat,
+http://arxiv.org/abs/1602.07137
+
+\bibitem{BajwaChooWedley2008}
+Bajwa, G., Choo, E.U., Wedley, W.C. (2008)
+Ef{\kern0pt}fectiveness analysis of deriving priority vectors from reciprocal pairwise comparison matrices.
+Asia-Pacif{\kern0pt}ic Journal of Operational Research,
+25(3):279--299.
+% DOI 10.1142/S0217595908001754
+% http://www.worldscientific.com/doi/pdf/10.1142/S0217595908001754
+
+\bibitem{BlanqueroCarrizosaConde2006}
+Blanquero, R., Carrizosa, E., Conde, E. (2006)  Inferring
+ef{\kern0pt}f{\kern0pt}icient weights from pairwise comparison
+matrices. Mathematical Methods of Operations Research
+64(2):271--284
+% DOI 10.1007/s00186-006-0077-1
+% http://link.springer.com/article/10.1007/s00186-006-0077-1#
+
+\bibitem{Bozoki2014}
+Boz\'oki, S. (2014)
+Inef{\kern0pt}f{\kern0pt}icient weights from
+pairwise comparison matrices with arbitrarily small inconsistency.
+Optimization: A Journal of Mathematical Programming and Operations
+Research 63(12):1893--1901
+% DOI 10.1080/02331934.2014.903399
+
+\bibitem{BozokiFulop2017}
+Bozóki, S., Fülöp, J. ($\geq$ 2017)
+Efficient weight vectors from pairwise comparison matrices.
+Bírálat alatti kézirat, https://arxiv.org/abs/1602.03311
+
+\bibitem{ChankongHaimes1983}
+Chankong, V., Haimes, Y.Y. (1983)
+Multiobjective Decision Making: Theory
+and Methodology. Elsevier Science Publishing, New York
+
+\bibitem{CondePerez2010}
+Conde, E., P\'erez, M.d.l.P.R. (2010)
+A linear optimization problem to derive relative weights using an interval judgement matrix.
+European Journal of Operational Research
+201(2):537--544
+% doi:10.1016/j.ejor.2009.03.029
+% http://www.sciencedirect.com/science/article/pii/S0377221709001878
+
+
+\bibitem{CrawfordWilliams1980}
+Crawford, G., Williams, C. (1980)
+Analysis of subjective judgment matrices. The Rand Corporation, Of{\kern0pt}f{\kern0pt}ice
+of the Secretary of Defense USA, R-2572-AF
+
+
+\bibitem{CrawfordWilliams1985}
+Crawford, G., Williams, C. (1985)
+A note on the analysis of subjective judgment matrices.
+Journal of Mathematical Psychology
+29(4):387--405
+% DOI 10.1016/0022-2496(85)90002-1
+% http://www.sciencedirect.com/science/article/pii/0022249685900021
+
+\bibitem{Csato2013}
+Csató, L. (2013):
+Páros összehasonlításokon alapuló rangsorolási módszerek,
+Szigma, XLIV(3-4):155--198
+% http://www.szigma.ktk.pte.hu/index.php/letoltesek/2013-xliv-evfolyam-3-4-szam/csato-laszlo-fogalmak-modszerek/let%C3%B6lt%C3%A9s
+
+\bibitem{Duleba2009}
+Duleba, Sz. (2009):
+Az AHP módszer egy lehetséges alkalmazása trendek elõrejelzésére,
+Szigma, XL(3-4):157--170
+% http://www.szigma.ktk.pte.hu/index.php/letoltesek/2009-xl-evfolyam-3-4-szam/szigma-2009-3-4-szam/let%C3%B6lt%C3%A9s
+
+\bibitem{deGraan1980}
+de Graan, J.G. (1980)
+Extensions of the multiple criteria analysis method of T.L.~Saaty.
+Presented at EURO IV Conference, Cambridge, July 22-25, 1980
+
+\bibitem{Keri2005}
+Kéri, G. (2005):
+Kritériumok páros összeasonlítás mátrixokra,
+Szigma, XXXVI(3-4):139--148
+% http://www.szigma.ktk.pte.hu/index.php/letoltesek/2005-xxxvi-evfolyam-3-4-szam/keri-gerzson-kriteriumok-paros-osszeasonlitas-matrixokra/let%C3%B6lt%C3%A9s
+
+\bibitem{Komaromi2013}
+Komáromi, É. (2013):
+A Kullback-Leibler relatív entrópia függvény alkalmazása páros összehasonlítás mátrix
+egy prioritásvektora meghatározására,
+Szigma, XLIV(1-2):1--19
+% http://unipub.lib.uni-corvinus.hu/1647/
+% http://unipub.lib.uni-corvinus.hu/1647/1/Szigma_2013_1-2_1.pdf
+% http://www.szigma.ktk.pte.hu/index.php/letoltesek/2013-xliv-evfolyam-1-2-szam/2013-xliv-evfolyam-1-2-szam/let%C3%B6lt%C3%A9s
+
+\bibitem{Poesz2017}
+Poesz, A. (2017) Inkonzisztencia a döntéshozatalban, PhD értekezés,
+Budapesti Corvinus Egyetem,
+Operációkutatás és Aktuáriustudományok Tanszék
+
+
+\bibitem{Rapcsak2007}
+Rapcsák, T. (2007)
+Többszempontú döntési problémák, egyetemi jegyzet, Budapesti Corvinus Egyetem
+MTA SZTAKI-ba kihelyezett Gazdasági Döntések Tanszék
+http://www.oplab.sztaki.hu/tanszek/download/I\_Tobbsz\_dont\_modsz.pdf
+
+\bibitem{Saaty1977}
+Saaty, T.L. (1977)
+A scaling method for priorities in hierarchical structures.
+Journal of Mathematical Psychology
+15(3):234--281
+% doi:10.1016/0022-2496(77)90033-5
+% http://www.sciencedirect.com/science/article/pii/0022249677900335
+
+\bibitem{Temesi1991}
+Temesi, J. (1991):
+Szubjektív információk kezelése a többtényezõs problémák megoldásában,
+Szigma, XXII:53--62
+% http://www.szigma.ktk.pte.hu/index.php/letoltesek/1991-xxiii-evfolyam-1-4/temesi-jozsef-szubjeltiv-informaciok-kezelese-a-tobbtenyezos-problemak-megoldasaban/let%C3%B6lt%C3%A9s
+
+\end{thebibliography}
+\end{document}

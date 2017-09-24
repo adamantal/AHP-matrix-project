@@ -5,7 +5,7 @@
 #include <lemon/lp.h>
 
 #include "Eigen/Dense"
-#include "Eigen/Eigenvalues" 
+#include "Eigen/Eigenvalues"
 
 // ezek az elemek a spec PCMC-kre vonatkoznak
 const double ConsistencyIndex[] = {0, 1, 2, 4.049, 6.652, 9.435, 12.245, 15.045};
@@ -27,9 +27,9 @@ template<typename T>
 std::vector<double> getLargestEigenvector(T m)
 {
 	Eigen::EigenSolver<T> eigenSolver(m);
-	
+
 	double largestEigenvalue = eigenSolver.eigenvalues()[0].real();
-	
+
 	auto largestEigenvector = eigenSolver.eigenvectors().col(0);
 	for (int i = 1; i < m.rows(); i++) {
 		if (largestEigenvalue < eigenSolver.eigenvalues()[i].real()) {
@@ -61,28 +61,28 @@ void vectorOutput(const std::vector<T> &v) {
 
 int main()
 {
-	
+
 	Eigen::Matrix4d M;
-	M << 1.0, 7.0, 6.0, 5.0, 
-		1.0/7, 1.0, 1.0/2, 1.0, 
+	M << 1.0, 7.0, 6.0, 5.0,
+		1.0/7, 1.0, 1.0/2, 1.0,
 		1.0/6, 2.0, 1.0, 1.0/2,
 		1.0/5, 1.0, 2.0, 1.0;
 	std::cout.precision(4);
 	std::cout << "Lets consider the following matrix: \n";
 	std::cout << M << std::endl;
-	
+
 	std::cout << "The consistency ratio of the matrix is: ";
 	std::cout << getConsistencyRatio(M) << std::endl;
 	if (getConsistencyRatio(M) < 0.1) {
 		std::cout << "The matrix meets Salty's consistency criteria.\n";
 		std::vector<double> e = getLargestEigenvector(M);
-		
+
 		//It normalizes the given eigenvector
 		std::vector<double> w(4);
 		for (int i = 0; i < 4; i++) {
 			w[i] = std::abs(e[i]/e[0]);
 		}
-		
+
 		std::set<int> I0a,I0b;
 		std::set<int> I1a,I1b;
 		std::vector<double> v(4);
@@ -108,9 +108,9 @@ int main()
 		std::cout << I0a.size() << std::endl;
 		std::cout << I1a.size() << std::endl;
 	} else {
-		std::cout << "The matrix fails Saaty's consistency criteria.\n" 
+		std::cout << "The matrix fails Saaty's consistency criteria.\n"
 		<< "Progress terminated\n";
 	}
-	
+
 	return 0;
 }

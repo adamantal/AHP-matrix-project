@@ -1,0 +1,680 @@
+\documentclass{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage[a4paper]{geometry}
+%\usepackage{authblk} % for headings
+%\usepackage{pifont}
+%\usepackage{graphicx}
+%\usepackage{xtab} % tackle the long tables
+%\usepackage{longtable} % tackle the long tables
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\usepackage{tabularx}
+%\usepackage{tabu}
+\usepackage{rotating}
+\usepackage{color}
+
+\theoremstyle{plain}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}{Example}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{remark}{Remark}
+\newtheorem{theorem}{Theorem}[section]
+\newcommand{\aproof}{\hfill{\ding{111}}}
+
+\def\keywords{\vspace{.5em} % Add keywords
+{\textit{Keywords}:\,\relax%
+}}
+\def\endkeywords{\par}
+
+\begin{document}
+%\pagenumbering{}
+\begin{center}
+\large{\textbf{The logarithmic least squares optimality of the geometric mean of weight vectors
+calculated from all spanning trees for (in)complete pairwise comparison matrices}} \\[1cm]
+{S\'andor Boz\'oki$^{1,2}$,}  {Vitaliy Tsyganok$^{3,4}$}   \\[1cm]
+\end{center}
+\footnotetext[1]{Laboratory on Engineering and Management
+Intelligence, Research Group of Operations Research and Decision
+Systems, Institute for Computer Science and Control, Hungarian
+Academy of Sciences; Mail: 1518 Budapest, P.O.~Box 63, Hungary. E-mail: bozoki.sandor@sztaki.mta.hu}
+\footnotetext[2]{Department of Operations Research and Actuarial Sciences, Corvinus
+University of Budapest, Hungary}
+\footnotetext[3]{Laboratory for Decision Support Systems,
+Institute for Information Recording of National Academy of Sciences of Ukraine; Mail:
+2, Shpak str., Kyiv, 03113, Ukraine. E-mail: tsyganok@ipri.kiev.ua}
+\footnotetext[4]{Department of System Analysis, State University of Telecommunications, Ukraine}
+
+\date{}
+
+\begin{abstract}
+Pairwise comparison matrices, a method for preference modelling and quantif{\kern0pt}ication
+in multi-attribute decision making and ranking problems, are naturally extended to the incomplete case,
+of{\kern0pt}fering a wider range of applicability. The weighting problem is to f{\kern0pt}ind a weight vector
+that ref{\kern0pt}lects the decision maker's preferences in the best possible way. 
+The logarithmic least squares problem has a unique and easily computable solution.
+The spanning tree approach does not assume any metric in advance, instead, it
+goes through all minimal suf{\kern0pt}f{\kern0pt}icient subsets (spanning trees) of the set of pairwise comparisons,
+ and f{\kern0pt}inally the weight vectors are aggregated.
+It is shown that the geometric mean of weight vectors, calculated from all spanning trees,
+is the optimal solution of the well known logarithmic least squares problem, not only for
+complete, as it was recently proved by Lundy, Siraj and Greco, but
+for incomplete pairwise comparison matrices as well.
+\end{abstract}
+
+\section{Incomplete pairwise comparison matrices}
+
+Cardinal preferences of decision makers are often modelled and calculated by pairwise comparison matrices
+\cite{Saaty1977}.
+Questions 'How many times is a criterion more important than another one?'
+or 'How many times is a given alternative better than another one with
+respect to a f{\kern0pt}ixed criterion?'
+are typical in multi-attribute decision problems.
+The numerical answers are collected into a pairwise comparison matrix $\mathbf{A}=[a_{ij}]_{i,j=1 \ldots n}$
+having reciprocity, i.e., $a_{ij} = 1/a_{ji}.$
+A pairwise comparison matrix can be complete, as in a classical AHP model \cite{Saaty1977},
+or incomplete \cite{Harker1987b,Kwiesielewicz1996}. In this study
+incomplete means 'not necessarily complete', in other words, the number of missing elements is allowed to be zero.
+
+Incomplete pairwise comparison matrices are applied not only in the same decision situations
+in which the complete matrices arise, but also to larger decision and ranking problems.
+Boz\'oki, Csat\'o and Temesi \cite{BozokiCsatoTemesi2016} proposed a
+ranking method for top tennis players based on their pairwise results, where incompleteness occurs in a natural way.
+Csat\'o \cite{Csato2013} constructed a $149 \times 149$ incomplete pairwise comparison matrix to rank the teams
+of the 39th Chess Olympiad 2010.
+
+\begin{example} \label{6x6example} % \ref{6x6example}
+Let $\mathbf{A}$ be a $6 \times 6$ incomplete pairwise comparison matrix as follows:
+\[
+\mathbf{A} =
+\begin{pmatrix}
+     1    &   a_{12}     &            &     a_{14}   &    a_{15}    &     a_{16}        \\
+  a_{21}  &     1        &    a_{23}  &              &              &                   \\
+          &   a_{32}     &      1     &     a_{34}   &              &                   \\
+  a_{41}  &              &    a_{43}  &      1       &    a_{45}    &                   \\
+  a_{51}  &              &            &     a_{54}   &       1      &                   \\
+  a_{61}  &              &            &              &              &         1
+\end{pmatrix}.
+\]
+\end{example}
+
+\section{The logarithmic least squares (LLS) problem}
+
+The basic problem of f{\kern0pt}inding the best weight vectors usually includes an additional
+information on how closeness is def{\kern0pt}ined or specif{\kern0pt}ied.
+The classical approaches apply metrics based on least squares
+\cite{ChuKalabaSpingarn1979}, weighted least squares \cite{ChuKalabaSpingarn1979},
+logarithmic least squares \cite{CrawfordWilliams1985,deJong1984}, just to name a few.
+ Further weighting methods are discussed by Golany and Kress \cite{GolanyKress1993}
+and by Choo and Wedley \cite{ChooWedley2004}.
+Even the well-known eigenvector method \cite{Saaty1977} is proved to be a
+distance minimizing method \cite{Fichtner1984,Fichtner1986}, although its
+metric seems to be rather artif{\kern0pt}icial.\\
+
+\begin{definition}
+The Logarithmic Least Squares (LLS) problem \cite{Kwiesielewicz1996} is def{\kern0pt}ined as follows:
+\begin{align}
+&\min \sum \limits_{\scriptsize{
+             \begin{array}{c}
+              i,j:  \\
+              a_{ij} \text{ is known} \\
+             \end{array}}}
+\left[\log a_{ij}
+-\log\left(\frac{w_{i}}{w_{j}}\right)\right]^2
+                                                  \label{eq:IncompleteLLSMProblem-ObjFunction}  \\
+%                                    %(\ref{eq:IncompleteLLSMProblem-ObjFunction})
+&\text{subject to } \qquad w_{i} > 0, \qquad i=1,2,\dotsc,n.
+    \label{eq:IncompleteLLSMProblem-Positivity}
+%                                    %(\ref{eq:IncompleteLLSMProblem-Positivity})
+\end{align}
+\end{definition}
+
+Originally, the LLS problem was def{\kern0pt}ined for complete pairwise comparison matrices,
+i.e., the sum in the objective function is taken for all $i,j$. In this special case,
+the LLS optimal solution is unique and it can be explicitly computed by taking  the
+row-wise geometric mean \cite{CrawfordWilliams1985,deJong1984}. \\
+
+The most common normalizations are $\sum\limits_{i=1}^{n}w_{i} = 1$ and
+$\prod\limits_{i=1}^{n}w_{i} = 1.$ Normalization $w_{1} = 1$ (called
+\emph{ideal-mode} in Lundy, Siraj and Greco \cite{LundySirajGreco2017}),
+can also be interpreted in the following way:
+the f{\kern0pt}irst object (criterion, alternative) is considered
+a reference point and all the others are expressed according to it.
+
+Given an (in)complete pairwise comparison matrix $\mathbf{A}$ of
+size $n \times n$, an undirected graph $G(V,E)$ is def{\kern0pt}ined as follows: $G$ has $n$ nodes and
+the edge between nodes $i$ and $j$ is drawn if and only if the matrix element
+$a_{ij}$ is known.\\
+
+The incomplete LLS problem can be solved by the following theorem.
+\begin{theorem} \label{BozokiFulopRonyai2010theorem} % \ref{BozokiFulopRonyai2010theorem}
+(Boz\'oki, F\"ul\"op, R\'onyai \cite{BozokiFulopRonyai2010})
+Let $\mathbf{A}$ be an incomplete or complete pairwise comparison matrix such that its
+associated graph $G$ is connected. Then the optimal solution $\mathbf{w} = \exp \mathbf{y}$
+of the logarithmic least squares problem is the unique solution of the following system of linear equations:
+\begin{align}
+\left( \mathbf{L}  \mathbf{y}          \right)_i  &=    \sum\limits_{k: e(i,k) \in E(G)} \log a_{ik}
+\qquad \qquad \text{ for all } i=1,2,\ldots,n-1,n,  \label{equationLaplacian} \\
+                                                                                    %  \ref{equationLaplacian}
+                                    y_1  &= 0.        \label{normalizationy1=0}      % \ref{normalizationy1=0}
+\end{align}
+where $\mathbf{L}$ denotes the Laplacian matrix of $G$ ($\ell_{ii}$ is the degree of node $i$ and $\ell_{ij}=-1$
+if nodes $i$ and $j$ are adjacent).
+\end{theorem}
+$\mathbf{L}$ has rank $n-1$.
+Normalization (\ref{normalizationy1=0}), being equivalent to $w_1 = 1,$ plays a technical role only.
+It can be replaced by, e.g., the commonly used $\prod_{i=1}^n w_i = 1 \, \, (\Leftrightarrow \sum_{i=1}^n y_i = 0).$
+The computational complexity of solving the system of $n$ linear
+equations (\ref{equationLaplacian})-(\ref{normalizationy1=0}) is at most $O(n^3)$ \cite[Chapter 1]{Watkins2002}.
+
+
+\begin{example} \label{6x6exampleLaplacian} % \ref{6x6exampleLaplacian}
+Let incomplete pairwise comparison matrix $\mathbf{A}$ be the same as in Example \ref{6x6example}.
+ The equations in Eq.~(\ref{equationLaplacian})
+  for $i=1,2,\ldots,6$ form the following system of linear equations:
+\[
+\begin{pmatrix}
+     4    &     -1       &      0     &     -1       &      -1      &        -1         \\
+    -1    &      2       &     -1     &      0       &       0      &         0         \\
+     0    &     -1       &      2     &     -1       &       0      &         0         \\
+    -1    &      0       &     -1     &      3       &      -1      &         0         \\
+    -1    &      0       &      0     &     -1       &       2      &         0         \\
+    -1    &      0       &      0     &      0       &       0      &         1
+\end{pmatrix}
+\begin{pmatrix}
+    y_1    \\
+    y_2    \\
+    y_3    \\
+    y_4    \\
+    y_5    \\
+    y_6
+\end{pmatrix} =
+\begin{pmatrix}
+   \log a_{12}  + \log a_{14}  +\log a_{15} + \log  a_{16}    \\
+   \log a_{21}  + \log a_{23}    \\
+   \log a_{32}  + \log a_{34}    \\
+   \log a_{41}  + \log a_{43}  +\log a_{45}   \\
+   \log a_{51}  + \log a_{54}    \\
+   \log a_{61}
+\end{pmatrix}.
+\]
+\end{example}
+
+
+\section{Aggregations of weight vectors calculated from all spanning trees}
+
+
+The spanning tree approach by Tsyganok \cite{Tsyganok2000,Tsyganok2010}
+does not assume any distance function or measure of closeness. The basic idea
+is that the set of pairwise comparisons is considered as the union of minimal, connected
+subsets, or, in graph theoretical terms, spanning trees.
+Let $S$ denote the number of all spanning trees of graph $G$.
+Every spanning tree determines a unique
+weight vector f{\kern0pt}itting on the corresponding subset of matrix elements perfectly.
+Given a spanning tree, the calculation of its associated weight vector requires $O(n)$ steps.
+
+
+The number of spanning trees can be very large.
+In the special case of complete pairwise comparison matrices, the number of all spanning trees is
+$S= n^{n-2}$ by Cayley's theorem.
+Another extremal case is when the graph of the incomplete pairwise comparison
+matrix is itself a tree ($S=1$).
+The enumeration of all spanning trees with the algorithm of Gabow and Myers \cite{GabowMyers1978},
+requires $O(n+m+nS)$ steps, where $m$ denotes the number of edges in $G$.
+
+
+The computational complexity of calculating all weight vectors, associated to the spanning trees,
+is $\max\{O(nS), O(n+m+nS) \}$ steps, where $S$,
+the number of spanning trees, is between 1 and $n^{n-2}$.
+
+
+The most natural candidates for the aggregation of weight vectors calculated from all spanning trees
+are the arithmetic
+ \cite{SirajMikhailovKeane2012a,SirajMikhailovKeane2012b,Tsyganok2000,Tsyganok2010}
+and the geometric means \cite{LundySirajGreco2017,TsyganokKadenkoAndriichuk2015}.
+
+
+The following theorem connects two weighting methods.
+\begin{theorem}  \label{LundySirajGreco2017theorem} % \ref{LundySirajGreco2017theorem}
+(Lundy, Siraj and Greco \cite{LundySirajGreco2017})
+The geometric mean of weight vectors calculated from all spanning trees
+is logarithmic least squares optimal in case of complete pairwise comparison matrices.
+\end{theorem}
+
+The rest of this paper provides the generalization of this result,
+it is shown that it holds for incomplete matrices as well.
+
+
+\section{Main result: the geometric mean of weight vectors calculated from all spanning trees
+is logarithmic least squares optimal}
+
+\begin{theorem} \label{maintheorem} % \ref{maintheorem}
+Let $\mathbf{A}$ be an incomplete or complete pairwise comparison matrix such that its
+associated graph is connected.
+Then the optimal solution of the logarithmic least squares problem
+is equal, up to a scalar multiplier, to the geometric mean of weight vectors
+calculated from all spanning trees.
+\end{theorem}
+
+\begin{proof}
+Let $G$ be the connected graph associated with the (in)complete pairwise comparison matrix $\mathbf{A}$
+and let $E(G)$ denote the set of edges. The edge between nodes $i$ and $j$ is denoted by $e(i,j)$.
+The Laplacian matrix of graph $G$ is denoted by $\mathbf{L}$.
+Let $T^1, T^2, \ldots, T^s, \ldots, T^S$ denote the spanning trees of $G$, where $S$ denotes the number of spanning trees.
+$E(T^s)$ denotes the set of edges in $T^s$.
+Hereafter, upper index $s$ is also used for indexing a weight vector
+or a pairwise comparison matrix, associated to spanning tree $T^s$.
+Let $\mathbf{w}^s, s=1,2,\ldots,S,$ denote the weight vector calculated from spanning tree $T^s$.
+Weight vector $\mathbf{w}^s$ is unique up to a scalar multiplier.
+For sake of simplicity we can
+assume that $w_1^s = 1$, but other ways of normalization, e.g., $\prod w_i = 1$ can also be chosen.
+Let $\mathbf{y}^s := \log \mathbf{w}^s, \, s=1,2,\ldots,S$, where the logarithm is taken element-wise.
+Let $\mathbf{w}^{LLS}$ denote the optimal solution to the Logarithmic Least Squares problem
+(normalized by $w_1^{LLS} = 1$) and $\mathbf{y}^{LLS} := \log \mathbf{w}^{LLS}$.
+ By Theorem \ref{BozokiFulopRonyai2010theorem},
+\begin{equation*}
+\left( \mathbf{L} \mathbf{y}^{LLS} \right)_i = \sum\limits_{k: e(i,k) \in E(G)} b_{ik}
+\qquad \qquad \text{ for all } i=1,2,\ldots,n,
+\end{equation*}
+where $b_{ik} = \log a_{ik}$ for all $(i,k) \in E(G).$
+
+It is suf{\kern0pt}f{\kern0pt}icient to show that
+\begin{equation} \label{equation:goal} % \ref{equation:goal}
+\left( \mathbf{L} \frac{1}{S} \sum\limits_{s=1}^{S}\mathbf{y}^s \right)_i = \sum\limits_{k: e(i,k) \in E(G)} b_{ik}
+\qquad \qquad \text{ for all } i=1,2,\ldots,n.
+\end{equation}
+
+Consider an arbitrary spanning tree $T^s$. Then $\frac{w^s_i}{w^s_j} = a_{ij}$ for all
+$e(i,j) \in E(T^s)$. Introduce the incomplete pairwise comparison matrix $\mathbf{A}^s$
+ by $a^s_{ij} := a_{ij}$ for all $e(i,j) \in E(T^s)$ and
+$a^s_{ij} := \frac{w^s_i}{w^s_j}$ for all $e(i,j) \in E(G) \backslash E(T^s)$.
+Again, $b^s_{ij} := \log a^s_{ij} (= y^s_i - y^s_j)$.
+Note that the Laplacian matrices of $\mathbf{A}$ and $\mathbf{A}^s$ are the same ($\mathbf{L}$).
+Since the weight vector $\mathbf{w}^s$ is generated by the matrix elements
+belonging to spanning tree $T^s$, it is also the optimal solution of the
+ LLS problem regarding
+$\mathbf{A}^s$.
+Equivalently, the following system of linear equations holds.
+\begin{equation}
+\left( \mathbf{L} \mathbf{y}^s \right)_i=
+\sum\limits_{k: e(i,k) \in E(T^s)} b_{ik} + \sum\limits_{k: e(i,k) \in E(G) \backslash E(T^s)} b^s_{ik}
+\qquad \qquad
+\text{ for all } i=1,2,\ldots,n. \label{equation:Ly^s} % \ref{equation:Ly^s}
+\end{equation}
+
+\begin{lemma} \label{lemma:average} % \ref{lemma:average}
+\begin{equation}
+\sum\limits_{s=1}^{S}
+\left(\sum\limits_{k: e(i,k) \in E(T^s)} b_{ik} + \sum\limits_{k: e(i,k) \in E(G) \backslash E(T^s)} b^s_{ik} \right) =
+S \sum\limits_{k: e(i,k) \in E(G)} b_{ik}. \label{equationlemma:average} % \ref{equationlemma:average}
+\end{equation}
+\end{lemma}
+\begin{proof} % of Lemma \ref{lemma:average}.
+Let $i$ be f{\kern0pt}ixed arbitrarily and consider node $i$ in all spanning trees.
+There is nothing to do with edges $e(i,k) \in E(T^s)$.
+Since $T^s$ is a spanning tree,
+for every edge $e(i,k) \in E(G) \backslash E(T^s)$ there exists a unique path \\
+$ P= \{ e(i,k_1), e(k_1,k_2), \ldots , e(k_{\ell},k) \} \subseteq E(T^s)$.
+$P \cup e(i,k)$ is a cycle and
+\begin{equation} \label{equation:bsik} % \ref{equation:bsik}
+b^s_{i k} = b_{i k_1} + b_{k_1 k_2} + \ldots + b_{k_{\ell} k}.
+\end{equation}
+Consider the following spanning tree:
+$T^{s_{i,k,k_1}^{\prime}} := (T^s \backslash e(i,k_1) ) \cup e(i,k)$
+ as in Figure 1.
+% \newpage
+\unitlength 1mm
+\begin{center}
+\begin{picture}(100,100)
+\put(-26,30){\resizebox{150mm}{!}{\rotatebox{0}{
+\includegraphics{Figure1.eps}}}}  %
+\put(10,60){\makebox{$T^s$}}
+\put(90,60){\makebox{$T^{s_{i,k,k_1}^{\prime}}$}}
+\put(-13,20){\makebox{Figure 1. The replacement of edge $e(i,k_1)$ in spanning tree $T^s$ by edge $e(i,k)$}}
+\put(25,15){\makebox{results in spanning tree $T^{s_{i,k,k_1}^{\prime}}$.}}
+\end{picture}
+\end{center}
+
+\noindent
+Spanning trees $T^s$ and $T^{s_{i,k,k_1}^{\prime}}$ dif{\kern0pt}fer in one edge only and
+\begin{equation} \label{equation:bsprimeik1} % \ref{equation:bsprimeik1}
+b^{s_{i,k,k_1}^{\prime}}_{i k_1} = b_{i k} + b_{k k_{\ell}} + \ldots + b_{k_2 k_1}.
+\end{equation}
+Adding up equations (\ref{equation:bsik}) and (\ref{equation:bsprimeik1})
+results in
+\begin{equation} \label{equation:bsik+bsprimeik1} % \ref{equation:bsik+bsprimeik1}
+b^s_{i k} + b^{s_{i,k,k_1}^{\prime}}_{i k_1} = b_{i k} + b_{i k_1},
+\end{equation}
+all intermediate terms vanish due to the reciprocal property of pairwise comparison matrices.
+Now let us continue this process and go through all edges $e(i,k) \in E(G) \backslash E(T^s)$
+for all $k$ and $s$. The remarkable symmetry of the set of all spanning trees implies that
+every edge occurs in exactly one pair.
+Summing all these equations like (\ref{equation:bsik+bsprimeik1}), the statement
+ of Lemma \ref{lemma:average} follows.
+An illustrative example is given below in Example \ref{lemmaexample}.
+\end{proof}
+
+Finally, summarizing equations in Eq.~(\ref{equation:Ly^s}) for all $s=1,2,\ldots,S$ and
+applying Lemma \ref{lemma:average} complete the proof of Theorem \ref{maintheorem}, concluding
+$\mathbf{y}^{LLS} = \frac{1}{S} \sum\limits_{s=1}^{S}\mathbf{y}^s. $
+\end{proof}
+
+\textbf{Remark.} Complete pairwise comparison matrices ($S=n^{n-2}$)
+are included in Theorem \ref{maintheorem} as a special case.
+The proof of Theorem \ref{maintheorem} can also be considered as a
+second and shorter proof of Theorem \ref{LundySirajGreco2017theorem}.
+
+\newpage
+\begin{example} \label{lemmaexample} % \ref{lemmaexample}
+(An illustration of Lemma \ref{lemma:average})
+Let incomplete pairwise comparison matrix $\mathbf{A}$ be the same as in Example \ref{6x6example}.
+The associated graph $G$ and its spanning trees $T^1, T^2, \ldots, T^{11}$ are shown in Figure 2.
+
+Let us focus on node $i=1$. Edges departing from node 1 are missing 12 times (and they are not missing
+32 times) in the whole set of spanning trees, hence we can identify 6 pairs.
+They induce 6 pairs of equations, that are labelled in Figure 2. In tree $T^1$,
+\begin{equation} \label{11}
+b_{12}^{1} = b_{15} + b_{54} + b_{43} + b_{32}.
+\end{equation}
+Note that equation (11), as well as the forthcoming ones, is
+labelled on the corresponding edges in Figure 2.
+Now $s=1, k=2, k_1=5$ and ${s_{1,2,5}^{\prime}} = 4$, because the replacement of edge $e(1,5)$ in tree $T^1$
+by edge $e(1,2)$ results in tree $T^4$. Here
+\begin{equation} \label{12}
+b_{15}^{4} = b_{12} + b_{23} + b_{34} + b_{45}.
+\end{equation}
+
+The sum of equations (11) and (12) conf{\kern0pt}irms (\ref{equation:bsik+bsprimeik1}).
+
+Let us continue by edge $e(1,4)$ in tree $T^1$.
+\begin{eqnarray}
+b_{14}^{1} = b_{15} + b_{54}, \label{13} \\
+b_{15}^{2} = b_{14} + b_{45}. \label{14}
+\end{eqnarray}
+
+The remaining four pairs of edges and their equations are listed below.
+\begin{eqnarray}
+b_{12}^{2} = b_{14} + b_{43} + b_{32}, \label{15} \\
+b_{14}^{4} = b_{12} + b_{23} + b_{34}, \label{16}
+\end{eqnarray}
+\begin{eqnarray}
+b_{12}^{3} = b_{14} + b_{43} + b_{32}, \label{17} \\
+b_{14}^{7} = b_{12} + b_{23} + b_{34}, \label{18}
+\end{eqnarray}
+\begin{eqnarray}
+b_{14}^{5} = b_{15} + b_{54},          \label{19} \\
+b_{15}^{8} = b_{14} + b_{45},          \label{20}
+\end{eqnarray}
+\begin{eqnarray}
+b_{14}^{6} = b_{15} + b_{54},          \label{21} \\
+b_{15}^{9} = b_{14} + b_{45}.          \label{22}
+\end{eqnarray}
+
+Lemma \ref{lemma:average} is now conf{\kern0pt}irmed for $i=1$:
+\begin{equation*}
+\sum\limits_{s=1}^{11}
+\left(\sum\limits_{k: e(1,k) \in E(T^s)} b_{1k} + \sum\limits_{k: e(1,k) \in E(G) \backslash E(T^s)} b^s_{1k} \right) =
+11 \sum\limits_{k: e(1,k) \in E(G)} b_{1k} = 11 (b_{12}+b_{14}+b_{15}+b_{16}).
+\end{equation*}
+
+\newpage
+\unitlength 1mm
+\begin{center}
+\begin{picture}(100,200)
+\put(-26,10){\resizebox{150mm}{!}{\rotatebox{0}{
+\includegraphics{Figure2.eps}}}}
+\put(-8,0){\makebox{Figure 2. Graph $G$ of Example \ref{lemmaexample}
+and its spanning trees $T^1, T^2, \ldots, T^{11}$ }}
+\end{picture}
+\end{center}
+
+\newpage
+Let us move to node $2$. Three pairs of equations can be obtained:
+\begin{eqnarray}
+b_{21}^{1} = b_{23} + b_{34} + b_{45} + b_{51},      \label{23} \\
+b_{23}^{5} = b_{21} + b_{15} + b_{54} + b_{43},      \label{24}
+\end{eqnarray}
+\begin{eqnarray}
+b_{21}^{2} = b_{23} + b_{34} + b_{41},               \label{25} \\
+b_{23}^{8} = b_{21} + b_{14} + b_{43},               \label{26}
+\end{eqnarray}
+\begin{eqnarray}
+b_{21}^{3} = b_{23} + b_{34} + b_{41},               \label{27} \\
+b_{23}^{10}= b_{21} + b_{14} + b_{43}.               \label{28}
+\end{eqnarray}
+
+Lemma \ref{lemma:average} is now conf{\kern0pt}irmed for $i=2$:
+\begin{equation*}
+\sum\limits_{s=1}^{11}
+\left(\sum\limits_{k: e(2,k) \in E(T^s)} b_{2k} + \sum\limits_{k: e(2,k) \in E(G) \backslash E(T^s)} b^s_{2k} \right) =
+11 \sum\limits_{k: e(2,k) \in E(G)} b_{2k} = 11 (b_{21}+b_{23} ).
+\end{equation*}
+
+Cases related to the remaining nodes can be treated likewise.
+\end{example}
+
+\section{Conclusions}
+It was shown in this paper that two weighting methods,
+based on rather dif{\kern0pt}ferent principles and approaches,
+ are equivalent not only for complete pairwise comparison matrices,
+as it was recently proved by Lundy, Siraj and Greco \cite{LundySirajGreco2017},
+but also for incomplete ones.
+The geometric mean of weight vectors calculated from all spanning trees was proved to be
+logarithmic least squares optimal. The advantages rooted in the def{\kern0pt}inition of the two methods,
+namely the clear interpretation of taking all spanning trees into account and
+the optimality by a widely analyzed objective function (LLS), are united.
+
+
+There is a signif{\kern0pt}icant dif{\kern0pt}ference in computational complexity.
+The logarithmic least squares problem can be solved
+from a single system of linear equations (the coef{\kern0pt}f{\kern0pt}icient matrix is the Laplacian),
+requiring at most $O(n^3)$ steps.
+The spanning tree approach requires $\max\{O(nS), O(n+m+nS) \}$ steps,
+where $S$, the number of spanning trees is between 1 and $n^{n-2}$.
+As soon as $S$ exceeds $O(n^2)$, the logarithmic least squares problem is faster to solve.
+
+
+An important consequence of the paper is that future analyses of weighting methods should not
+distinguish between the incomplete LLS and the geometric mean of weight vectors from all spanning trees.
+
+Certain applications apply the spanning trees enumeration, but not necessarily
+together with the aggregation by the geometric mean.
+The approach of spanning trees enumeration is used in determining the consistency
+to build the distribution of expert estimates based on the matrix \cite{OlenkoTsyganok2016}.
+Such problems of{\kern0pt}fer further research possibilities.
+
+The possible equivalence of the arithmetic (or other but not geometric) mean of weight vectors,
+calculated from all spanning trees and other weighting methods, is still an open problem.
+
+\section*{Acknowledgements}
+S.~Boz\'oki acknowledges the support of the J\'anos Bolyai Research Fellowship
+ of the Hungarian Academy of Sciences (no.~BO/00154/16/3)
+and the Hungarian Scientif{\kern0pt}ic Research Fund (OTKA), grant no.~K111797.
+ Orsolya Csiszár is greatly acknowledged for her careful proofreading.
+
+\begin{thebibliography}{99}
+
+\bibitem{BozokiCsatoTemesi2016}
+Boz\'oki, S., Csat\'o, L., Temesi, J. (2016):
+An application of incomplete pairwise comparison matrices for ranking top tennis players,
+European Journal of Operational Research,
+248(1) 211--218
+% DOI 10.1016/j.ejor.2015.06.069
+% http://www.sciencedirect.com/science/article/pii/S0377221715006220
+
+\bibitem{BozokiFulopRonyai2010}
+Boz\'oki, S., F\"ul\"op, J., R\'onyai, L. (2010):
+On optimal completion of incomplete pairwise comparison matrices,
+Mathematical and Computer Modelling, 52(1-2) 318--333
+% DOI 10.1016/j.mcm.2010.02.047
+% http://www.sciencedirect.com/science/article/pii/S0895717710001159
+
+\bibitem{ChooWedley2004}
+Choo, E.U., Wedley, W.C. (2004):
+A common framework for deriving preference values from pairwise comparison matrices,
+Computers \& Operations Research,
+31(6) 893--908
+% DOI 10.1016/S0305-0548(03)00042-X
+% http://www.sciencedirect.com/science/article/pii/S030505480300042X
+
+\bibitem{ChuKalabaSpingarn1979}
+Chu, A.T.W., Kalaba, R.E., Spingarn, K. (1979):
+A comparison of two methods for determining the weights of belonging to fuzzy sets,
+Journal of Optimization Theory and Applications,
+27(4) 531--538
+% DOI 10.1007/BF00933438
+% http://link.springer.com/article/10.1007/BF00933438
+
+\bibitem{CrawfordWilliams1985}
+Crawford, G., Williams, C. (1985):
+A note on the analysis of subjective judgment matrices,
+Journal of Mathematical Psychology
+29(4) 387--405
+% DOI 10.1016/0022-2496(85)90002-1
+% http://www.sciencedirect.com/science/article/pii/0022249685900021
+
+\bibitem{Csato2013}
+Csat\'o, L. (2013):
+Ranking by pairwise comparisons for Swiss-system tournaments,
+Central European Journal of Operations Research
+21(4) 783--803
+% DOI 10.1007/s10100-012-0261-8
+% http://link.springer.com/article/10.1007/s10100-012-0261-8
+
+\bibitem{Fichtner1984}
+Fichtner, J. (1984).
+Some thoughts about the Mathematics of the Analytic Hierarchy Process.
+Report 8403,
+Universit\"at der Bundeswehr M\"unchen,
+Fakult\"at f\"ur Informatik,
+Institut f\"ur Angewandte Systemforschung und Operations Research,
+Werner-Heisenberg-Weg 39, D-8014 Neubiberg, F.R.G.
+1984.
+
+\bibitem{Fichtner1986}
+Fichtner, J. (1986).
+On deriving priority vectors from matrices of pairwise comparisons.
+Socio-Economic Planning Sciences,
+20(6) 341--345
+% DOI 10.1016/0038-0121(86)90045-5
+% http://www.sciencedirect.com/science/article/pii/0038012186900455
+
+
+\bibitem{GabowMyers1978}
+% Harold N. Gabow and Eugene W. Myers
+Gabow, H.N., Myers, E.W. (1978):
+Finding all spanning trees of directed and undirected graphs,
+SIAM Journal on Computing, 7(3) 280--287
+% DOI 10.1137/0207024
+% http://dx.doi.org/10.1137/0207024
+%  http://epubs.siam.org/doi/abs/10.1137/0207024
+
+
+\bibitem{GolanyKress1993}
+Golany, B., Kress, M. (1993):
+A multicriteria evaluation of methods for obtaining weights from ratio-scale matrices,
+European Journal of Operational Research,
+69(2) 210--220
+% DOI 10.1016/0377-2217(93)90165-J
+% http://www.sciencedirect.com/science/article/pii/037722179390165J
+
+\bibitem{Harker1987b}
+Harker, P.T. (1987):
+Incomplete pairwise comparisons in the analytic hierarchy process,
+Mathematical Modelling
+{9}(11) 837--848
+% DOI 10.1016/0270-0255(87)90503-3
+% http://www.sciencedirect.com/science/article/pii/0270025587905033
+
+\bibitem{deJong1984}
+de Jong, P. (1984):
+A statistical approach to Saaty's scaling methods for priorities,
+Journal of Mathematical Psychology
+28(4) 467--478
+% DOI 10.1016/0022-2496(84)90013-0
+% http://www.sciencedirect.com/science/article/pii/0022249684900130
+
+\bibitem{Kwiesielewicz1996}
+Kwiesielewicz, M. (1996):
+The logarithmic least squares and the generalised pseudoinverse in estimating ratios,
+European Journal of Operational Research
+93(3) 611--619
+% DOI 10.1016/0377-2217(95)00079-8
+% http://www.sciencedirect.com/science/article/pii/0377221795000798
+
+\bibitem{LundySirajGreco2017}
+Lundy, M., Siraj, S., Greco, S. (2017):
+The mathematical equivalence of the ``spanning tree''
+and row geometric mean preference vectors and its implications for preference analysis,
+European Journal of Operational Research 257(1) 197--208
+% DOI 10.1016/j.ejor.2016.07.042
+% http://www.sciencedirect.com/science/article/pii/S0377221716305975
+
+\bibitem{OlenkoTsyganok2016}
+Olenko, A., Tsyganok, V. (2016):
+Double Entropy Inter-Rater Agreement Indices,
+Applied Psychological Measurement
+40(1) 37--55
+% doi: 10.1177/0146621615592718.
+% http://journals.sagepub.com/doi/abs/10.1177/0146621615592718
+
+\bibitem{Saaty1977}
+Saaty, T.L. (1977):
+A scaling method for priorities in hierarchical structures,
+Journal of Mathematical Psychology
+15(3) 234--281
+% doi:10.1016/0022-2496(77)90033-5
+% http://www.sciencedirect.com/science/article/pii/0022249677900335
+
+\bibitem{SirajMikhailovKeane2012a}
+Siraj, S., Mikhailov, L., Keane, J.A. (2012):
+Enumerating all spanning trees for pairwise comparisons,
+Computers \& Operations Research,
+39(2) 191--199
+% doi:10.1016/j.cor.2011.03.010
+% http://www.sciencedirect.com/science/article/pii/S0305054811000839
+
+\bibitem{SirajMikhailovKeane2012b}
+Siraj, S., Mikhailov, L., Keane, J.A. (2012):
+Corrigendum to ``Enumerating all spanning trees for pairwise comparisons [Comput.~Oper.~Res.~39(2012) 191-199]'',
+Computers \& Operations Research,
+39(9) page 2265
+% doi:10.1016/j.cor.2011.11.010
+% http://www.sciencedirect.com/science/article/pii/S0305054811003352
+
+\bibitem{Tsyganok2000}
+Tsyganok, V. (2000):
+Combinatorial method of pairwise comparisons with feedback,
+Data Recording, Storage \& Processing
+2:92--102 (in Ukrainian).
+
+
+\bibitem{Tsyganok2010}
+Tsyganok, V. (2010):
+Investigation of the aggregation ef{\kern0pt}fectiveness of expert estimates obtained by the pairwise comparison method,
+Mathematical and Computer Modelling,
+52(3-4) 538--54
+% doi: 10.1016/j.mcm.2010.03.052
+% http://www.sciencedirect.com/science/article/pii/S0895717710001706
+
+
+\bibitem{TsyganokKadenkoAndriichuk2015}
+Tsyganok, V.V., Kadenko, S.V., Andriichuk, O.V. (2015):
+Using dif{\kern0pt}ferent pair-wise comparison scales for developing industrial strategies,
+International Journal of Management and Decision Making, 14(3) 224--250
+% DOI 10.1504/IJMDM.2015.070760
+% http://www.inderscienceonline.com/doi/abs/10.1504/IJMDM.2015.070760
+
+\bibitem{Watkins2002}
+Watkins, D.S. (2002):
+Fundamentals of Matrix Computations,
+Second Edition. John Wiley \& Sons, Inc., New York
+% ISBN 0-471-21394-2
+
+
+\end{thebibliography}
+\end{document}

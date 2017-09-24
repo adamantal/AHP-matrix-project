@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+354a1ccb4b6fa5c1a922a4153f3b9c40 CMakeFiles/check
+0e6783064f7d42e34c5b663d9d61d515 CMakeFiles/dist
+05603b3ae9397f9728aae48f6ba25731 doc/CMakeFiles/update-external-tags
