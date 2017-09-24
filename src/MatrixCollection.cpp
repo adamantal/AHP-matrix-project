@@ -95,7 +95,7 @@ MatrixCollection MatrixCollection::applyConsistencyFilter(){
 	for (auto it = data.begin(); it != data.end(); it++) {
 		//if (std::distance(data.begin(), it) % 1000 == 0) std::cout << std::distance(data.begin(), it) << std::endl;
 		double consistencyRatio = it->getConsistencyRatio();
-		if (consistencyRatio < 0.1) tmp.add(*it);
+		if (consistencyRatio <= 0.1) tmp.add(*it);
 	}
 	return tmp;
 }

@@ -22,7 +22,7 @@ int main() {
   std::vector<bool> ratiosEigen,ratiosSpantree;
 
   for (size_t i = 0; i < m.size(); i++) {
-    if (i % 10000 == 0) std::cout << ((double(i)) / m.size() * 100) << "%\n";
+    if (i % 10070 == 0) std::cout << ((double(i)) / m.size() * 100) << "%\n";
     ratiosAll.push_back(m[i].getConsistencyRatio());
     ratiosEigen.push_back(m[i].testPrimalEigenvectorIsParetoOptimal());
     ratiosSpantree.push_back(m[i].testAvgSpanTreeParetoOptimal());
