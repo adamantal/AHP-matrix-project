@@ -1,7 +1,0 @@
-There are several things to resolve:
-- making the graph algorithm
-- compare the graph algorithm with the lp
-- apply the lp/graph on all the 4x4 testcases
-- apply these result on higher dimensions
-
-//Check github
