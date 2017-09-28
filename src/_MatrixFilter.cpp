@@ -9,7 +9,7 @@
 
 #include "Matrix.cpp"
 #include "MatrixCollection.cpp"
-#include "generateAll4.cpp"
+#include "MatrixGenerator.cpp"
 
 /*
 //Generating all 4x4 matrices:

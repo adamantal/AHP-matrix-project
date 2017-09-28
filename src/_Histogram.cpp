@@ -9,7 +9,7 @@
 
 #include "Matrix.cpp"
 #include "MatrixCollection.cpp"
-#include "_MatrixGenerator.cpp"
+#include "MatrixGenerator.cpp"
 
 int main() {
   matrixInit::setElement();
@@ -37,10 +37,12 @@ int main() {
   std::vector<unsigned int> bucketsAll((int)floor(maxConsistency / steps));
   std::vector<unsigned int> bucketsEigen((int)floor(maxConsistency / steps));
   std::vector<unsigned int> bucketsSpantree((int)floor(maxConsistency / steps));
+  std::vector<unsigned int> bucketsCommon((int)floor(maxConsistency / steps));
 
   for (size_t i = 0; i < bucketsAll.size(); i++) bucketsAll[i] = 0;
   for (size_t i = 0; i < bucketsEigen.size(); i++) bucketsEigen[i] = 0;
   for (size_t i = 0; i < bucketsSpantree.size(); i++) bucketsSpantree[i] = 0;
+  for (size_t i = 0; i < bucketsCommon.size(); i++) bucketsCommon[i] = 0;
 
   for (size_t i = 0; i < ratiosAll.size(); i++) {
     if (ratiosAll[i] < maxConsistency) {
@@ -48,12 +50,15 @@ int main() {
         bucketsAll[(int)floor(ratiosAll[i] / steps)]++;
         if (!ratiosEigen[i]) bucketsEigen[(int)floor(ratiosAll[i] / steps)]++;
         if (!ratiosSpantree[i]) bucketsSpantree[(int)floor(ratiosAll[i] / steps)]++;
+        if (!ratiosEigen[i] && !ratiosSpantree[i]) bucketsCommon[(int)floor(ratiosAll[i] / steps)]++;
       }
     }
   }
   std::cout << "Bucketing done, writing file...\n";
 
   std::ofstream I("../res/basicHistogram.csv");
+  //Header:
+  I << "bucket,all,eigen,spantree,common\n";
   for (size_t i = 0; i < bucketsAll.size(); i++) {
     I << i << "," << bucketsAll[i] << "," << bucketsEigen[i] << "," << bucketsSpantree[i] << std::endl;
   }

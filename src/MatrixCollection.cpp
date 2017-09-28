@@ -33,7 +33,10 @@ MatrixCollection MatrixCollection::readFromFile(std::string filename) {
 	std::ifstream I;
 	I.open(filename);
 
-	if (!I.is_open()) throw "FILE CAN NOT BE OPENED.";
+	if (!I.is_open()) {
+		std::cout << "File can not be opened, please check file!\n";
+		throw "FILE CAN NOT BE OPENED.";
+	}
 
 	MatrixCollection mc;
 	std::string x;

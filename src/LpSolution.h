@@ -6,7 +6,7 @@
 #include<set>
 #include<algorithm>
 
-class LpSolution{
+class LpSolution {
   private:
     //which does not requires the LP:
     Matrix matrix;
