@@ -16,7 +16,7 @@ enum filterType {
 	EigenValueMethod = 2,
 	AverageSpanTreeMethod = 3,
 	CosineMethod = 4
-}
+};
 
 class MatrixCollection {
 	private:
