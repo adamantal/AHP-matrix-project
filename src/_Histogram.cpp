@@ -64,7 +64,7 @@ int main() {
   //Header:
   I << "bucket,all,eigen,spantree,common\n";
   for (size_t i = 0; i < bucketsAll.size(); i++) {
-    I << i << "," << bucketsAll[i] << "," << bucketsEigen[i] << "," << bucketsSpantree[i] << "," << bucketsCommon[i] << std::endl;
+    I << i << "," << bucketsAll[i] << "," << bucketsEigen[i] << "," << bucketsSpantree[i] << "," << bucketsCommon[i] << "," << bucketsCosine[i] << std::endl;
   }
   I.close();
   std::cout << "Procedure finished.\n";

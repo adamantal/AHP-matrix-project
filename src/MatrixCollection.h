@@ -17,6 +17,7 @@ enum filterType {
 	AverageSpanTreeMethod = 3,
 	CosineMethod = 4
 };
+//TODO: structural change in filters
 
 class MatrixCollection {
 	private:
