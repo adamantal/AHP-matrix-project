@@ -53,7 +53,7 @@ class Matrix{
 
 		std::vector<double> getMeanOfSpans()const;
 		bool testPrimalEigenvectorIsParetoOptimal()const;
-
+		bool testCosineParetoOptimal()const;
 		bool testAvgSpanTreeParetoOptimal()const;
 
 		bool testVectorParetoOptimal(const std::vector<double> &) const;

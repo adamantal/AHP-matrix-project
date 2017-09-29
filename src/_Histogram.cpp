@@ -19,13 +19,14 @@ int main() {
   std::cout << "Read finished! The number of matrices is " << m.size() <<"\n";
 
   std::vector<double> ratiosAll;
-  std::vector<bool> ratiosEigen,ratiosSpantree;
+  std::vector<bool> ratiosEigen,ratiosSpantree,ratiosCosine;
 
   for (size_t i = 0; i < m.size(); i++) {
     if (i % 10070 == 0) std::cout << ((double(i)) / m.size() * 100) << "%\n";
     ratiosAll.push_back(m[i].getConsistencyRatio());
     ratiosEigen.push_back(m[i].testPrimalEigenvectorIsParetoOptimal());
     ratiosSpantree.push_back(m[i].testAvgSpanTreeParetoOptimal());
+    ratiosCosine.push_back(m[i].testCosineParetoOptimal());
   }
 
   std::cout << "Consistencies calulcated.\n";
@@ -38,11 +39,13 @@ int main() {
   std::vector<unsigned int> bucketsEigen((int)floor(maxConsistency / steps));
   std::vector<unsigned int> bucketsSpantree((int)floor(maxConsistency / steps));
   std::vector<unsigned int> bucketsCommon((int)floor(maxConsistency / steps));
+  std::vector<unsigned int> bucketsCosine((int)floor(maxConsistency / steps));
 
   for (size_t i = 0; i < bucketsAll.size(); i++) bucketsAll[i] = 0;
   for (size_t i = 0; i < bucketsEigen.size(); i++) bucketsEigen[i] = 0;
   for (size_t i = 0; i < bucketsSpantree.size(); i++) bucketsSpantree[i] = 0;
   for (size_t i = 0; i < bucketsCommon.size(); i++) bucketsCommon[i] = 0;
+  for (size_t i = 0; i < bucketsCommon.size(); i++) bucketsCosine[i] = 0;
 
   for (size_t i = 0; i < ratiosAll.size(); i++) {
     if (ratiosAll[i] < maxConsistency) {
@@ -51,6 +54,7 @@ int main() {
         if (!ratiosEigen[i]) bucketsEigen[(int)floor(ratiosAll[i] / steps)]++;
         if (!ratiosSpantree[i]) bucketsSpantree[(int)floor(ratiosAll[i] / steps)]++;
         if (!ratiosEigen[i] && !ratiosSpantree[i]) bucketsCommon[(int)floor(ratiosAll[i] / steps)]++;
+        if (!ratiosCosine[i]) bucketsCosine[(int)floor(ratiosAll[i] / steps)]++;
       }
     }
   }
@@ -60,7 +64,7 @@ int main() {
   //Header:
   I << "bucket,all,eigen,spantree,common\n";
   for (size_t i = 0; i < bucketsAll.size(); i++) {
-    I << i << "," << bucketsAll[i] << "," << bucketsEigen[i] << "," << bucketsSpantree[i] << std::endl;
+    I << i << "," << bucketsAll[i] << "," << bucketsEigen[i] << "," << bucketsSpantree[i] << "," << bucketsCommon[i] << std::endl;
   }
   I.close();
   std::cout << "Procedure finished.\n";

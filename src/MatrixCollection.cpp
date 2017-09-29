@@ -116,6 +116,13 @@ MatrixCollection MatrixCollection::applyAvgSpanTreeFilter(){
 	}
 	return tmp;
 }
+MatrixCollection MatrixCollection::applyCosineMethodFilter() {
+	MatrixCollection tmp;
+	for (auto it = data.begin(); it != data.end(); it++) {
+		if (!(it->testCosineParetoOptimal())) tmp.add(*it);
+	}
+	return tmp;
+}
 void MatrixCollection::generateCsv(std::string filename){
 	std::ofstream F;
 	F.open(filename);

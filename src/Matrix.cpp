@@ -358,6 +358,64 @@ LpSolution Matrix::LPVectorParetoOptimal(const std::vector<double> &w) const {
 			throw "There is an error during making the LP.";
 		}
 }
+bool Matrix::testCosineParetoOptimal()const{
+	const int n = 4;
+
+	//initialising b:
+	std::vector<std::vector<double> > b;
+
+	for (size_t i = 0; i < n; i++) {
+		std::vector<double> tmp;
+		for (size_t j = 0; j < n; j++) {
+			tmp.push_back(0.0);
+		}
+		b.push_back(tmp);
+	}
+
+	//calculate the b_ij-s:
+	for (size_t col = 0; col < n; col++) {
+		double colSum = 0.0;
+		for (size_t row = 0; row < n; row++) {
+			colSum += get(row, col) * get(row, col);
+		}
+		colSum = sqrt(colSum);
+		for (size_t row = 0; row < n; row++) {
+			b[row][col] = Matrix::get(row, col) / colSum;
+		}
+	}
+
+	//calculate formulas:
+	std::vector<double> w;
+
+	//nominators:
+	for (size_t row = 0; row < n; row++) {
+		double tmpsum = 0.0;
+		for (size_t col = 0; col < n; col++) {
+			tmpsum += b[row][col];
+		}
+		w.push_back(tmpsum);
+	}
+
+	//denominator:
+	double fullSum = 0.0;
+	for (size_t i = 0; i < n; i++) {
+		for (size_t row = 0; row < n; row++) {
+			double colSum = 0.0;
+			for (size_t col = 0; col < n; col++) {
+				colSum += b[row][col];
+			}
+			colSum *= colSum;
+			fullSum += colSum;
+		}
+		fullSum = sqrt(fullSum);
+	}
+
+	for (size_t i = 0; i < w.size(); i++){
+		w[i] /= fullSum;
+	}
+
+	return Matrix::testVectorParetoOptimal(w);
+}
 
 std::vector<double> Matrix::getMeanOfSpans()const{
 	struct VectorAdd{

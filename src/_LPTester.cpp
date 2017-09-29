@@ -88,11 +88,11 @@ int main() {
 
 
 	begin = clock();
-	MatrixCollection C = MatrixCollection::readFromFile("res/output.mt");
-	std::cout << "The size is " << C.size() << std::endl;
-	C = C.applyConsistencyFilter();
-	std::cout << "The size is " << C.size() << std::endl;
-	C.saveToFile("../res/consistents.mt");
+	MatrixCollection C = MatrixCollection::readFromFile("../res/consistents.mt");
+	std::cout << "The size is " << C.size() << " (consistents)" << std::endl;
+	C = C.applyCosineMethodFilter();
+	std::cout << "The size is " << C.size() << " after applying cosine method filter" << std::endl;
+	C.saveToFile("../res/consistentCosines.mt");
 	end = clock();
 	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 	std::cout << "It takes " << elapsed_secs << " secs." << std::endl;
@@ -122,7 +122,7 @@ int main() {
 	//MatrixCollection weakeffs = C.applyEigenvalueMethodFilter();
 	//std::cout << weakeffs.size() << std::endl;
 	C.generateCsv("res/eigenvalNonEff.csv");
-/*
+
 	std::cout << weakeffs.size() << std::endl;
 	weakeffs.saveToFile("../res/weaklyEffsByEig.mt");
 	weakeffs.generateCsv("../res/eigenvalEff.csv");

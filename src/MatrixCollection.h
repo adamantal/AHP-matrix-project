@@ -10,6 +10,14 @@ class Matrix;
 
 typedef std::vector<Matrix>::iterator iterator;
 
+enum filterType {
+	Inconsistency = 0,
+	Consistency = 1,
+	EigenValueMethod = 2,
+	AverageSpanTreeMethod = 3,
+	CosineMethod = 4
+}
+
 class MatrixCollection {
 	private:
 		std::vector<Matrix> data;
@@ -27,6 +35,7 @@ class MatrixCollection {
 		MatrixCollection applyInconsistencyFilter();
 		MatrixCollection applyConsistencyFilter();
 		MatrixCollection applyEigenvalueMethodFilter();
+		MatrixCollection applyCosineMethodFilter();
 
 		MatrixCollection applyAvgSpanTreeFilter();
 
