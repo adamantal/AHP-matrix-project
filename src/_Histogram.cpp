@@ -32,7 +32,7 @@ int main() {
   std::cout << "Consistencies calulcated.\n";
   std::cout << "Creating histogram...\n";
 
-  double steps = 0.01;
+  double steps = 0.0231;
   double maxConsistency = 1.0;
   //fmod
   std::vector<unsigned int> bucketsAll((int)floor(maxConsistency / steps));
@@ -62,7 +62,7 @@ int main() {
 
   std::ofstream I("../res/basicHistogram.csv");
   //Header:
-  I << "bucket,all,eigen,spantree,common\n";
+  I << "bucket,all,eigen,spantree,common,cosine\n";
   for (size_t i = 0; i < bucketsAll.size(); i++) {
     I << i << "," << bucketsAll[i] << "," << bucketsEigen[i] << "," << bucketsSpantree[i] << "," << bucketsCommon[i] << "," << bucketsCosine[i] << std::endl;
   }
