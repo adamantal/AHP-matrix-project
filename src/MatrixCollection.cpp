@@ -85,44 +85,43 @@ typedef std::vector<Matrix>::iterator iterator;
 iterator MatrixCollection::begin() { return data.begin(); }
 iterator MatrixCollection::end() { return data.end(); }
 
-MatrixCollection MatrixCollection::applyInconsistencyFilter(){
+MatrixCollection MatrixCollection::applyFilter(filterType filter) {
 	MatrixCollection tmp;
-	for (auto it = data.begin(); it != data.end(); it++) {
-		double consistencyRatio = it->getConsistencyRatio();
-		if (consistencyRatio > 0.1) tmp.add(*it);
+	switch(filter) {
+		case (filterType::Inconsistency) :
+			{
+				for (auto it = data.begin(); it != data.end(); it++) {
+					double consistencyRatio = it->getConsistencyRatio();
+					if (consistencyRatio > 0.1) tmp.add(*it);
+				}
+			}
+			break;
+		case (filterType::Consistency) :
+			{
+				for (auto it = data.begin(); it != data.end(); it++) {
+					double consistencyRatio = it->getConsistencyRatio();
+					if (consistencyRatio <= 0.1) tmp.add(*it);
+				}
+			}
+			break;
+		case (filterType::EigenVectorMethod) :
+			//no break
+		case (filterType::AverageSpanTreeMethod) :
+			//no break
+		case (filterType::CosineMethod) :
+			{
+				for (auto it = data.begin(); it != data.end(); it++) {
+					if (!(it->testParetoOptimality(filter))) tmp.add(*it);
+				}
+			}
+			break;
+		default:
+			throw "Unknown filter applied.\n";
+			break;
 	}
 	return tmp;
 }
-MatrixCollection MatrixCollection::applyConsistencyFilter(){
-	MatrixCollection tmp;
-	for (auto it = data.begin(); it != data.end(); it++) {
-		//if (std::distance(data.begin(), it) % 1000 == 0) std::cout << std::distance(data.begin(), it) << std::endl;
-		double consistencyRatio = it->getConsistencyRatio();
-		if (consistencyRatio <= 0.1) tmp.add(*it);
-	}
-	return tmp;
-}
-MatrixCollection MatrixCollection::applyEigenvalueMethodFilter(){
-	MatrixCollection tmp;
-	for (auto it = data.begin(); it != data.end(); it++) {
-		if (!(it->testPrimalEigenvectorIsParetoOptimal())) tmp.add(*it);
-	}
-	return tmp;
-}
-MatrixCollection MatrixCollection::applyAvgSpanTreeFilter(){
-	MatrixCollection tmp;
-	for (auto it = data.begin(); it != data.end(); it++) {
-		if (!(it->testAvgSpanTreeParetoOptimal())) tmp.add(*it);
-	}
-	return tmp;
-}
-MatrixCollection MatrixCollection::applyCosineMethodFilter() {
-	MatrixCollection tmp;
-	for (auto it = data.begin(); it != data.end(); it++) {
-		if (!(it->testCosineParetoOptimal())) tmp.add(*it);
-	}
-	return tmp;
-}
+
 void MatrixCollection::generateCsv(std::string filename){
 	std::ofstream F;
 	F.open(filename);

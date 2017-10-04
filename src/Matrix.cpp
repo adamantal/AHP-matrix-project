@@ -55,7 +55,7 @@ int Matrix::indexOfElement(int k, int l) const{
 	return -1;
 }
 int Matrix::indexOfInverse(int i){
-	if (i == 0){
+	if (i == 0) {
 		return 0;
 	}
 	if (i > 8) {
@@ -228,7 +228,7 @@ void Matrix::L1(std::vector<double> &v){
 }
 
 bool Matrix::testPrimalEigenvectorIsParetoOptimal()const{
-	const std::vector<double> lambda_1 = getPrimalNormEigenvector();
+	std::vector<double> lambda_1 = getPrimalNormEigenvector();
 
 	return Matrix::testVectorParetoOptimal(lambda_1);
 }
@@ -237,6 +237,22 @@ bool Matrix::testVectorParetoOptimal(const std::vector<double> &w) const {
 	//std::cout << "Return of the LP is " << Matrix::testVectorParetoOptimal(lambda_1) << std::endl;
 	if (Matrix::LPVectorParetoOptimal(w).isOptimal()) return true;
 	return false;
+}
+
+bool Matrix::testParetoOptimality(filterType filter) const{
+	switch (filter){
+		case (filterType::EigenVectorMethod) :
+			return Matrix::testPrimalEigenvectorIsParetoOptimal();
+			break;
+		case (filterType::AverageSpanTreeMethod) :
+			return Matrix::testAvgSpanTreeParetoOptimal();
+			break;
+		case (filterType::CosineMethod) :
+			return Matrix::testCosineParetoOptimal();
+		default :
+			throw "Invalid filterType was given to the pareto optimality tester function.\n";
+			break;
+		}
 }
 
 LpSolution Matrix::LPVectorParetoOptimal(const std::vector<double> &w) const {

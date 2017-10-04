@@ -19,14 +19,25 @@ struct spair{
 	spair(int x, int y):a(x),b(y){}
 };
 
+enum filterType {
+	Inconsistency = 0,
+	Consistency = 1,
+	EigenVectorMethod = 2,
+	AverageSpanTreeMethod = 3,
+	CosineMethod = 4
+};
+
 class Matrix{
 	private:
-		std::vector<int> data; //we store only the
-			//indexes of the elem object
+		std::vector<int> data; //we store only the indexes of the elem object
 
 		int indexOfElement(int, int)const;
 		static int indexOfInverse(int);
 		Eigen::MatrixXd toEigenMatrix()const;
+	protected:
+		bool testPrimalEigenvectorIsParetoOptimal()const;
+		bool testCosineParetoOptimal()const;
+		bool testAvgSpanTreeParetoOptimal()const;
 	public:
 		static std::vector<double> elem;
 
@@ -52,9 +63,8 @@ class Matrix{
 		std::vector<double> getPrimalNormEigenvector()const;
 
 		std::vector<double> getMeanOfSpans()const;
-		bool testPrimalEigenvectorIsParetoOptimal()const;
-		bool testCosineParetoOptimal()const;
-		bool testAvgSpanTreeParetoOptimal()const;
+
+		bool testParetoOptimality(filterType) const;
 
 		bool testVectorParetoOptimal(const std::vector<double> &) const;
 

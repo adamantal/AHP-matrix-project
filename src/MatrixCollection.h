@@ -2,6 +2,7 @@
 #define MATRIXCOLLECTION_H
 
 class Matrix;
+enum filterType;
 
 #include <vector>
 #include <string>
@@ -10,13 +11,6 @@ class Matrix;
 
 typedef std::vector<Matrix>::iterator iterator;
 
-enum filterType {
-	Inconsistency = 0,
-	Consistency = 1,
-	EigenValueMethod = 2,
-	AverageSpanTreeMethod = 3,
-	CosineMethod = 4
-};
 //TODO: structural change in filters
 
 class MatrixCollection {
@@ -32,13 +26,8 @@ class MatrixCollection {
 		void add(Matrix &);
 		Matrix& operator[](size_t);
 
-		//core functions:
-		MatrixCollection applyInconsistencyFilter();
-		MatrixCollection applyConsistencyFilter();
-		MatrixCollection applyEigenvalueMethodFilter();
-		MatrixCollection applyCosineMethodFilter();
-
-		MatrixCollection applyAvgSpanTreeFilter();
+		//core function:
+		MatrixCollection applyFilter(filterType);
 
 		//file interaction:
 		bool saveToFile(std::string filename);
