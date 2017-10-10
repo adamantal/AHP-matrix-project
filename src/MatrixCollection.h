@@ -1,21 +1,16 @@
 #ifndef MATRIXCOLLECTION_H
 #define MATRIXCOLLECTION_H
 
-class Matrix;
-enum filterType;
-
 #include <vector>
 #include <string>
 #include <iostream>
 #include <set>
+#include "Matrix.h"
 
-typedef std::vector<Matrix>::iterator iterator;
-
-//TODO: structural change in filters
-
+template<size_t N>
 class MatrixCollection {
 	private:
-		std::vector<Matrix> data;
+		std::vector< Matrix<N> > data;
 		size_t tmpindex;
 	public:
 		MatrixCollection();
@@ -23,8 +18,8 @@ class MatrixCollection {
 
 		//inherited function from vector:
 		size_t size();
-		void add(Matrix &);
-		Matrix& operator[](size_t);
+		void add(Matrix<N> &);
+		Matrix<N>& operator[](size_t);
 
 		//core function:
 		MatrixCollection applyFilter(filterType);
@@ -35,8 +30,8 @@ class MatrixCollection {
 
 		void generateCsv(std::string);
 		//iterator:
-		iterator begin();
-		iterator end();
+		typename std::vector< Matrix<N> >::iterator begin();
+		typename std::vector< Matrix<N> >::iterator end();
 		//void erase(iterator);
 
 		//bool checkAssumption();

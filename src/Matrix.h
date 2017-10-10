@@ -1,6 +1,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+template<size_t N>
 class LpSolution;
 
 #include <vector>
@@ -11,6 +12,8 @@ class LpSolution;
 #include "Eigen/Eigenvalues"
 
 const bool verbosity = false;
+
+typedef unsigned short Ush;
 
 struct spair{
 	int a;
@@ -27,49 +30,55 @@ enum filterType {
 	CosineMethod = 4
 };
 
+template<size_t N>
 class Matrix{
 	private:
-		std::vector<int> data; //we store only the indexes of the elem object
+		//we store only the indexes of the elem object:
+		std::vector<Ush> data;
 
-		int indexOfElement(int, int)const;
-		static int indexOfInverse(int);
+		Ush indexOfElement(Ush, Ush)const;
+		static Ush indexOfInverse(Ush);
 		Eigen::MatrixXd toEigenMatrix()const;
+
 	protected:
 		bool testPrimalEigenvectorIsParetoOptimal()const;
 		bool testCosineParetoOptimal()const;
 		bool testAvgSpanTreeParetoOptimal()const;
-	public:
-		static std::vector<double> elem;
 
+	public:
+		//the same for all the matrices:
+		static const std::vector<double> elem;
+
+		//static functions:
 		static void L1(std::vector<double>&);
 
+		//constructors:
 		Matrix();
-		Matrix(const std::vector<int>&);
-		Matrix(int, int, int, int, int, int);
+		Matrix(const std::vector<Ush>&);
 
-		static bool setElem(std::vector<double>);
-
+		//operators:
 		bool operator==(const Matrix &)const;
 		bool operator<(const Matrix &)const;
-		double get(const int &, const int &)const;
-		Matrix permutateBy(int p[])const;
-		long int getIndexOfMatrix()const;
-		std::string toString()const;
-		std::string toIndexString()const;
+
+		//getters:
+		double get(Ush, Ush)const;
+		long long int getIndexOfMatrix()const;
+
+		//IO and its necesssary conversions:
+		std::string toString(bool index = false) const;
+		template<size_t M> friend std::ostream& operator<<(std::ostream&, const Matrix<M> &);
+
+		//functional part:
+		Matrix<N> permutateBy(Ush p[])const;
 		double largestEigenvalue()const;
 		double getConsistencyRatio()const;
 
 		std::vector<double> getPrimalEigenvector()const;
 		std::vector<double> getPrimalNormEigenvector()const;
-
 		std::vector<double> getMeanOfSpans()const;
 
 		bool testParetoOptimality(filterType) const;
-
 		bool testVectorParetoOptimal(const std::vector<double> &) const;
-
-		LpSolution LPVectorParetoOptimal(const std::vector<double> &) const;
-
-		friend std::ostream& operator<<(std::ostream&, const Matrix &);
+		LpSolution<N> LPVectorParetoOptimal(const std::vector<double> &) const;
 };
 #endif

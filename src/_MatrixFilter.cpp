@@ -46,22 +46,55 @@ void filteringMatricesByConsistencyRatio(){
 	std::cout << "Writing and getting all consistency in " << elapsed_secs << " secs." << std::endl;
 }
 */
-int main() {
+int main(int argc, char* argv[]) {
+	if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " [parameter] " << std::endl;
+  	return 1;
+  }
+
 	//It is always important, to set this:
-	matrixInit::setElement();
 	clock_t begin,end;
 	double elapsed_secs;
 
-	//Checking the consistency ratio for all the matrices:
 	begin = clock();
-	MatrixCollection m = MatrixCollection::readFromFile("../res/allMatrices.mt");
-	std::cout << "Read!\n";
-	std::vector<double> ratios(m.size());
 
-	for (size_t i = 0; i < m.size(); i++) {
-		ratios[i] = m[i].getConsistencyRatio();
+	std::string s = std::string(argv[1]);
+	if (s == "ALL") {
+		matrixInit::generateAllToFile<4>();
 	}
-	std::cout << "Done!\n";
 
+	else if (s == "CONS") {
+		MatrixCollection<4> m = MatrixCollection<4>::readFromFile("../res/allMatrices.mt");
+		std::cout << "Matrices are read.\n";
+		MatrixCollection<4> m1 = m.applyFilter(filterType::Consistency);
+		std::cout << "The number of consistent (<0.1) matrices: " << m1.size() << "\n";
+		m1.saveToFile("../res/consistents.mt");
+		std::cout << "Matrices saved.\n";
+	}
+
+	else if (s == "FILTER") {
+		MatrixCollection<4> m = MatrixCollection<4>::readFromFile("../res/consistents.mt");
+		std::cout << "Matrices are read.\n";
+		MatrixCollection<4> m2 = m.applyFilter(filterType::EigenVectorMethod);
+		m2.saveToFile("../res/eigenPareto.mt");
+		std::cout << "The number of consistent matrices by eigenvector method: " << m2.size() << "\n";
+		MatrixCollection<4> m3 = m.applyFilter(filterType::AverageSpanTreeMethod);
+		m3.saveToFile("../res/avgspanPareto.mt");
+		std::cout << "The number of consistent matrices by avg spantree method: " << m3.size() << "\n";
+		
+		m = MatrixCollection<4>::readFromFile("../res/consistents.mt");
+		MatrixCollection<4> m4 = m.applyFilter(filterType::CosineMethod);
+		m4.saveToFile("../res/cosinePareto.mt");
+		std::cout << "The number of consistent matrices by cosine method: " << m4.size() << "\n";
+	}
+
+	else {
+		std::cerr << "Parameter not recognised.\n" << std::endl;
+	}
+
+	end = clock();
+	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+
+	std::cout << "Procedure finished in " << elapsed_secs << " secs.\n";
 	return 0;
 }

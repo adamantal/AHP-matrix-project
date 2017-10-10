@@ -1,161 +1,130 @@
 #include "Matrix.h"
 #include "LpSolution.h"
 
-std::vector<double> Matrix::elem = {};
+template<size_t N>
+const std::vector<double> Matrix<N>::elem = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,1.0/2,1.0/3,1.0/4,1.0/5,1.0/6,1.0/7,1.0/8,1.0/9};
+
 const double ConsistencyIndex[] = {0, 1, 2, 4.049, 6.652, 9.435, 12.245, 15.045};
 
-int Matrix::indexOfElement(int k, int l) const{
-	if (k == l) {
+template<size_t N>
+Ush Matrix<N>::indexOfElement(Ush i, Ush j) const {
+	if (i == j)
 		return 0;
+	else if (i < j)
+		return data[j - 1 + (2 * N - i - 3) * i / 2];
+	else {
+		return indexOfInverse(indexOfElement(j, i));
 	}
-	if (k == 0) {
-		if (l == 1) {
-			return data[0];
-		}
-		if (l == 2) {
-			return data[1];
-		}
-		if (l == 3) {
-			return data[2];
-		}
-	}
-	if (k == 1) {
-		if (l == 0) {
-			return indexOfInverse(data[0]);
-		}
-		if (l == 2) {
-			return data[3];
-		}
-		if (l == 3) {
-			return data[4];
-		}
-	}
-	if (k == 2) {
-		if (l == 0) {
-			return indexOfInverse(data[1]);
-		}
-		if (l == 1) {
-			return indexOfInverse(data[3]);
-		}
-		if (l == 3) {
-			return data[5];
-		}
-	}
-	if (k == 3) {
-		if (l == 0) {
-			return indexOfInverse(data[2]);
-		}
-		if (l == 1) {
-			return indexOfInverse(data[4]);
-		}
-		if (l == 2) {
-			return indexOfInverse(data[5]);
-		}
-	}
-	return -1;
-}
-int Matrix::indexOfInverse(int i){
-	if (i == 0) {
-		return 0;
-	}
-	if (i > 8) {
-		return i - 8;
-	} else {
-		return i + 8;
-	}
-	return 0;
 }
 
-Matrix::Matrix() {
-	data = std::vector<int>();
-	for (int i = 0; i < 6; i++) {
+template<size_t N>
+Ush Matrix<N>::indexOfInverse(Ush i){
+	if (i == 0)
+		return 0;
+	if (i > 8)
+		return i - 8;
+	else
+		return i + 8;
+}
+
+template<size_t N>
+Matrix<N>::Matrix() {
+	data = std::vector<Ush>();
+	for (size_t i = 0; i < N; i++) {
 		data.push_back(0);
 	}
 }
-Matrix::Matrix(const std::vector<int> &v) {
-	if (v.size() == 6) {
+
+template<size_t N>
+Matrix<N>::Matrix(const std::vector<Ush> &v) {
+	if (v.size() == N * (N - 1) / 2)
 		data = v;
-	} else {
-		Matrix();
-		std::cout << "Invalid amount of elements." << std::endl;
-	}
+	else
+		throw "Invalid amount of elements!\n";
 }
-Matrix::Matrix(int a1, int a2, int a3, int a4, int a5, int a6) {
-	data.push_back(a1);
-	data.push_back(a2);
-	data.push_back(a3);
-	data.push_back(a4);
-	data.push_back(a5);
-	data.push_back(a6);
-}
-bool Matrix::setElem(std::vector<double> arg){
-	Matrix::elem = arg;
-	return true;
-}
-bool Matrix::operator==(const Matrix &rhs) const{
+
+template<size_t N>
+bool Matrix<N>::operator==(const Matrix &rhs) const{
+	//it is OK! C++11
 	return data == rhs.data;
 }
-bool Matrix::operator<(const Matrix &rhs) const{
-	for (size_t i = 0; i < data.size(); i++) {
-		if (data[i] < rhs.data[i]) return true;
+
+template<size_t N>
+bool Matrix<N>::operator<(const Matrix &rhs) const{
+	for (size_t i = 0; i < N; i++) {
+		if (data[i] < rhs.data[i])
+			return true;
+		else if (data[i] > rhs.data[i])
+			return false;
 	}
 	return false;
 }
-double Matrix::get(const int &i, const int &j)const{
+
+template<size_t N>
+double Matrix<N>::get(Ush i, Ush j)const{
 	 return Matrix::elem[indexOfElement(i,j)];
 }
-Matrix Matrix::permutateBy(int p[])const {
-	return Matrix(indexOfElement(p[0],p[1]),
-		indexOfElement(p[0],p[2]),indexOfElement(p[0],p[3]),
-		indexOfElement(p[1],p[2]),indexOfElement(p[1],p[3]),
-		indexOfElement(p[2],p[3]));
+
+template<size_t N>
+Matrix<N> Matrix<N>::permutateBy(Ush p[])const {
+	//TODO: resolve this problem here!!!
+	if (N == 4) {
+		return Matrix({indexOfElement(p[0],p[1]),
+			indexOfElement(p[0],p[2]),indexOfElement(p[0],p[3]),
+			indexOfElement(p[1],p[2]),indexOfElement(p[1],p[3]),
+			indexOfElement(p[2],p[3])});
+	} else {
+		throw "This part of the code is not implemented!\n";
+		return Matrix<N>();
+	}
 }
-long int Matrix::getIndexOfMatrix() const {
-	return 17*(17*(17*(17*(17*data[0]+data[1])+data[2])+data[3])+data[4]) + data[5];
+
+//have to check and compare with INT_MAX
+template<size_t N>
+long long int Matrix<N>::getIndexOfMatrix() const {
+	return 17 * (17 * (17 * (17 * (17 * data[0] + data[1]) + data[2]) + data[3]) + data[4]) + data[5];
 }
-std::string Matrix::toString() const{
+
+template<size_t N>
+std::string Matrix<N>::toString(bool index /*= false*/) const{
 	std::stringstream ss;
 	ss.precision(5);
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			ss << Matrix::elem[indexOfElement(i,j)] << "\t";
+	for (size_t i = 0; i < N; i++) {
+		for (size_t j = 0; j < N; j++) {
+			if (index)
+				ss << indexOfElement(i,j) << "\t";
+			else
+				ss << Matrix::elem[indexOfElement(i,j)] << "\t";
+
 		}
-		if (i != 3) {
+		if (i != N - 1) {
 			ss << "\n";
 		}
 	}
 	return ss.str();
 }
-std::string Matrix::toIndexString()const{
-	std::stringstream ss;
-	//ss.precision(5);
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			ss << indexOfElement(i,j) << "\t";
-		}
-		if (i != 3) {
-			ss << "\n";
-		}
-	}
-	return ss.str();
-}
-std::ostream& operator<<(std::ostream& os, const Matrix& m){
+
+template<size_t N>
+std::ostream& operator<<(std::ostream& os, const Matrix<N>& m){
 	os << m.toString();
 	return os;
 }
 
-Eigen::MatrixXd Matrix::toEigenMatrix()const{
-	Eigen::MatrixXd m(4,4);
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			m(i,j) = elem[indexOfElement(i,j)];
+template<size_t N>
+Eigen::MatrixXd Matrix<N>::toEigenMatrix()const{
+	Eigen::MatrixXd m;
+	m = Eigen::MatrixXd(N,N);
+	for (size_t i = 0; i < N; i++) {
+		for (size_t j = 0; j < N; j++) {
+			m(i,j) = Matrix::elem[indexOfElement(i,j)];
 		}
 	}
 	return m;
 }
 
-double Matrix::largestEigenvalue()const{
-	Eigen::MatrixXd m(4,4);
+template<size_t N>
+double Matrix<N>::largestEigenvalue()const{
+	Eigen::MatrixXd m(N, N);
 	m = toEigenMatrix();
 
 	Eigen::VectorXcd eigenvals = m.eigenvalues();
@@ -168,16 +137,17 @@ double Matrix::largestEigenvalue()const{
 	return largestEigVal;
 }
 
-double Matrix::getConsistencyRatio()const{
-	Eigen::MatrixXd m(4,4);
+template<size_t N>
+double Matrix<N>::getConsistencyRatio()const{
+	Eigen::MatrixXd m(N, N);
 	m = toEigenMatrix();
 
 	return (largestEigenvalue()-m.rows())/(ConsistencyIndex[m.rows()]-m.rows());
 }
 
-
-std::vector<double> Matrix::getPrimalEigenvector()const{
-	Eigen::MatrixXd m(4,4);
+template<size_t N>
+std::vector<double> Matrix<N>::getPrimalEigenvector()const{
+	Eigen::MatrixXd m(N, N);
 	m = toEigenMatrix();
 
 	Eigen::EigenSolver<Eigen::MatrixXd> eigenSolver(m);
@@ -199,21 +169,19 @@ std::vector<double> Matrix::getPrimalEigenvector()const{
 	}
 
 	std::vector<double> lambda_1;
-	for (int i = 0; i < 4; i++) {
+	for (size_t i = 0; i < N; i++) {
 		double tmpelement = eigenSolver.eigenvectors().col(which)[i].real();
 		lambda_1.push_back(tmpelement);
 	}
 
-	/*for (int i = 0; i < 4; i ++) std::cout << lambda_1[i] << " ";
-	std::cout << std::endl;*/
-
 	return lambda_1;
 }
 
-std::vector<double> Matrix::getPrimalNormEigenvector()const{
+template<size_t N>
+std::vector<double> Matrix<N>::getPrimalNormEigenvector() const {
 	std::vector<double> v = getPrimalEigenvector();
 	std::vector<double> tmp;
-	for (int i = 0; i < 4; i++) {
+	for (size_t i = 0; i < N; i++) {
 		tmp.push_back(v[i] / v[0]);
 	}
 	/*for (int i = 0; i < 4; i ++) std::cout << tmp[i] << " ";
@@ -221,25 +189,28 @@ std::vector<double> Matrix::getPrimalNormEigenvector()const{
 	return tmp;
 }
 
-void Matrix::L1(std::vector<double> &v){
+template<size_t N>
+void Matrix<N>::L1(std::vector<double> &v){
 	double sum = 0;
-	for (int i = 0; i < 4; i++) sum += v[i];
-	for (int i = 0; i < 4; i++) v[i] /= sum;
+	for (size_t i = 0; i < N; i++) sum += v[i];
+	for (size_t i = 0; i < N; i++) v[i] /= sum;
 }
 
-bool Matrix::testPrimalEigenvectorIsParetoOptimal()const{
+template<size_t N>
+bool Matrix<N>::testPrimalEigenvectorIsParetoOptimal()const{
 	std::vector<double> lambda_1 = getPrimalNormEigenvector();
 
 	return Matrix::testVectorParetoOptimal(lambda_1);
 }
 
-bool Matrix::testVectorParetoOptimal(const std::vector<double> &w) const {
-	//std::cout << "Return of the LP is " << Matrix::testVectorParetoOptimal(lambda_1) << std::endl;
+template<size_t N>
+bool Matrix<N>::testVectorParetoOptimal(const std::vector<double> &w) const {
 	if (Matrix::LPVectorParetoOptimal(w).isOptimal()) return true;
 	return false;
 }
 
-bool Matrix::testParetoOptimality(filterType filter) const{
+template<size_t N>
+bool Matrix<N>::testParetoOptimality(filterType filter) const{
 	switch (filter){
 		case (filterType::EigenVectorMethod) :
 			return Matrix::testPrimalEigenvectorIsParetoOptimal();
@@ -255,8 +226,10 @@ bool Matrix::testParetoOptimality(filterType filter) const{
 		}
 }
 
-LpSolution Matrix::LPVectorParetoOptimal(const std::vector<double> &w) const {
+template<size_t N>
+LpSolution<N> Matrix<N>::LPVectorParetoOptimal(const std::vector<double> &w) const {
 	//Inputs: A matrix and w vector
+		if (w.size() != N) throw "invalid length of vector!\n";
 
 		if (verbosity) std::cout << "The input matrix: \n" << *this << std::endl;
 		if (verbosity) {
@@ -270,10 +243,10 @@ LpSolution Matrix::LPVectorParetoOptimal(const std::vector<double> &w) const {
 		std::vector<std::vector<double> > logm;
 
 		if (verbosity) std::cout << "Pairs in set I:" << std::endl;
-		for (int i = 0; i < 4; i++) {
+		for (size_t i = 0; i < N; i++) {
 			v.push_back(log(w[i]));
 			std::vector<double> logmrow;
-			for (int j = 0; j < 4; j++) {
+			for (size_t j = 0; j < N; j++) {
 				logmrow.push_back(log(get(i,j)));
 				if ((w[i]/w[j] - get(i,j)) > pow(10.0,-8.0)) {
 					spair tmp(i,j);
@@ -289,8 +262,8 @@ LpSolution Matrix::LPVectorParetoOptimal(const std::vector<double> &w) const {
 			std::cout << "\n";
 		}
 
-		for (int i = 0; i < 4; i++) {
-			for (int j = i + 1; j < 4; j++) {
+		for (size_t i = 0; i < N; i++) {
+			for (size_t j = i + 1; j < N; j++) {
 				if (std::abs(w[i]/w[j] - get(i,j)) < pow(10.0,-8.0)) {
 					spair tmp(i,j);
 					J.push_back(tmp);
@@ -303,7 +276,7 @@ LpSolution Matrix::LPVectorParetoOptimal(const std::vector<double> &w) const {
 		std::vector<lemon::Lp::Col> y; //y=log(x)
 		std::vector<lemon::Lp::Col> s; //s=log(t)
 		if (verbosity) std::cout << "The LP:\n";
-		for (int i = 0; i < 4; i++) { //y-k definialva
+		for (size_t i = 0; i < N; i++) { //y-k definialva
 			lemon::Lp::Col tmp = LP.addCol();
 			y.push_back(tmp);
 		}
@@ -364,7 +337,7 @@ LpSolution Matrix::LPVectorParetoOptimal(const std::vector<double> &w) const {
 			for (size_t i = 0; i < y.size(); i++) xvector.push_back(exp(LP.primal(y[i])));
 			for (size_t i = 0; i < s.size(); i++) svector.push_back(LP.primal(s[i]));
 
-			LpSolution ret(*this, w, I, J, LP.primal(), xvector, svector);
+			LpSolution<N> ret(*this, w, I, J, LP.primal(), xvector, svector);
 			return ret;
 		} else {
 			if (verbosity) {
@@ -374,28 +347,28 @@ LpSolution Matrix::LPVectorParetoOptimal(const std::vector<double> &w) const {
 			throw "There is an error during making the LP.";
 		}
 }
-bool Matrix::testCosineParetoOptimal()const{
-	const int n = 4;
 
+template<size_t N>
+bool Matrix<N>::testCosineParetoOptimal()const{
 	//initialising b:
 	std::vector<std::vector<double> > b;
 
-	for (size_t i = 0; i < n; i++) {
+	for (size_t i = 0; i < N; i++) {
 		std::vector<double> tmp;
-		for (size_t j = 0; j < n; j++) {
+		for (size_t j = 0; j < N; j++) {
 			tmp.push_back(0.0);
 		}
 		b.push_back(tmp);
 	}
 
 	//calculate the b_ij-s:
-	for (size_t col = 0; col < n; col++) {
+	for (size_t col = 0; col < N; col++) {
 		double colSum = 0.0;
-		for (size_t row = 0; row < n; row++) {
+		for (size_t row = 0; row < N; row++) {
 			colSum += get(row, col) * get(row, col);
 		}
 		colSum = sqrt(colSum);
-		for (size_t row = 0; row < n; row++) {
+		for (size_t row = 0; row < N; row++) {
 			b[row][col] = Matrix::get(row, col) / colSum;
 		}
 	}
@@ -404,9 +377,9 @@ bool Matrix::testCosineParetoOptimal()const{
 	std::vector<double> w;
 
 	//nominators:
-	for (size_t row = 0; row < n; row++) {
+	for (size_t row = 0; row < N; row++) {
 		double tmpsum = 0.0;
-		for (size_t col = 0; col < n; col++) {
+		for (size_t col = 0; col < N; col++) {
 			tmpsum += b[row][col];
 		}
 		w.push_back(tmpsum);
@@ -414,10 +387,10 @@ bool Matrix::testCosineParetoOptimal()const{
 
 	//denominator:
 	double fullSum = 0.0;
-	for (size_t i = 0; i < n; i++) {
-		for (size_t row = 0; row < n; row++) {
+	for (size_t i = 0; i < N; i++) {
+		for (size_t row = 0; row < N; row++) {
 			double colSum = 0.0;
-			for (size_t col = 0; col < n; col++) {
+			for (size_t col = 0; col < N; col++) {
 				colSum += b[row][col];
 			}
 			colSum *= colSum;
@@ -433,13 +406,16 @@ bool Matrix::testCosineParetoOptimal()const{
 	return Matrix::testVectorParetoOptimal(w);
 }
 
-std::vector<double> Matrix::getMeanOfSpans()const{
+template<size_t N>
+std::vector<double> Matrix<N>::getMeanOfSpans()const{
+	if (N != 4) throw ("Currently the average spantree method in 5 or higher dimensions is not implemented!\n");
+
 	struct VectorAdd{
 		std::vector<double> n;
 
 		VectorAdd(){
 			std::vector<double> k;
-			for (int i = 0; i < 4; i++){
+			for (size_t i = 0; i < N; i++){
 				k.push_back(0.0);
 			}
 			n = k;
@@ -447,16 +423,16 @@ std::vector<double> Matrix::getMeanOfSpans()const{
 		VectorAdd(std::vector<double> v):n(v){}
 		void add(std::vector<double> v) {
 			double sum = 0;
-			for (int i = 0; i < 4; i++) v[i] = exp(v[i]);
-			for (int i = 0; i < 4; i++) sum += v[i];
-			for (int i = 0; i < 4; i++) v[i] /= sum;
+			for (size_t i = 0; i < N; i++) v[i] = exp(v[i]);
+			for (size_t i = 0; i < N; i++) sum += v[i];
+			for (size_t i = 0; i < N; i++) v[i] /= sum;
 
-			for (int i = 0; i < 4; i++){
+			for (size_t i = 0; i < N; i++){
 				n[i] += v[i];
 			}
 		}
 		void divideBy(double x){
-			for (int i = 0; i < 4; i++) n[i] /= x;
+			for (size_t i = 0; i < N; i++) n[i] /= x;
 		}
 		std::vector<double> getData(){
 			return n;
@@ -524,8 +500,7 @@ std::vector<double> Matrix::getMeanOfSpans()const{
 	return b.getData();
 }
 
-bool Matrix::testAvgSpanTreeParetoOptimal()const{
-		std::vector<double> v = getMeanOfSpans();
-
-		return Matrix::testVectorParetoOptimal(v);
+template<size_t N>
+bool Matrix<N>::testAvgSpanTreeParetoOptimal()const {
+		return Matrix::testVectorParetoOptimal(getMeanOfSpans());
 }

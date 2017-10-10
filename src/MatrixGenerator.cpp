@@ -1,19 +1,19 @@
 namespace matrixInit {
 	const long int limit = 24137569;
 
-	MatrixCollection getAllMatrices() {
+	MatrixCollection<4> getAllMatrices() {
 		//std::cout << "Loading all the matrices... " << std::endl;
-		MatrixCollection vec;
+		MatrixCollection<4> vec;
 		long int i = 0;
-		for (unsigned short i1 = 0; i1 < Matrix::elem.size(); i1++) {
+		for (unsigned short i1 = 0; i1 < Matrix<4>::elem.size(); i1++) {
 			//std::cout << "Loading datas: " << i1 << "/" << Matrix::elem.size() << std::endl;
-			for (unsigned short i2 = 0; i2 < Matrix::elem.size(); i2++) {
-				for (unsigned short i3 = 0; i3 < Matrix::elem.size(); i3++) {
-					for (unsigned short i4 = 0; i4 < Matrix::elem.size(); i4++) {
-						for (unsigned short i5 = 0; i5 < Matrix::elem.size(); i5++) {
-							for (unsigned short i6 = 0; i6 < Matrix::elem.size(); i6++) {
-								std::vector<int> k = {i1,i2,i3,i4,i5,i6};
-								Matrix tmp(k);
+			for (unsigned short i2 = 0; i2 < Matrix<4>::elem.size(); i2++) {
+				for (unsigned short i3 = 0; i3 < Matrix<4>::elem.size(); i3++) {
+					for (unsigned short i4 = 0; i4 < Matrix<4>::elem.size(); i4++) {
+						for (unsigned short i5 = 0; i5 < Matrix<4>::elem.size(); i5++) {
+							for (unsigned short i6 = 0; i6 < Matrix<4>::elem.size(); i6++) {
+								std::vector<Ush> k = {i1,i2,i3,i4,i5,i6};
+								Matrix<4> tmp(k);
 								vec.add(tmp);
 								i++;
 							}
@@ -25,18 +25,20 @@ namespace matrixInit {
 		return vec;
 	}
 
-	void takeOutPermutationOfIt(MatrixCollection &vec, size_t &i, std::vector<bool> &check) {
-		int perm[] = {0,1,2,3};
+	template<size_t N>
+	void takeOutPermutationOfIt(MatrixCollection<N> &vec, size_t &i, std::vector<bool> &check) {
+		Ush perm[] = {0,1,2,3};
 		while ( std::next_permutation(perm,perm+4) ) {
-			Matrix tmp = vec[i].permutateBy(perm);
+			Matrix<N> tmp = vec[i].permutateBy(perm);
 			size_t matrixi = tmp.getIndexOfMatrix();
 			check[matrixi] = true;
 		}
 	}
 
-	MatrixCollection takeOutAllPermutations(MatrixCollection &vecold, std::vector<bool> &check) {
+	template<size_t N>
+	MatrixCollection<N> takeOutAllPermutations(MatrixCollection<N> &vecold, std::vector<bool> &check) {
 		size_t k = 0;
-		MatrixCollection vecnew;
+		MatrixCollection<N> vecnew;
 		for (auto it = vecold.begin(); it != vecold.end(); it++) {
 			/*if (k % 241376 == 0) {
 				std::cout << k/241376.0 << " percent has so far" << std::endl;
@@ -48,29 +50,25 @@ namespace matrixInit {
 			}
 			k++;
 		}
-		std::cout << k << "elements\n";
 		return vecnew;
 	}
 
-	void setElement(){
-		std::vector<double> tmpvec = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,1.0/2,1.0/3,1.0/4,1.0/5,1.0/6,1.0/7,1.0/8,1.0/9};
-		Matrix::setElem(tmpvec);
-	}
-
+	template<size_t N>
 	bool generateAllToFile() {
+		std::cout << "Procedure started.\n";
 		std::vector<bool> checkedMatrices(limit);
 		for (std::vector<bool>::iterator it = checkedMatrices.begin();
 			it != checkedMatrices.end(); it++) {
 			*it = false;
 		}
 
-		MatrixCollection vec = getAllMatrices();
+		std::cout << "Getting all matrices.\n";
+		MatrixCollection<N> vec = getAllMatrices();
 
-		std::cout << (vec.size() == limit) << std::endl;
-
-		MatrixCollection vecfiltered = takeOutAllPermutations(vec, checkedMatrices);
-
-		std::cout << vecfiltered.size() << std::endl;
+		std::cout << "The size is " << ((vec.size() == limit)? "correct." : "not correct.") << std::endl;
+		std::cout << "Taking out duplicated elements.\n";
+		MatrixCollection<N> vecfiltered = takeOutAllPermutations(vec, checkedMatrices);
+		std::cout << "Saving to file " << vecfiltered.size() << " elements.\n";
 
 		vecfiltered.saveToFile("../res/allMatrices.mt");
 		return true;

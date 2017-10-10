@@ -6,10 +6,11 @@
 #include<set>
 #include<algorithm>
 
+template<size_t N>
 class LpSolution {
   private:
     //which does not requires the LP:
-    Matrix matrix;
+    Matrix<N> matrix;
     std::vector<double> initv;
     std::vector<spair> I,J;
 
@@ -18,9 +19,9 @@ class LpSolution {
     std::vector<double> x;
     std::vector<double> s;
   public:
-    LpSolution(Matrix m, std::vector<double> v, std::vector<spair> i,  std::vector<spair> j, double val, std::vector<double> xv, std::vector<double> sv)
+    LpSolution(Matrix<N> m, std::vector<double> v, std::vector<spair> i,  std::vector<spair> j, double val, std::vector<double> xv, std::vector<double> sv)
       :matrix(m), initv(v), I(i), J(j), value(val), x(xv), s(sv)  {}
-    bool isOptimal(){
+    bool isOptimal() {
       return (value > -1e-8);
     }
 
@@ -29,7 +30,7 @@ class LpSolution {
       std::cout << matrix << std::endl;
 
       std::cout << "Vector: \n";
-      for (short i = 0; i < 4; i++) std::cout << initv[i] << " ";
+      for (size_t i = 0; i < N; i++) std::cout << initv[i] << " ";
       std::cout << std::endl << std::endl;
 
       std::cout << "Elements of I: ";
@@ -43,7 +44,7 @@ class LpSolution {
       std::cout << value << std::endl;
 
       std::cout << "x: \n";
-      for (short i = 0; i < 4; i++) std::cout << x[i] << " ";
+      for (size_t i = 0; i < N; i++) std::cout << x[i] << " ";
       std::cout << std::endl;
 
       std::cout << "s: \n";
@@ -51,15 +52,15 @@ class LpSolution {
       std::cout << std::endl;
     }
 
-    Matrix getMatrix()const{ return matrix; }
+    Matrix<N> getMatrix()const{ return matrix; }
     std::vector<double> getw(){ return initv; }
     std::vector<double> getx(){ return x; }
     std::vector<double> getxnorm(){
       std::vector<double> tmp = x;
       double sum = 0;
-      for (int i = 0; i < 4; i++) sum += x[i];
+      for (size_t i = 0; i < N; i++) sum += x[i];
       if (abs(sum) > 1e-6) {
-        for (int i = 0; i < 4; i++) tmp[i] /= sum;
+        for (size_t i = 0; i < N; i++) tmp[i] /= sum;
       }
       return tmp;
     }
@@ -74,7 +75,7 @@ class LpSolution {
         }
       }
       int specialIndex = -1;
-      for (int i = 0; i < 4; i++){
+      for (size_t i = 0; i < N; i++){
         if (std::find(indexes.begin(), indexes.end(), i) == indexes.end()) {
           specialIndex = i;
           break;
@@ -85,11 +86,11 @@ class LpSolution {
       //std::cout << "Ind: " << specialIndex << "\n";
 
       std::vector<std::vector<double>> returns;
-      for (int i = 0; i < 4; i++) {
+      for (size_t i = 0; i < N; i++) {
         if (i != specialIndex) {
           std::vector<double> tmp = x;
           tmp[specialIndex] = matrix.get(specialIndex, i) * x[i];
-          Matrix::L1(tmp);
+          Matrix<N>::L1(tmp);
           returns.push_back(tmp);
         }
       }
@@ -98,7 +99,7 @@ class LpSolution {
       std::vector<double> xnorm = getxnorm();
       for (auto it = begin(returns); it != end(returns); it++) {
         bool equal = true;
-        for (int i = 0; i < 4; i++) {
+        for (size_t i = 0; i < N; i++) {
           if (abs((*it)[i] - xnorm[i]) > 1e-6) {
             equal = false;
             break;
@@ -114,10 +115,10 @@ class LpSolution {
       //mi van ha kettő megegyezik? - ezen szűk mátrixlistákban nem fordul elő - mi van a nagyobb halmazzal?
 
       if (returns[0][0] < returns[1][0]) {
-        for (int i = 0; i < 4; i++) returns[0].push_back(returns[1][i]);
+        for (size_t i = 0; i < N; i++) returns[0].push_back(returns[1][i]);
         return returns[0];
       } else {
-        for (int i = 0; i < 4; i++) returns[1].push_back(returns[0][i]);
+        for (size_t i = 0; i < N; i++) returns[1].push_back(returns[0][i]);
         return returns[1];
       }
     }

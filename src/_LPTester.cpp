@@ -14,14 +14,40 @@
 #include "LpSolution.h"
 
 int main() {
-	matrixInit::setElement();
-
-	Matrix M1(6,5,4,9,0,9); //It is the main example in the article
+	Matrix<4> M1({6, 5, 4, 9, 0, 9}); //It is the main example in the article
 	std::vector<double> w = {0.64737128, 0.09361541, 0.11588291 , 0.14313040}; //An example vector testing its consistency
-	Matrix M2(0,5,5,5,5,0); //1,6,6,6,6,1 - note, that it has CR = 0 !
-	Matrix M3(0, 0, 2, 1, 1, 4); //1 1	3	2	2	5
-	Matrix M4(0, 3, 8, 6, 4, 3);
+	Matrix<4> M2({0,5,5,5,5,0}); //1,6,6,6,6,1 - note, that it has CR = 0 !
+	Matrix<4> M3({0, 0, 2, 1, 1, 4}); //1 1	3	2	2	5
+	Matrix<4> M4({0, 3, 8, 6, 4, 3});
 	std::vector<double> w4 = {0.404518, 0.436173, 0.110295, 0.049014};
+
+	//Matrix<5> M5({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
+	Matrix<6> M6(
+	{
+		3, 2, 0, 2, 3,
+		   6, 2, 12, 0,
+			    12, 12, 13,
+					   0, 10,
+						 	 2
+	});
+
+	std::cout << M6 << std::endl;
+	std::cout << M6.testParetoOptimality(filterType::CosineMethod) << std::endl;
+
+	//testing input/output of matrixcollection
+	/*
+	std::cout << M1 << std::endl;
+	MatrixCollection<4> ex;
+	ex.add(M1);
+	std::cout << ex.size() << "\n";
+	std::cout << "Hello!\n";
+	ex.saveToFile("../res/MatrixTest.mt");
+	std::cout << "It does not look so great!\n";
+
+	MatrixCollection<4> re = MatrixCollection<4>::readFromFile("../res/MatrixTest.mt");
+	std::cout << "Heyyy\n";
+	std::cout << re[0] << std::endl;
+	*/
 
 //Testing rerun:
 	/*std::cout << (M4.testPrimalEigenvectorIsParetoOptimal()?"true":"false") << std::endl;
@@ -88,11 +114,16 @@ int main() {
 
 
 	begin = clock();
-	MatrixCollection C = MatrixCollection::readFromFile("../res/consistents.mt");
+	MatrixCollection<4> C = MatrixCollection<4>::readFromFile("../res/consistents.mt");
 	std::cout << "The size is " << C.size() << " (consistents)" << std::endl;
-	C = C.applyCosineMethodFilter();
+	size_t x = C.size();
+	C.applyFilter(filterType::Consistency);
+	std::cout << "The size is " << C.size() << " after double check." << std::endl;
+	if (x != C.size()) throw "OMG";
+
+	C = C.applyFilter(filterType::CosineMethod);
 	std::cout << "The size is " << C.size() << " after applying cosine method filter" << std::endl;
-	C.saveToFile("../res/consistentCosines.mt");
+	//C.saveToFile("../res/consistentCosines.mt");
 	end = clock();
 	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 	std::cout << "It takes " << elapsed_secs << " secs." << std::endl;

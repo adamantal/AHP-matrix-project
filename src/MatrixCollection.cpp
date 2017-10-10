@@ -1,35 +1,48 @@
 #include "Matrix.h"
 #include "MatrixCollection.h"
 
-MatrixCollection::MatrixCollection():
-	data(std::vector<Matrix>()),
+template<size_t N>
+MatrixCollection<N>::MatrixCollection():
+	data(std::vector<Matrix<N>>()),
 	tmpindex(0){}
 
-void MatrixCollection::add(Matrix &m){
+template<size_t N>
+void MatrixCollection<N>::add(Matrix<N> &m){
 	data.push_back(m);
 }
 
-Matrix& MatrixCollection::operator[](size_t ind){
+template<size_t N>
+Matrix<N>& MatrixCollection<N>::operator[](size_t ind) {
 	return data[ind];
 }
 
-size_t MatrixCollection::size(){
+template<size_t N>
+size_t MatrixCollection<N>::size(){
 	return data.size();
 }
 
-bool MatrixCollection::saveToFile(std::string filename){
+template<size_t N>
+bool MatrixCollection<N>::saveToFile(std::string filename){
 	std::ofstream F;
 	F.open(filename);
+
+	if (!F.is_open()) {
+		std::cout << "File can not be opened, please check file!\n";
+		throw "FILE CAN NOT BE OPENED.";
+	}
+
 	size_t c = 0;
 	for (auto i = data.begin(); i != data.end(); i++) {
 		F << "#" << c++ << std::endl;
-		F << i->toIndexString() << std::endl;
+		F << i->toString(true) << std::endl;
 	}
 	F.close();
 	return true;
 }
 
-MatrixCollection MatrixCollection::readFromFile(std::string filename) {
+template<size_t N>
+MatrixCollection<N> MatrixCollection<N>::readFromFile(std::string filename) {
+	if (N != 4) throw "The readFromFile method has not been implemented for 5 or greater dimensions.";
 	std::ifstream I;
 	I.open(filename);
 
@@ -38,54 +51,37 @@ MatrixCollection MatrixCollection::readFromFile(std::string filename) {
 		throw "FILE CAN NOT BE OPENED.";
 	}
 
-	MatrixCollection mc;
-	std::string x;
+	MatrixCollection<N> mc;
+	std::string s;
 
-	while (I >> x) {
-		std::vector<int> vv;
-		std::string tmp1;
-		I >> tmp1;
-		for (int i = 0; i < 3; i++) {
-			std::string cha;
-			I >> cha;
-			int tmpint = std::stoi(cha);
-			vv.push_back(tmpint);
+	while (I >> s) {
+		std::vector<Ush> elements;
+		for (size_t i = 0; i < N; i++) {
+			for (size_t j = 0; j < N; j++) {
+				std::string tmp;
+				I >> tmp;
+				if (i < j) {
+					Ush elem = std::stoi(tmp);
+					elements.push_back(elem);
+				}
+			}
 		}
-		for (int i = 0; i < 2; i++) {
-			std::string cha;
-			I >> cha;
-		}
-		for (int i = 0; i < 2; i++) {
-			std::string cha;
-			I >> cha;
-			int tmpint = std::stoi(cha);
-			vv.push_back(tmpint);
-		}
-		for (int i = 0; i < 3; i++) {
-			std::string cha;
-			I >> cha;
-		}
-		I >> tmp1;
-		int tmpint = std::stoi(tmp1);
-		vv.push_back(tmpint);
-		for (int i = 0; i < 4; i++) {
-			std::string cha;
-			I >> cha;
-		}
-		Matrix m = Matrix(vv);
-		mc.add(m);
+		Matrix<N> tmpm(elements);
+		mc.add(tmpm);
 	}
 	I.close();
 
 	return mc;
 }
 
-typedef std::vector<Matrix>::iterator iterator;
+template<size_t N>
+typename std::vector< Matrix<N> >::iterator MatrixCollection<N>::begin() { return data.begin(); }
 
-iterator MatrixCollection::begin() { return data.begin(); }
-iterator MatrixCollection::end() { return data.end(); }
+template<size_t N>
+typename std::vector< Matrix<N> >::iterator MatrixCollection<N>::end() { return data.end(); }
 
-MatrixCollection MatrixCollection::applyFilter(filterType filter) {
+template<size_t N>
+MatrixCollection<N> MatrixCollection<N>::applyFilter(filterType filter) {
 	MatrixCollection tmp;
 	switch(filter) {
 		case (filterType::Inconsistency) :
@@ -105,9 +101,7 @@ MatrixCollection MatrixCollection::applyFilter(filterType filter) {
 			}
 			break;
 		case (filterType::EigenVectorMethod) :
-			//no break
 		case (filterType::AverageSpanTreeMethod) :
-			//no break
 		case (filterType::CosineMethod) :
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
@@ -122,7 +116,8 @@ MatrixCollection MatrixCollection::applyFilter(filterType filter) {
 	return tmp;
 }
 
-void MatrixCollection::generateCsv(std::string filename){
+template<size_t N>
+void MatrixCollection<N>::generateCsv(std::string filename){
 	std::ofstream F;
 	F.open(filename);
 	//TODO: header?
@@ -135,7 +130,7 @@ void MatrixCollection::generateCsv(std::string filename){
 			<< it->getConsistencyRatio() << ", , "
 			<< it->getPrimalNormEigenvector()[0] << ", " << it->getPrimalNormEigenvector()[1] << ", " << it->getPrimalNormEigenvector()[2] << ", " << it->getPrimalNormEigenvector()[3] << ", , ";
 
-				LpSolution lp = it->LPVectorParetoOptimal(it->getPrimalNormEigenvector());
+				LpSolution<N> lp = it->LPVectorParetoOptimal(it->getPrimalNormEigenvector());
 				std::vector<double> vec = lp.getxnorm();
 		F << vec[0] << ", " << vec[1] << ", " << vec[2] << ", " << vec[3] << ", , ";
 				std::vector<double> oth = lp.getOtherTwoVector();
@@ -145,16 +140,3 @@ void MatrixCollection::generateCsv(std::string filename){
 	}
 	F.close();
 }
-
-/*bool MatrixCollection::checkAssumption(){
-	for (auto it = data.begin(); it != std::end(data); it++){
-		std::cout << "#" << std::distance(data.begin(), it) << std::endl;
-		LpSolution lp = it->LPVectorParetoOptimal(it->getPrimalNormEigenvector());
-		std::cout << "Hi";
-		if (std::distance(data.begin(), it) == 6) {
-			lp.printOutData();
-		}
-		if (lp.getOtherTwoVector() != 2) return false;
-	}
-	return true;
-}*/

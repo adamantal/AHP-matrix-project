@@ -12,17 +12,15 @@
 #include "MatrixGenerator.cpp"
 
 int main() {
-  matrixInit::setElement();
-
   //Checking the consistency ratio for all the matrices:
-  MatrixCollection m = MatrixCollection::readFromFile("../res/allMatrices.mt");
+  MatrixCollection<4> m = MatrixCollection<4>::readFromFile("../res/allMatrices.mt");
   std::cout << "Read finished! The number of matrices is " << m.size() <<"\n";
 
   std::vector<double> ratiosAll;
   std::vector<bool> ratiosEigen,ratiosSpantree,ratiosCosine;
 
   for (size_t i = 0; i < m.size(); i++) {
-    if (i % 10070 == 0) std::cout << ((double(i)) / m.size() * 100) << "%\n";
+    if (i % 10071 == 0) std::cout << std::setprecision(2) << ((double(i)) / m.size() * 100) << "%\n";
     ratiosAll.push_back(m[i].getConsistencyRatio());
     ratiosEigen.push_back(m[i].testParetoOptimality(filterType::EigenVectorMethod));
     ratiosSpantree.push_back(m[i].testParetoOptimality(filterType::AverageSpanTreeMethod));
@@ -33,7 +31,7 @@ int main() {
   std::cout << "Creating histogram...\n";
 
   double steps = 0.0231;
-  double maxConsistency = 3.0;
+  double maxConsistency = 4.0;
   //fmod
   std::vector<unsigned int> bucketsAll((int)floor(maxConsistency / steps));
   std::vector<unsigned int> bucketsEigen((int)floor(maxConsistency / steps));
@@ -59,7 +57,7 @@ int main() {
         bucketsAll[(int)floor(ratiosAll[i] / steps)]++;
         if (!ratiosEigen[i]) bucketsEigen[(int)floor(ratiosAll[i] / steps)]++;
         if (!ratiosSpantree[i]) bucketsSpantree[(int)floor(ratiosAll[i] / steps)]++;
-        if (!ratiosEigen[i] && !ratiosSpantree[i]) bucketsCommon[(int)floor(ratiosAll[i] / steps)]++;
+        if (!ratiosEigen[i] && !ratiosSpantree[i] && !ratiosCosine[i]) bucketsCommon[(int)floor(ratiosAll[i] / steps)]++;
         if (!ratiosCosine[i]) bucketsCosine[(int)floor(ratiosAll[i] / steps)]++;
       }
     }
@@ -77,9 +75,9 @@ int main() {
 
   std::ofstream I("../res/basicHistogram.csv");
   //Header:
-  I << "bucket\tall\teigen\tspantree\tcommon\tcosine\n";
+  I << "interval\t#all\t%eigen\t%spantree\t%cosine\t%common\n";
   for (size_t i = 0; i < bucketsAll.size(); i++) {
-    I << i * steps << "\t" << outputAll[i] << "\t" << outputEigen[i] << "\t" << outputSpantree[i] << "\t" << outputCommon[i] << "\t" << outputCosine[i] << std::endl;
+    I << i * steps << "\t" << outputAll[i] << "\t" << outputEigen[i] << "\t" << outputSpantree[i] << "\t" << outputCosine[i] << "\t" << outputCommon[i] << std::endl;
   }
   I.close();
   std::cout << "Procedure finished.\n";
