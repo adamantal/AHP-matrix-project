@@ -62,7 +62,7 @@ class Matrix{
 
 		//getters:
 		double get(Ush, Ush)const;
-		long long int getIndexOfMatrix()const;
+		unsigned long long int getIndexOfMatrix()const;
 
 		//IO and its necesssary conversions:
 		std::string toString(bool index = false) const;

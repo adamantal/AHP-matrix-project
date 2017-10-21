@@ -81,11 +81,15 @@ int main(int argc, char* argv[]) {
 		MatrixCollection<4> m3 = m.applyFilter(filterType::AverageSpanTreeMethod);
 		m3.saveToFile("../res/avgspanPareto.mt");
 		std::cout << "The number of consistent matrices by avg spantree method: " << m3.size() << "\n";
-		
+
 		m = MatrixCollection<4>::readFromFile("../res/consistents.mt");
 		MatrixCollection<4> m4 = m.applyFilter(filterType::CosineMethod);
 		m4.saveToFile("../res/cosinePareto.mt");
 		std::cout << "The number of consistent matrices by cosine method: " << m4.size() << "\n";
+	}
+
+	else if (s == "5TEST") {
+		matrixInit::generateAllToFile<5>();
 	}
 
 	else {

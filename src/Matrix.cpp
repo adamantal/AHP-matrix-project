@@ -68,21 +68,24 @@ double Matrix<N>::get(Ush i, Ush j)const{
 template<size_t N>
 Matrix<N> Matrix<N>::permutateBy(Ush p[])const {
 	//TODO: resolve this problem here!!!
-	if (N == 4) {
-		return Matrix({indexOfElement(p[0],p[1]),
-			indexOfElement(p[0],p[2]),indexOfElement(p[0],p[3]),
-			indexOfElement(p[1],p[2]),indexOfElement(p[1],p[3]),
-			indexOfElement(p[2],p[3])});
-	} else {
-		throw "This part of the code is not implemented!\n";
-		return Matrix<N>();
+	std::vector<Ush> v;
+	for (size_t i = 0; i < N - 1; i++) {
+		for (size_t j = i + 1; j < N; j++) {
+			v.push_back(indexOfElement(p[i], p[j]));
+		}
 	}
+	return Matrix<N>(v);
 }
 
 //have to check and compare with INT_MAX
 template<size_t N>
-long long int Matrix<N>::getIndexOfMatrix() const {
-	return 17 * (17 * (17 * (17 * (17 * data[0] + data[1]) + data[2]) + data[3]) + data[4]) + data[5];
+unsigned long long int Matrix<N>::getIndexOfMatrix() const {
+	unsigned long long int x = data[0];
+	for (size_t i = 1; i < N * (N - 1) / 2; i++) {
+		x = Matrix<0>::elem.size() * x + data[i];
+	}
+	
+	return x;
 }
 
 template<size_t N>
