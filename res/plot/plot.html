@@ -1,0 +1,91 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+<script>
+  $(document).ready(function() {
+
+      var c = [];
+      var d = [];
+      var e = [];
+      var f = [];
+      var g = [];
+      var h = [];
+
+      $.get('../basicHistogram.csv', function(data) {
+          var lines = data.split('\n');
+          $.each(lines, function(lineNo, line) {
+              if (lineNo != 0) {
+                var items = line.split('\t');
+                c.push(items[0]);
+                d.push(parseInt(items[1]));
+                e.push(parseFloat(items[2]));
+                f.push(parseFloat(items[3]));
+                g.push(parseFloat(items[4]));
+                h.push(parseFloat(items[5]));
+              }
+          });
+
+          var options = {
+                  title: {
+                    text: 'Results of the examined methods'
+                  },
+                  chart: {
+                      type: 'line'
+                  },
+                  plotOptions: {
+                      line: {
+                          marker: {
+                              enabled: false
+                          }
+                      }
+                  },
+
+                  xAxis: {
+                      type: "linear",
+                      categories: c
+                  },
+                  yAxis: [{
+                      title: {
+                          text: 'Number of matrices'
+                      }
+                  }, {
+                      title: {
+                          text: 'Percentage of matrices'
+                      },
+                      opposite: true
+                  }],
+
+                  series: [{
+                      name: 'All',
+                      data: d,
+                      yAxis: 0
+                  }, {
+                      name: 'Eigen%',
+                      data: e,
+                      yAxis: 1
+                  }, {
+                      name: 'SpanTree%',
+                      data: f,
+                      yAxis: 1
+                  }, {
+                      name: 'Cosine%',
+                      data: g,
+                      yAxis: 1
+                  }, {
+                      name: 'Common%',
+                      data: h,
+                      yAxis: 1
+                  }
+                ]
+          };
+
+          console.log(options);
+
+          var chart = new Highcharts.Chart('container', options);
+      });
+    });
+</script>
+
+<body>
+  <div id="container" style="width:100%; height:100%"></div>
+</body>

@@ -89,7 +89,11 @@ int main(int argc, char* argv[]) {
 	}
 
 	else if (s == "5TEST") {
-		matrixInit::generateAllToFile<5>();
+		try {
+			matrixInit::generateAllToFile<5>();
+		} catch (const char * s) {
+			std::cout << s << "\n";
+		}
 	}
 
 	else {

@@ -30,8 +30,8 @@ int main() {
   std::cout << "Consistencies calulcated.\n";
   std::cout << "Creating histogram...\n";
 
-  double steps = 0.0231;
-  double maxConsistency = 4.0;
+  double steps = 0.0135;
+  double maxConsistency = 3.7;
   //fmod
   std::vector<unsigned int> bucketsAll((int)floor(maxConsistency / steps));
   std::vector<unsigned int> bucketsEigen((int)floor(maxConsistency / steps));

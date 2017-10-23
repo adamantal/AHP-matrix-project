@@ -41,4 +41,10 @@ esetleg a hisztogramosba ezt is belevonni?
 
 egy Wenn-diagram esetleg a három fajta módszerből?
 -------------------------------------------------------------------------------------------------------
+okt. 2. körül
+1. Igaz-e hogy a sajátvektort belülről domináló, Pareto-optimális súlyvektor egyértelmű?
+4x4-nél látszik, de mi van magasabb dimenziókban?
+2. Hány db. domináló, Pareto-optimális súlyvektor van?
+3. Kidolgozni a gráfos algoritmust.
+=> cél: az összes domináló Pareto-optimális súlyvektor megkeresése gráfelméleti módszerrel.
 

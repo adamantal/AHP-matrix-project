@@ -58,11 +58,13 @@ class Matrix{
 
 		//operators:
 		bool operator==(const Matrix &)const;
+		bool operator!=(const Matrix & rhs)const{return !(*this == rhs);};
 		bool operator<(const Matrix &)const;
 
 		//getters:
 		double get(Ush, Ush)const;
 		unsigned long long int getIndexOfMatrix()const;
+		static Matrix getMatrixOfIndex(unsigned long long int);
 
 		//IO and its necesssary conversions:
 		std::string toString(bool index = false) const;

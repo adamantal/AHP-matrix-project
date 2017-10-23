@@ -77,15 +77,27 @@ Matrix<N> Matrix<N>::permutateBy(Ush p[])const {
 	return Matrix<N>(v);
 }
 
-//have to check and compare with INT_MAX
+//TODO have to check and compare with INT_MAX
 template<size_t N>
 unsigned long long int Matrix<N>::getIndexOfMatrix() const {
 	unsigned long long int x = data[0];
 	for (size_t i = 1; i < N * (N - 1) / 2; i++) {
 		x = Matrix<0>::elem.size() * x + data[i];
 	}
-	
+
 	return x;
+}
+
+template<size_t N>
+Matrix<N> Matrix<N>::getMatrixOfIndex(unsigned long long int x) {
+	std::vector<Ush> v;
+	for (size_t i = 0; i < N * (N - 1) / 2; i++) {
+		Ush tmp = x % Matrix<0>::elem.size();
+		x /= Matrix<0>::elem.size();
+		v.push_back(tmp);
+	}
+	std::reverse(v.begin(), v.end());
+	return Matrix(v);
 }
 
 template<size_t N>
