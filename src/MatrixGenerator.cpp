@@ -81,34 +81,26 @@ namespace matrixInit {
 	bool generateAllToFile();
 
 	template<>
-	bool generateAllToFile<5>(){
-		size_t sizeN = expn(Matrix<0>::elem.size(), 5 * (5 - 1) / 2);
+	bool generateAllToFile<5>() {
+		std::cout << "Procedure started.\n";
+		MatrixCollection<5> mc;
+		size_t omegaMillion = expn(Matrix<0>::elem.size(), 5 * (5 - 1) / 2) / 1000000;
 
-		std::cout << "Generating vector...\n";
+		std::vector<Ush> v;
+		for (size_t i = 0; i < 5 * (5 - 1) / 2; i++) v.push_back(0);
 
-		std::cout << sizeN << std::endl;
-		std::vector<bool> checkedMatrices(sizeN);
-		for (std::vector<bool>::iterator it = checkedMatrices.begin();
-			it != checkedMatrices.end(); it++) {
-			std::cout << std::distance(checkedMatrices.begin(), it) << "\n";
-			*it = false;
+		std::cout << "Main cycle started.\n";
+		unsigned long long int i = 0;
+
+		for (Matrix<5> local = Matrix<5>(v); i < expn(Matrix<0>::elem.size(), 5 * (5 - 1) / 2); i++, local++) {
+			if (i % 1000 == 0) std::cout << i / 1000 << "k of " << omegaMillion * 1000 << "\n";
+			if (local.getConsistencyRatio() <= 0.1) mc.add(local);
+			//if (local.isMinimalPermutated()) mc.add(local);
 		}
 
-		std::cout << "Iterating through indexes...\n";
-		MatrixCollection<5> matrices;
-		for (size_t i = 0; i < sizeN; i++) {
-			if (i % (sizeN / 100) == 0) std::cout << i / (sizeN / 100) << " percent!\n";
-			if (!checkedMatrices[i]) {
-				Matrix<5> m = Matrix<5>::getMatrixOfIndex(i);
-				matrices.add(m);
+		std::cout << "Saving to file " << mc.size() << " elements.\n";
 
-				takeOutPermutationOfIt(m, checkedMatrices);
-			}
-		}
-
-		std::cout << "Saving to file " << matrices.size() << " elements.\n";
-
-		matrices.saveToFile("../res/all" + std::to_string(5) + "matrices.mt");
+		mc.saveToFile("../res/all" + std::to_string(5) + "matrices.mt");
 		return true;
 	}
 

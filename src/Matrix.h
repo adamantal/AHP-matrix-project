@@ -60,11 +60,14 @@ class Matrix{
 		bool operator==(const Matrix &)const;
 		bool operator!=(const Matrix & rhs)const{return !(*this == rhs);};
 		bool operator<(const Matrix &)const;
+		bool operator>(const Matrix & rhs)const{return !(*this < rhs && *this != rhs);};
+		void operator++(int);
 
 		//getters:
 		double get(Ush, Ush)const;
 		unsigned long long int getIndexOfMatrix()const;
 		static Matrix getMatrixOfIndex(unsigned long long int);
+		bool isMinimalPermutated()const;
 
 		//IO and its necesssary conversions:
 		std::string toString(bool index = false) const;

@@ -61,6 +61,19 @@ bool Matrix<N>::operator<(const Matrix &rhs) const{
 }
 
 template<size_t N>
+void Matrix<N>::operator++(int) {
+	for (auto rit = data.rbegin(); rit != data.rend(); rit++) {
+		if (*rit == Matrix<1>::elem.size() - 1) {
+			*rit = 0;
+		}
+		else {
+			*rit = *rit + 1;
+			return;
+		}
+	}
+}
+
+template<size_t N>
 double Matrix<N>::get(Ush i, Ush j)const{
 	 return Matrix::elem[indexOfElement(i,j)];
 }
@@ -98,6 +111,28 @@ Matrix<N> Matrix<N>::getMatrixOfIndex(unsigned long long int x) {
 	}
 	std::reverse(v.begin(), v.end());
 	return Matrix(v);
+}
+
+template<size_t N>
+bool Matrix<N>::isMinimalPermutated() const {
+	Ush perm[N];
+	for (Ush j = 0; j < N; j++) perm[j] = j;
+
+	//quickTest procedure: IT MIGHT IMPROVE PERFORMANCE
+	/*std::random_shuffle(perm, perm + N);
+	Matrix<N> tmp = this -> permutateBy(perm);
+	if (*this > tmp)
+		return false;*/
+
+	for (Ush j = 0; j < N; j++) perm[j] = j;
+
+	while ( std::next_permutation(perm, perm + N) ) {
+		Matrix<N> tmp = this -> permutateBy(perm);
+		if (*this > tmp) {
+			return false;
+		}
+	}
+	return true;
 }
 
 template<size_t N>
