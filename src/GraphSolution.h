@@ -1,6 +1,10 @@
 #include<iostream>
 #include<vector>
-#include "Matrix.h"
+#include<map>
+
+#include <lemon/lp.h>
+
+#include "Matrix.cpp"
 
 #ifndef GRAPHSOLUTION_H
 #define GRAPHSOLUTION_H
@@ -17,73 +21,35 @@ the matrix
 class MatrixNode {
   private:
     const Ush label;
-    Ush group; //zero means non groupped
-
     double X;
-  public:
-    MatrixNode(Ush l):label(l),group(0),x(-1.0){}
-    Ush getLabel()const{ return label}
-    bool isGroupped()const{return (group != 0);}
-    void setGroup(Ush g){group = g;}
-    Ush getGroup()const{return group;}
+    Ush group;
 
-    void setX(double x){X = x;}
-    double getX()const{}
+  public:
+    MatrixNode(Ush l):label(l),X(1.0),group(0){}
+
+    bool isGroupped()const;
+    Ush getGroup()const;
+    void groupIt(Ush g);
+    void ungroupIt();
+
+    Ush getLabel()const{ return label;}
+    //note that you can not set label after constructed
+
+    void setX(double x){X = x; }
+    double getX()const{ return X;}
+
+    MatrixNode& operator*= (const double &rhs);
 };
 
 template<size_t N>
-class AlgorithmProcessor {
+class MatrixProcessor {
   private:
-    std::map<Ush, MatrixNode> nodeMap;
+    std::map<Ush, MatrixNode*> nodes;
     Matrix<N> m;
-
-    //utility:
-    Ush nextGroupLabel = 1;
-
-    void groupNodes(Ush label1, Ush label2) {
-      MatrixNode * v1 = & nodeMap[label1];
-      MatrixNode * v2 = & nodeMap[label2];
-
-      if ((!v1 -> isGroupped()) && (!v2 -> isGroupped())) {
-        v1 -> setGroup(nextGroupLabel);
-        v2 -> setGroup(nextGroupLabel);
-        nextGroupLabel++;
-
-        //HERE GOES THE CALCAULATION
-      } else {
-        if (v1 -> isGroupped() && v2 -> isGroupped()) {
-          Ush minGroup = min(v1 -> getGroup(), v2 -> getGroup());
-
-          v1 -> setGroup(minGroup);
-          v2 -> setGroup(minGroup);
-
-          //HERE GOES ANOTHER CALCAULATION
-        } else if (v1 -> isGroupped()) {
-          v2 -> setGroup(v1 -> getGroup());
-
-          //HERE GOES ANOTHER CALCAULATION
-        } else if (v2 -> isGroupped()) {
-          v1 -> setGroup(v2 -> getGroup());
-
-          //HERE GOES ANOTHER CALCAULATION
-        }
-      }
-    }
   public:
-    template<size_t N>
-    AlgorithmProcessor<N>(Matrix<N> n):m(n){}
-
-    std::vector<double> run();
-    std::vector<double> run(EdgeList e) {
-      for (auto it = e.begin(); it != e.end(); it++) {
-        groupNodes(it -> first(), it -> second());
-      }
-      std::vector<double> v;
-      for (auto it = nodeMap.begin(); it != nodeMap.end(); it++) {
-        v.push_back(it -> second -> getX());
-      }
-      return v;
-    }
+    MatrixProcessor<N>(Matrix<N> m);
+    ~MatrixProcessor<N>();
+    std::vector<double> run(EdgeList);
 };
 
 #endif //GRAPHSOLUTION_H

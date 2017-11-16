@@ -1,0 +1,15 @@
+feszítőfákra mikor pareto optimalitás
+
+akár inkozisztencia szűrő nélkül: számtani átlagos módszer mikor nem ad pareto-optimálisat
+(permutáltakat szűrjük ki, a Saatyakat nem, írassuk ki az inkonzisztencia mértékét)
+
+- lefuttatom az lp-t az összes szűrt 4x4-es mátrixokra
+- próbaverzió a feszítőfásra -> amit ad vektort arra futtatjuk az lp-re
+- kérdés: a feszítőfás vagy az eigen legnagyobb sajátvektora lesz-e a gyorsabb
+
+- ötlet: korlátozaható-e a különbség a kapott és az abból generált optimális normált súlyvektorok között
+
+későbbi terv:
+- 5x5-ösre
+
+vágásokon javítani: algoritmus?

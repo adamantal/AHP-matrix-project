@@ -92,10 +92,9 @@ namespace matrixInit {
 		std::cout << "Main cycle started.\n";
 		unsigned long long int i = 0;
 
-		for (Matrix<5> local = Matrix<5>(v); i < expn(Matrix<0>::elem.size(), 5 * (5 - 1) / 2); i++, local++) {
+		for (Matrix<5> local = Matrix<5>(v); i < expn(Matrix<0>::elem.size(), 5 * (5 - 1) / 2); i++, local++) { //this cycle takes approx. 21.08 years
 			if (i % 1000 == 0) std::cout << i / 1000 << "k of " << omegaMillion * 1000 << "\n";
-			if (local.getConsistencyRatio() <= 0.1) mc.add(local);
-			//if (local.isMinimalPermutated()) mc.add(local);
+			if (local.getConsistencyRatio() <= 0.1 && local.isMinimalPermutated()) mc.add(local);
 		}
 
 		std::cout << "Saving to file " << mc.size() << " elements.\n";

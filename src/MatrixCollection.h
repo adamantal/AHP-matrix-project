@@ -32,8 +32,5 @@ class MatrixCollection {
 		//iterator:
 		typename std::vector< Matrix<N> >::iterator begin();
 		typename std::vector< Matrix<N> >::iterator end();
-		//void erase(iterator);
-
-		//bool checkAssumption();
 };
 #endif

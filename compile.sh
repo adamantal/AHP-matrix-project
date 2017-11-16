@@ -3,5 +3,6 @@
 ######## COMPILING SCRIPT ##########
 ####################################
 
-echo g++ --std=c++14 -o3 -Wall -Wextra -Werror -o bin/$1 src/$1.cpp -lemon -lglpk
-g++ --std=c++14 -o3 -Wall -Wextra -Werror -o bin/$1 src/$1.cpp -lemon -lglpk
+echo g++ --std=c++11 -o3 -Wall -Wextra -o bin/$1 src/$1.cpp -lemon -lglpk
+#-Werror
+g++ --std=c++14 -o3 -Wall -Wextra -o bin/$1 src/$1.cpp -lemon -lglpk

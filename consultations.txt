@@ -47,4 +47,12 @@ okt. 2. körül
 2. Hány db. domináló, Pareto-optimális súlyvektor van?
 3. Kidolgozni a gráfos algoritmust.
 => cél: az összes domináló Pareto-optimális súlyvektor megkeresése gráfelméleti módszerrel.
+------------------------------------------------------------------------------------------------------
+nov 8.
+sejtés: belülről domináló csak egy van
+ezt cáfolni vagy igazolni!
 
+baj a programmal: nem nézed meg a komponens többi csúcsát: lehet hogy hamarabb megfordul az egyenlőtlenség
+tényleg minden 5x5-ös generálható 4x4-esekből elemek hozzávételével?
+meggyőző az indoklás
+esetleg jsonba átrakni a csv-t?
