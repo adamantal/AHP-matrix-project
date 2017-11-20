@@ -254,7 +254,7 @@ lemon/bits/graph_extender.h
 
 ..//lemon/tolerance.h
 
-/home/antala/prog/lemon-1.3.1/test/hao_orlin_test.cc
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/hao_orlin_test.cc
 sstream
 -
 lemon/smart_graph.h
@@ -270,9 +270,9 @@ lemon/lgf_reader.h
 lemon/hao_orlin.h
 -
 test_tools.h
-/home/antala/prog/lemon-1.3.1/test/test_tools.h
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
 
-/home/antala/prog/lemon-1.3.1/test/test_tools.h
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
 iostream
 -
 stdlib.h

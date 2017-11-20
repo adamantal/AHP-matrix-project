@@ -258,7 +258,7 @@ unistd.h
 lemon/bits/windows.h
 -
 
-/home/antala/prog/lemon-1.3.1/test/max_clique_test.cc
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/max_clique_test.cc
 sstream
 -
 lemon/list_graph.h
@@ -272,9 +272,9 @@ lemon/lgf_reader.h
 lemon/grosso_locatelli_pullan_mc.h
 -
 test_tools.h
-/home/antala/prog/lemon-1.3.1/test/test_tools.h
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
 
-/home/antala/prog/lemon-1.3.1/test/test_tools.h
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
 iostream
 -
 stdlib.h

@@ -27,6 +27,6 @@ test/CMakeFiles/max_cardinality_search_test.dir/max_cardinality_search_test.cc.o
  ..//lemon/maps.h
  ..//lemon/max_cardinality_search.h
  ..//lemon/smart_graph.h
- /home/antala/prog/lemon-1.3.1/test/max_cardinality_search_test.cc
- /home/antala/prog/lemon-1.3.1/test/test_tools.h
+ /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/max_cardinality_search_test.cc
+ /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
  lemon/config.h

@@ -1,4 +1,4 @@
-# Install script for directory: /home/antala/prog/lemon-1.3.1/doc
+# Install script for directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/doc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

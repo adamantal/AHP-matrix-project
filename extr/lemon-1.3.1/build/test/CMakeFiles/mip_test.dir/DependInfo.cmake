@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/antala/prog/lemon-1.3.1/test/mip_test.cc" "/home/antala/prog/lemon-1.3.1/build/test/CMakeFiles/mip_test.dir/mip_test.cc.o"
+  "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/mip_test.cc" "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/CMakeFiles/mip_test.dir/mip_test.cc.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -16,7 +16,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/antala/prog/lemon-1.3.1/build/lemon/CMakeFiles/lemon.dir/DependInfo.cmake"
+  "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/lemon/CMakeFiles/lemon.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -11,41 +11,6 @@
 #include "MatrixCollection.cpp"
 #include "MatrixGenerator.cpp"
 
-/*
-//Generating all 4x4 matrices:
-void generatingAll4x4Matrices() {
-	begin = clock();
-	matrixInit::generateAllToFile();
-	end = clock();
-	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	std::cout << "Generating the file takes " << elapsed_secs << " secs." << std::endl;
-}
-
-void readAll4x4Matrcies(){
-	begin = clock();
-	MatrixCollection m = matrixInit::readAllFromFile("../res/allMatrices.mt");
-	end = clock();
-	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	std::cout << "Reading the file takes " << elapsed_secs << " secs." << std::endl;
-}
-
-void filteringMatricesByConsistencyRatio(){
-	//Checking the consistency ratio for all the matrices:
-	begin = clock();
-	MatrixCollection coll;
-
-	for (int i = 0; i < m.size(); i++){
-		if (m[i].getConsistencyRatio() < 0.1) {
-			coll.add(m[i]);
-		}
-	}
-	coll.saveToFile("consistents.mt");
-	std::cout << coll.size() << "\n";
-	end = clock();
-	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-	std::cout << "Writing and getting all consistency in " << elapsed_secs << " secs." << std::endl;
-}
-*/
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
     std::cerr << "Usage: " << argv[0] << " [parameter] " << std::endl;
@@ -62,31 +27,45 @@ int main(int argc, char* argv[]) {
 	if (s == "ALL4") {
 		matrixInit::generateAllToFile<4>();
 	}
-
+	else if (s == "COUNT4") {
+		MatrixCollection<4> m = MatrixCollection<4>::readFromFile(PATH_4_ALL);
+		std::cout << "The number of 4x4 filtered matrices: " << m.size() << std::endl;
+	}
 	else if (s == "CONS") {
-		MatrixCollection<4> m = MatrixCollection<4>::readFromFile("../res/allMatrices.mt");
+		MatrixCollection<4> m = MatrixCollection<4>::readFromFile(PATH_4_ALL);
 		std::cout << "Matrices are read.\n";
 		MatrixCollection<4> m1 = m.applyFilter(filterType::Consistency);
 		std::cout << "The number of consistent (<0.1) matrices: " << m1.size() << "\n";
-		m1.saveToFile("../res/consistents.mt");
+		m1.saveToFile(PATH_4_CONSISTENT);
 		std::cout << "Matrices saved.\n";
 	}
-
 	else if (s == "FILTER") {
-		MatrixCollection<4> m = MatrixCollection<4>::readFromFile("../res/consistents.mt");
+		MatrixCollection<4> m = MatrixCollection<4>::readFromFile(PATH_4_CONSISTENT);
 		std::cout << "Matrices are read.\n";
 		MatrixCollection<4> m2 = m.applyFilter(filterType::EigenVectorMethod);
-		m2.saveToFile("../res/eigenPareto.mt");
+		m2.saveToFile(PATH_4_EIGEN);
 		std::cout << "The number of consistent matrices by eigenvector method: " << m2.size() << "\n";
 		MatrixCollection<4> m3 = m.applyFilter(filterType::AverageSpanTreeMethod);
-		m3.saveToFile("../res/avgspanPareto.mt");
+		m3.saveToFile(PATH_4_SPANTREE);
 		std::cout << "The number of consistent matrices by avg spantree method: " << m3.size() << "\n";
-		m = MatrixCollection<4>::readFromFile("../res/consistents.mt");
 		MatrixCollection<4> m4 = m.applyFilter(filterType::CosineMethod);
-		m4.saveToFile("../res/cosinePareto.mt");
+		m4.saveToFile(PATH_4_COSINE);
 		std::cout << "The number of consistent matrices by cosine method: " << m4.size() << "\n";
 	}
+	else if (s == "CSV") {
+		std::cout << "Generating csvs...\n";
+		MatrixCollection<4> meigen = MatrixCollection<4>::readFromFile(PATH_4_EIGEN);
+		meigen.generateCsv(PATH_4_EIGEN_CSV, filterType::EigenVectorMethod);
+		std::cout << PATH_4_EIGEN_CSV << " generated.\n";
 
+		MatrixCollection<4> mst = MatrixCollection<4>::readFromFile(PATH_4_SPANTREE);
+		mst.generateCsv(PATH_4_SPANTREE_CSV, filterType::AverageSpanTreeMethod);
+		std::cout << PATH_4_SPANTREE_CSV << " generated.\n";
+
+		MatrixCollection<4> mcos = MatrixCollection<4>::readFromFile(PATH_4_COSINE);
+		mcos.generateCsv(PATH_4_COSINE_CSV, filterType::CosineMethod);
+		std::cout << PATH_4_COSINE_CSV << " generated.\n";
+	}
 	else if (s == "ALL5") {
 		try {
 			matrixInit::generateAllToFile<5>();
@@ -94,7 +73,6 @@ int main(int argc, char* argv[]) {
 			std::cout << s << "\n";
 		}
 	}
-
 	else {
 		std::cerr << "Parameter not recognised.\n" << std::endl;
 	}

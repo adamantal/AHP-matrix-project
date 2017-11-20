@@ -334,7 +334,7 @@ lemon/error.h
 lemon/bits/graph_extender.h
 -
 
-/home/antala/prog/lemon-1.3.1/test/heap_test.cc
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/heap_test.cc
 iostream
 -
 fstream
@@ -372,9 +372,9 @@ lemon/binomial_heap.h
 lemon/bucket_heap.h
 -
 test_tools.h
-/home/antala/prog/lemon-1.3.1/test/test_tools.h
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
 
-/home/antala/prog/lemon-1.3.1/test/test_tools.h
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
 iostream
 -
 stdlib.h

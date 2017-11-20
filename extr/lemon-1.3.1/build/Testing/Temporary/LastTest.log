@@ -1,668 +1,668 @@
-Start testing: Mar 19 14:56 CET
+Start testing: Nov 18 10:49 CET
 ----------------------------------------------------------
 1/44 Testing: lp_test
 1/44 Test: lp_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/lp_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"lp_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/lp_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"lp_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"lp_test" end time: Mar 19 14:56 CET
+"lp_test" end time: Nov 18 10:49 CET
 "lp_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 2/44 Testing: mip_test
 2/44 Test: mip_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/mip_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"mip_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/mip_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"mip_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"mip_test" end time: Mar 19 14:56 CET
+"mip_test" end time: Nov 18 10:49 CET
 "mip_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 3/44 Testing: adaptors_test
 3/44 Test: adaptors_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/adaptors_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"adaptors_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/adaptors_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"adaptors_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"adaptors_test" end time: Mar 19 14:56 CET
+"adaptors_test" end time: Nov 18 10:49 CET
 "adaptors_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 4/44 Testing: arc_look_up_test
 4/44 Test: arc_look_up_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/arc_look_up_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"arc_look_up_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/arc_look_up_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"arc_look_up_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"arc_look_up_test" end time: Mar 19 14:56 CET
+"arc_look_up_test" end time: Nov 18 10:49 CET
 "arc_look_up_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 5/44 Testing: bellman_ford_test
 5/44 Test: bellman_ford_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/bellman_ford_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"bellman_ford_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/bellman_ford_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"bellman_ford_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"bellman_ford_test" end time: Mar 19 14:56 CET
+"bellman_ford_test" end time: Nov 18 10:49 CET
 "bellman_ford_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 6/44 Testing: bfs_test
 6/44 Test: bfs_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/bfs_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"bfs_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/bfs_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"bfs_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"bfs_test" end time: Mar 19 14:56 CET
+"bfs_test" end time: Nov 18 10:49 CET
 "bfs_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 7/44 Testing: bpgraph_test
 7/44 Test: bpgraph_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/bpgraph_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"bpgraph_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/bpgraph_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"bpgraph_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"bpgraph_test" end time: Mar 19 14:56 CET
+"bpgraph_test" end time: Nov 18 10:49 CET
 "bpgraph_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 8/44 Testing: circulation_test
 8/44 Test: circulation_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/circulation_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"circulation_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/circulation_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"circulation_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"circulation_test" end time: Mar 19 14:56 CET
+"circulation_test" end time: Nov 18 10:49 CET
 "circulation_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 9/44 Testing: connectivity_test
 9/44 Test: connectivity_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/connectivity_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"connectivity_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/connectivity_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"connectivity_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"connectivity_test" end time: Mar 19 14:56 CET
+"connectivity_test" end time: Nov 18 10:49 CET
 "connectivity_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 10/44 Testing: counter_test
 10/44 Test: counter_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/counter_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"counter_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/counter_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"counter_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"counter_test" end time: Mar 19 14:56 CET
+"counter_test" end time: Nov 18 10:49 CET
 "counter_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 11/44 Testing: dfs_test
 11/44 Test: dfs_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/dfs_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"dfs_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/dfs_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"dfs_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"dfs_test" end time: Mar 19 14:56 CET
+"dfs_test" end time: Nov 18 10:49 CET
 "dfs_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 12/44 Testing: digraph_test
 12/44 Test: digraph_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/digraph_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"digraph_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/digraph_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"digraph_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"digraph_test" end time: Mar 19 14:56 CET
+"digraph_test" end time: Nov 18 10:49 CET
 "digraph_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 13/44 Testing: dijkstra_test
 13/44 Test: dijkstra_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/dijkstra_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"dijkstra_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/dijkstra_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"dijkstra_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"dijkstra_test" end time: Mar 19 14:56 CET
+"dijkstra_test" end time: Nov 18 10:49 CET
 "dijkstra_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 14/44 Testing: dim_test
 14/44 Test: dim_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/dim_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"dim_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/dim_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"dim_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"dim_test" end time: Mar 19 14:56 CET
+"dim_test" end time: Nov 18 10:49 CET
 "dim_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 15/44 Testing: edge_set_test
 15/44 Test: edge_set_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/edge_set_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"edge_set_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/edge_set_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"edge_set_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"edge_set_test" end time: Mar 19 14:56 CET
+"edge_set_test" end time: Nov 18 10:49 CET
 "edge_set_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 16/44 Testing: error_test
 16/44 Test: error_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/error_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"error_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/error_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"error_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"error_test" end time: Mar 19 14:56 CET
+"error_test" end time: Nov 18 10:49 CET
 "error_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 17/44 Testing: euler_test
 17/44 Test: euler_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/euler_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"euler_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/euler_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"euler_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"euler_test" end time: Mar 19 14:56 CET
+"euler_test" end time: Nov 18 10:49 CET
 "euler_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 18/44 Testing: fractional_matching_test
 18/44 Test: fractional_matching_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/fractional_matching_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"fractional_matching_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/fractional_matching_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"fractional_matching_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"fractional_matching_test" end time: Mar 19 14:56 CET
+"fractional_matching_test" end time: Nov 18 10:49 CET
 "fractional_matching_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 19/44 Testing: gomory_hu_test
 19/44 Test: gomory_hu_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/gomory_hu_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"gomory_hu_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/gomory_hu_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"gomory_hu_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"gomory_hu_test" end time: Mar 19 14:56 CET
+"gomory_hu_test" end time: Nov 18 10:49 CET
 "gomory_hu_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 20/44 Testing: graph_copy_test
 20/44 Test: graph_copy_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/graph_copy_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"graph_copy_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/graph_copy_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"graph_copy_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"graph_copy_test" end time: Mar 19 14:56 CET
+"graph_copy_test" end time: Nov 18 10:49 CET
 "graph_copy_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 21/44 Testing: graph_test
 21/44 Test: graph_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/graph_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"graph_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/graph_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"graph_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"graph_test" end time: Mar 19 14:56 CET
+"graph_test" end time: Nov 18 10:49 CET
 "graph_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 22/44 Testing: graph_utils_test
 22/44 Test: graph_utils_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/graph_utils_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"graph_utils_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/graph_utils_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"graph_utils_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"graph_utils_test" end time: Mar 19 14:56 CET
+"graph_utils_test" end time: Nov 18 10:49 CET
 "graph_utils_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 23/44 Testing: hao_orlin_test
 23/44 Test: hao_orlin_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/hao_orlin_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"hao_orlin_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/hao_orlin_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"hao_orlin_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"hao_orlin_test" end time: Mar 19 14:56 CET
+"hao_orlin_test" end time: Nov 18 10:49 CET
 "hao_orlin_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 24/44 Testing: heap_test
 24/44 Test: heap_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/heap_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"heap_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/heap_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"heap_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"heap_test" end time: Mar 19 14:56 CET
+"heap_test" end time: Nov 18 10:49 CET
 "heap_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 25/44 Testing: kruskal_test
 25/44 Test: kruskal_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/kruskal_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"kruskal_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/kruskal_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"kruskal_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"kruskal_test" end time: Mar 19 14:56 CET
+"kruskal_test" end time: Nov 18 10:49 CET
 "kruskal_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 26/44 Testing: lgf_reader_writer_test
 26/44 Test: lgf_reader_writer_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/lgf_reader_writer_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"lgf_reader_writer_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/lgf_reader_writer_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"lgf_reader_writer_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"lgf_reader_writer_test" end time: Mar 19 14:56 CET
+"lgf_reader_writer_test" end time: Nov 18 10:49 CET
 "lgf_reader_writer_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 27/44 Testing: lgf_test
 27/44 Test: lgf_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/lgf_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"lgf_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/lgf_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"lgf_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"lgf_test" end time: Mar 19 14:56 CET
+"lgf_test" end time: Nov 18 10:49 CET
 "lgf_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 28/44 Testing: maps_test
 28/44 Test: maps_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/maps_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"maps_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/maps_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"maps_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"maps_test" end time: Mar 19 14:56 CET
+"maps_test" end time: Nov 18 10:49 CET
 "maps_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 29/44 Testing: matching_test
 29/44 Test: matching_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/matching_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"matching_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/matching_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"matching_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"matching_test" end time: Mar 19 14:56 CET
+"matching_test" end time: Nov 18 10:49 CET
 "matching_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 30/44 Testing: max_cardinality_search_test
 30/44 Test: max_cardinality_search_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/max_cardinality_search_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"max_cardinality_search_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/max_cardinality_search_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"max_cardinality_search_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"max_cardinality_search_test" end time: Mar 19 14:56 CET
+"max_cardinality_search_test" end time: Nov 18 10:49 CET
 "max_cardinality_search_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 31/44 Testing: max_clique_test
 31/44 Test: max_clique_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/max_clique_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"max_clique_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/max_clique_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"max_clique_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"max_clique_test" end time: Mar 19 14:56 CET
+"max_clique_test" end time: Nov 18 10:49 CET
 "max_clique_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 32/44 Testing: max_flow_test
 32/44 Test: max_flow_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/max_flow_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"max_flow_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/max_flow_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"max_flow_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"max_flow_test" end time: Mar 19 14:56 CET
+"max_flow_test" end time: Nov 18 10:49 CET
 "max_flow_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 33/44 Testing: min_cost_arborescence_test
 33/44 Test: min_cost_arborescence_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/min_cost_arborescence_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"min_cost_arborescence_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/min_cost_arborescence_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"min_cost_arborescence_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"min_cost_arborescence_test" end time: Mar 19 14:56 CET
+"min_cost_arborescence_test" end time: Nov 18 10:49 CET
 "min_cost_arborescence_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 34/44 Testing: min_cost_flow_test
 34/44 Test: min_cost_flow_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/min_cost_flow_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"min_cost_flow_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/min_cost_flow_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"min_cost_flow_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"min_cost_flow_test" end time: Mar 19 14:56 CET
+"min_cost_flow_test" end time: Nov 18 10:49 CET
 "min_cost_flow_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 35/44 Testing: min_mean_cycle_test
 35/44 Test: min_mean_cycle_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/min_mean_cycle_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"min_mean_cycle_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/min_mean_cycle_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"min_mean_cycle_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"min_mean_cycle_test" end time: Mar 19 14:56 CET
+"min_mean_cycle_test" end time: Nov 18 10:49 CET
 "min_mean_cycle_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 36/44 Testing: nagamochi_ibaraki_test
 36/44 Test: nagamochi_ibaraki_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/nagamochi_ibaraki_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"nagamochi_ibaraki_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/nagamochi_ibaraki_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"nagamochi_ibaraki_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"nagamochi_ibaraki_test" end time: Mar 19 14:56 CET
+"nagamochi_ibaraki_test" end time: Nov 18 10:49 CET
 "nagamochi_ibaraki_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 37/44 Testing: path_test
 37/44 Test: path_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/path_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"path_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/path_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"path_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"path_test" end time: Mar 19 14:56 CET
+"path_test" end time: Nov 18 10:49 CET
 "path_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 38/44 Testing: planarity_test
 38/44 Test: planarity_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/planarity_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"planarity_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/planarity_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"planarity_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"planarity_test" end time: Mar 19 14:56 CET
+"planarity_test" end time: Nov 18 10:49 CET
 "planarity_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 39/44 Testing: radix_sort_test
 39/44 Test: radix_sort_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/radix_sort_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"radix_sort_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/radix_sort_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"radix_sort_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
-Test time =   0.05 sec
+Test time =   0.06 sec
 ----------------------------------------------------------
 Test Passed.
-"radix_sort_test" end time: Mar 19 14:56 CET
+"radix_sort_test" end time: Nov 18 10:49 CET
 "radix_sort_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 40/44 Testing: random_test
 40/44 Test: random_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/random_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"random_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/random_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"random_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"random_test" end time: Mar 19 14:56 CET
+"random_test" end time: Nov 18 10:49 CET
 "random_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 41/44 Testing: suurballe_test
 41/44 Test: suurballe_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/suurballe_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"suurballe_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/suurballe_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"suurballe_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"suurballe_test" end time: Mar 19 14:56 CET
+"suurballe_test" end time: Nov 18 10:49 CET
 "suurballe_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 42/44 Testing: time_measure_test
 42/44 Test: time_measure_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/time_measure_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"time_measure_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/time_measure_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"time_measure_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
-u: 0.02s, s: 0.07s, cu: 0s, cs: 0s, real: 0.100001s (444714 time queries)
-u: 2.08616e-09s, s: 0s, cu: 0s, cs: 0s, real: 2.06713e-09s (67108864 tests)
-Total: u: 0.14s, s: 0s, cu: 0s, cs: 0s, real: 0.138723s
-u: 5.85937e-05s, s: 0.00015625s, cu: 0s, cs: 0s, real: 0.000212525s (512 tests)
-Total: u: 0.03s, s: 0.08s, cu: 0s, cs: 0s, real: 0.108813s
+u: 0s, s: 0.09s, cu: 0s, cs: 0s, real: 0.100001s (454607 time queries)
+u: 1.63913e-09s, s: 0s, cu: 0s, cs: 0s, real: 1.63634e-09s (67108864 tests)
+Total: u: 0.11s, s: 0s, cu: 0s, cs: 0s, real: 0.109813s
+u: 7.8125e-05s, s: 0.000136719s, cu: 0s, cs: 0s, real: 0.000207883s (512 tests)
+Total: u: 0.04s, s: 0.07s, cu: 0s, cs: 0s, real: 0.106436s
 <end of output>
-Test time =   0.35 sec
+Test time =   0.32 sec
 ----------------------------------------------------------
 Test Passed.
-"time_measure_test" end time: Mar 19 14:56 CET
+"time_measure_test" end time: Nov 18 10:49 CET
 "time_measure_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 43/44 Testing: tsp_test
 43/44 Test: tsp_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/tsp_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"tsp_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/tsp_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"tsp_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"tsp_test" end time: Mar 19 14:56 CET
+"tsp_test" end time: Nov 18 10:49 CET
 "tsp_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
 44/44 Testing: unionfind_test
 44/44 Test: unionfind_test
-Command: "/home/antala/prog/lemon-1.3.1/build/test/unionfind_test"
-Directory: /home/antala/prog/lemon-1.3.1/build/test
-"unionfind_test" start time: Mar 19 14:56 CET
+Command: "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/unionfind_test"
+Directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test
+"unionfind_test" start time: Nov 18 10:49 CET
 Output:
 ----------------------------------------------------------
 <end of output>
 Test time =   0.00 sec
 ----------------------------------------------------------
 Test Passed.
-"unionfind_test" end time: Mar 19 14:56 CET
+"unionfind_test" end time: Nov 18 10:49 CET
 "unionfind_test" time elapsed: 00:00:00
 ----------------------------------------------------------
 
-End testing: Mar 19 14:56 CET
+End testing: Nov 18 10:49 CET

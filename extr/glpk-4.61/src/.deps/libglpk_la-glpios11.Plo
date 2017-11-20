@@ -1,6 +1,6 @@
 libglpk_la-glpios11.lo: glpios11.c /usr/include/stdc-predef.h ../config.h \
- draft.h glpk.h /usr/lib/gcc/x86_64-linux-gnu/6/include/stdarg.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h env/env.h env/stdc.h \
+ draft.h glpk.h /usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h env/env.h env/stdc.h \
  /usr/include/ctype.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
@@ -14,9 +14,9 @@ libglpk_la-glpios11.lo: glpios11.c /usr/include/stdc-predef.h ../config.h \
  /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
  /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include/float.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/syslimits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/float.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
  /usr/include/linux/limits.h \
@@ -64,9 +64,9 @@ draft.h:
 
 glpk.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include/stdarg.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
 
 env/env.h:
 
@@ -110,11 +110,11 @@ env/stdc.h:
 
 /usr/include/asm-generic/errno-base.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include/float.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include/float.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/syslimits.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h:
 
 /usr/include/limits.h:
 

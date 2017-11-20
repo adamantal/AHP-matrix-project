@@ -12,9 +12,9 @@ libglpk_la-wclique1.lo: misc/wclique1.c /usr/include/stdc-predef.h \
  /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
  /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include/float.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/limits.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/syslimits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/float.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h \
  /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
  /usr/include/linux/limits.h \
@@ -32,8 +32,8 @@ libglpk_la-wclique1.lo: misc/wclique1.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
  /usr/include/x86_64-linux-gnu/bits/sigset.h \
  /usr/include/x86_64-linux-gnu/bits/setjmp2.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include/stdarg.h \
- /usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h /usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h /usr/include/stdio.h \
  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
  /usr/include/x86_64-linux-gnu/bits/sys_errlist.h \
@@ -101,11 +101,11 @@ env/stdc.h:
 
 /usr/include/asm-generic/errno-base.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include/float.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include/float.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/limits.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include-fixed/syslimits.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed/syslimits.h:
 
 /usr/include/limits.h:
 
@@ -147,9 +147,9 @@ env/stdc.h:
 
 /usr/include/x86_64-linux-gnu/bits/setjmp2.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include/stdarg.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include/stdarg.h:
 
-/usr/lib/gcc/x86_64-linux-gnu/6/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/5/include/stddef.h:
 
 /usr/include/stdio.h:
 

@@ -37,5 +37,5 @@ tools/CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.o
  ..//lemon/time_measure.h
  ..//lemon/tolerance.h
  ..//lemon/unionfind.h
- /home/antala/prog/lemon-1.3.1/tools/dimacs-solver.cc
+ /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/tools/dimacs-solver.cc
  lemon/config.h

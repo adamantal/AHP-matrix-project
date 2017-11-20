@@ -1,4 +1,5 @@
 #include "MatrixCollection.h"
+#include "Matrix5Spec.cpp"
 
 namespace matrixInit {
 	//const long int limit = 24137569;
@@ -80,26 +81,58 @@ namespace matrixInit {
 	template<size_t N>
 	bool generateAllToFile();
 
+	void takeOutPermutationOfItSpec5(const Matrix5Spec &m, std::vector<bool> &s, const MatrixCollection<4> mc) {
+		//template specify:
+		Ush N = 5;
+
+		Ush perm[N];
+		for (Ush j = 0; j < N; j++) perm[j] = j;
+
+		while ( std::next_permutation(perm, perm + N) ) {
+			Matrix<5> tmp = m.getMatrix().permutateBy(perm);
+			unsigned long long int i = 0;
+			if (Matrix5Spec::getIndexOutOfMatrix(tmp, i, mc)) {
+				s[i] = true;
+			}
+		}
+	}
+
 	template<>
 	bool generateAllToFile<5>() {
 		std::cout << "Procedure started.\n";
-		MatrixCollection<5> mc;
-		size_t omegaMillion = expn(Matrix<0>::elem.size(), 5 * (5 - 1) / 2) / 1000000;
 
-		std::vector<Ush> v;
-		for (size_t i = 0; i < 5 * (5 - 1) / 2; i++) v.push_back(0);
+		std::cout << "Reading 4x4 files...\n";
+		MatrixCollection<4> mc = MatrixCollection<4>::readFromFile(PATH_4_ALL);
 
-		std::cout << "Main cycle started.\n";
-		unsigned long long int i = 0;
+		std::cout << "Collecting memory for vector...\n";
+		//std::vector<bool> s(84113665016); // 17^4 * 1007096
+		std::vector<bool> s(90);
 
-		for (Matrix<5> local = Matrix<5>(v); i < expn(Matrix<0>::elem.size(), 5 * (5 - 1) / 2); i++, local++) { //this cycle takes approx. 21.08 years
-			if (i % 1000 == 0) std::cout << i / 1000 << "k of " << omegaMillion * 1000 << "\n";
-			if (local.getConsistencyRatio() <= 0.1 && local.isMinimalPermutated()) mc.add(local);
+		std::cout << "Initialising vector...\n";
+		for (std::vector<bool>::iterator it = s.begin(); it != s.end(); it++) {
+			size_t tmpi = it - s.begin();
+			if (tmpi % 84113665 == 0) std::cout << tmpi / 84113665 << "°%" << std::endl;
+			*it = false;
 		}
 
-		std::cout << "Saving to file " << mc.size() << " elements.\n";
+		//checking validity:
+		std::cout << "Checking validity... \n";
+		std::vector<Ush> v = {0, 0, 0, 0, 0, 0};
+		Matrix5Spec m5(v);
+		unsigned long long int i = 99;
+		Matrix5Spec::getIndexOutOfMatrix(m5.getMatrix(), i, mc);
+		std::cout << i << std::endl;
+		if (i != 0) throw "Error: test failed - please check getIndexOutOfMatrix function.\n";
 
-		mc.saveToFile("../res/all" + std::to_string(5) + "matrices.mt");
+		std::cout << "Filtering...\n";
+		//"Invalid amount of elements." -- here throws an error. - after 2700 seconds (45 min.)
+		for (auto it = s.begin(); it != s.end(); it++) {
+			size_t tmpi = it - s.begin();
+			if (tmpi % 84113665 == 0) std::cout << tmpi / 84113665 << "°%" << std::endl;
+			if (!s[tmpi]) {
+				takeOutPermutationOfItSpec5(Matrix5Spec::getMatrixOutOfIndex(tmpi, mc), s, mc);
+			}
+		}
 		return true;
 	}
 
@@ -117,7 +150,7 @@ namespace matrixInit {
 		MatrixCollection<4> vecfiltered = takeOutAllPermutations(all);
 		std::cout << "Saving to file " << vecfiltered.size() << " elements.\n";
 
-		vecfiltered.saveToFile("../res/all4matrices.mt");
+		vecfiltered.saveToFile(PATH_4_ALL);
 		return true;
 	}
 }

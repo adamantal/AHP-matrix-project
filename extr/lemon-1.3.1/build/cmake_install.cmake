@@ -1,4 +1,4 @@
-# Install script for directory: /home/antala/prog/lemon-1.3.1
+# Install script for directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -33,17 +33,17 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/lemon/cmake" TYPE FILE FILES "/home/antala/prog/lemon-1.3.1/build/cmake/LEMONConfig.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/lemon/cmake" TYPE FILE FILES "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/cmake/LEMONConfig.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/antala/prog/lemon-1.3.1/build/lemon/cmake_install.cmake")
-  include("/home/antala/prog/lemon-1.3.1/build/contrib/cmake_install.cmake")
-  include("/home/antala/prog/lemon-1.3.1/build/demo/cmake_install.cmake")
-  include("/home/antala/prog/lemon-1.3.1/build/tools/cmake_install.cmake")
-  include("/home/antala/prog/lemon-1.3.1/build/doc/cmake_install.cmake")
-  include("/home/antala/prog/lemon-1.3.1/build/test/cmake_install.cmake")
+  include("/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/lemon/cmake_install.cmake")
+  include("/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/contrib/cmake_install.cmake")
+  include("/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/demo/cmake_install.cmake")
+  include("/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/tools/cmake_install.cmake")
+  include("/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/doc/cmake_install.cmake")
+  include("/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/test/cmake_install.cmake")
 
 endif()
 
@@ -55,5 +55,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/antala/prog/lemon-1.3.1/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

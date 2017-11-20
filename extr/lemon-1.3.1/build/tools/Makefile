@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/antala/prog/lemon-1.3.1
+CMAKE_SOURCE_DIR = /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/antala/prog/lemon-1.3.1/build
+CMAKE_BINARY_DIR = /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -70,7 +70,7 @@ test/fast: test
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
-	cd /home/antala/prog/lemon-1.3.1/build && /usr/bin/cpack --config ./CPackConfig.cmake
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && /usr/bin/cpack --config ./CPackConfig.cmake
 .PHONY : package
 
 # Special rule for the target package
@@ -136,7 +136,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	cd /home/antala/prog/lemon-1.3.1/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/antala/prog/lemon-1.3.1/build/CPackSourceConfig.cmake
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && /usr/bin/cpack --config ./CPackSourceConfig.cmake /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -157,14 +157,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/antala/prog/lemon-1.3.1/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/antala/prog/lemon-1.3.1/build/CMakeFiles /home/antala/prog/lemon-1.3.1/build/tools/CMakeFiles/progress.marks
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/antala/prog/lemon-1.3.1/build/CMakeFiles 0
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/CMakeFiles /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/tools/CMakeFiles/progress.marks
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/clean
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/clean
 .PHONY : clean
 
 # The main clean target
@@ -174,22 +174,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/preinstall
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/preinstall
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/antala/prog/lemon-1.3.1/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 tools/CMakeFiles/dimacs-to-lgf.dir/rule:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/CMakeFiles/dimacs-to-lgf.dir/rule
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/CMakeFiles/dimacs-to-lgf.dir/rule
 .PHONY : tools/CMakeFiles/dimacs-to-lgf.dir/rule
 
 # Convenience name for target.
@@ -199,12 +199,12 @@ dimacs-to-lgf: tools/CMakeFiles/dimacs-to-lgf.dir/rule
 
 # fast build rule for target.
 dimacs-to-lgf/fast:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-to-lgf.dir/build.make tools/CMakeFiles/dimacs-to-lgf.dir/build
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-to-lgf.dir/build.make tools/CMakeFiles/dimacs-to-lgf.dir/build
 .PHONY : dimacs-to-lgf/fast
 
 # Convenience name for target.
 tools/CMakeFiles/dimacs-solver.dir/rule:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/CMakeFiles/dimacs-solver.dir/rule
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/CMakeFiles/dimacs-solver.dir/rule
 .PHONY : tools/CMakeFiles/dimacs-solver.dir/rule
 
 # Convenience name for target.
@@ -214,12 +214,12 @@ dimacs-solver: tools/CMakeFiles/dimacs-solver.dir/rule
 
 # fast build rule for target.
 dimacs-solver/fast:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-solver.dir/build.make tools/CMakeFiles/dimacs-solver.dir/build
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-solver.dir/build.make tools/CMakeFiles/dimacs-solver.dir/build
 .PHONY : dimacs-solver/fast
 
 # Convenience name for target.
 tools/CMakeFiles/lgf-gen.dir/rule:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/CMakeFiles/lgf-gen.dir/rule
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f CMakeFiles/Makefile2 tools/CMakeFiles/lgf-gen.dir/rule
 .PHONY : tools/CMakeFiles/lgf-gen.dir/rule
 
 # Convenience name for target.
@@ -229,7 +229,7 @@ lgf-gen: tools/CMakeFiles/lgf-gen.dir/rule
 
 # fast build rule for target.
 lgf-gen/fast:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/lgf-gen.dir/build.make tools/CMakeFiles/lgf-gen.dir/build
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/lgf-gen.dir/build.make tools/CMakeFiles/lgf-gen.dir/build
 .PHONY : lgf-gen/fast
 
 dimacs-solver.o: dimacs-solver.cc.o
@@ -238,7 +238,7 @@ dimacs-solver.o: dimacs-solver.cc.o
 
 # target to build an object file
 dimacs-solver.cc.o:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-solver.dir/build.make tools/CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.o
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-solver.dir/build.make tools/CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.o
 .PHONY : dimacs-solver.cc.o
 
 dimacs-solver.i: dimacs-solver.cc.i
@@ -247,7 +247,7 @@ dimacs-solver.i: dimacs-solver.cc.i
 
 # target to preprocess a source file
 dimacs-solver.cc.i:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-solver.dir/build.make tools/CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.i
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-solver.dir/build.make tools/CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.i
 .PHONY : dimacs-solver.cc.i
 
 dimacs-solver.s: dimacs-solver.cc.s
@@ -256,7 +256,7 @@ dimacs-solver.s: dimacs-solver.cc.s
 
 # target to generate assembly for a file
 dimacs-solver.cc.s:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-solver.dir/build.make tools/CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.s
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-solver.dir/build.make tools/CMakeFiles/dimacs-solver.dir/dimacs-solver.cc.s
 .PHONY : dimacs-solver.cc.s
 
 dimacs-to-lgf.o: dimacs-to-lgf.cc.o
@@ -265,7 +265,7 @@ dimacs-to-lgf.o: dimacs-to-lgf.cc.o
 
 # target to build an object file
 dimacs-to-lgf.cc.o:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-to-lgf.dir/build.make tools/CMakeFiles/dimacs-to-lgf.dir/dimacs-to-lgf.cc.o
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-to-lgf.dir/build.make tools/CMakeFiles/dimacs-to-lgf.dir/dimacs-to-lgf.cc.o
 .PHONY : dimacs-to-lgf.cc.o
 
 dimacs-to-lgf.i: dimacs-to-lgf.cc.i
@@ -274,7 +274,7 @@ dimacs-to-lgf.i: dimacs-to-lgf.cc.i
 
 # target to preprocess a source file
 dimacs-to-lgf.cc.i:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-to-lgf.dir/build.make tools/CMakeFiles/dimacs-to-lgf.dir/dimacs-to-lgf.cc.i
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-to-lgf.dir/build.make tools/CMakeFiles/dimacs-to-lgf.dir/dimacs-to-lgf.cc.i
 .PHONY : dimacs-to-lgf.cc.i
 
 dimacs-to-lgf.s: dimacs-to-lgf.cc.s
@@ -283,7 +283,7 @@ dimacs-to-lgf.s: dimacs-to-lgf.cc.s
 
 # target to generate assembly for a file
 dimacs-to-lgf.cc.s:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-to-lgf.dir/build.make tools/CMakeFiles/dimacs-to-lgf.dir/dimacs-to-lgf.cc.s
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/dimacs-to-lgf.dir/build.make tools/CMakeFiles/dimacs-to-lgf.dir/dimacs-to-lgf.cc.s
 .PHONY : dimacs-to-lgf.cc.s
 
 lgf-gen.o: lgf-gen.cc.o
@@ -292,7 +292,7 @@ lgf-gen.o: lgf-gen.cc.o
 
 # target to build an object file
 lgf-gen.cc.o:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/lgf-gen.dir/build.make tools/CMakeFiles/lgf-gen.dir/lgf-gen.cc.o
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/lgf-gen.dir/build.make tools/CMakeFiles/lgf-gen.dir/lgf-gen.cc.o
 .PHONY : lgf-gen.cc.o
 
 lgf-gen.i: lgf-gen.cc.i
@@ -301,7 +301,7 @@ lgf-gen.i: lgf-gen.cc.i
 
 # target to preprocess a source file
 lgf-gen.cc.i:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/lgf-gen.dir/build.make tools/CMakeFiles/lgf-gen.dir/lgf-gen.cc.i
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/lgf-gen.dir/build.make tools/CMakeFiles/lgf-gen.dir/lgf-gen.cc.i
 .PHONY : lgf-gen.cc.i
 
 lgf-gen.s: lgf-gen.cc.s
@@ -310,7 +310,7 @@ lgf-gen.s: lgf-gen.cc.s
 
 # target to generate assembly for a file
 lgf-gen.cc.s:
-	cd /home/antala/prog/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/lgf-gen.dir/build.make tools/CMakeFiles/lgf-gen.dir/lgf-gen.cc.s
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(MAKE) -f tools/CMakeFiles/lgf-gen.dir/build.make tools/CMakeFiles/lgf-gen.dir/lgf-gen.cc.s
 .PHONY : lgf-gen.cc.s
 
 # Help Target
@@ -351,6 +351,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/antala/prog/lemon-1.3.1/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

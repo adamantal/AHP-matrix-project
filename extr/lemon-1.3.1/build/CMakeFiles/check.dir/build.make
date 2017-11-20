@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/antala/prog/lemon-1.3.1
+CMAKE_SOURCE_DIR = /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/antala/prog/lemon-1.3.1/build
+CMAKE_BINARY_DIR = /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build
 
 # Utility rule file for check.
 
@@ -71,6 +71,6 @@ CMakeFiles/check.dir/clean:
 .PHONY : CMakeFiles/check.dir/clean
 
 CMakeFiles/check.dir/depend:
-	cd /home/antala/prog/lemon-1.3.1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/antala/prog/lemon-1.3.1 /home/antala/prog/lemon-1.3.1 /home/antala/prog/lemon-1.3.1/build /home/antala/prog/lemon-1.3.1/build /home/antala/prog/lemon-1.3.1/build/CMakeFiles/check.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1 /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1 /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/CMakeFiles/check.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/check.dir/depend
 

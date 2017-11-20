@@ -232,11 +232,11 @@ lemon/bits/graph_extender.h
 
 ..//lemon/tolerance.h
 
-/home/antala/prog/lemon-1.3.1/test/max_flow_test.cc
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/max_flow_test.cc
 iostream
 -
 test_tools.h
-/home/antala/prog/lemon-1.3.1/test/test_tools.h
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
 lemon/smart_graph.h
 -
 lemon/preflow.h
@@ -252,7 +252,7 @@ lemon/lgf_reader.h
 lemon/elevator.h
 -
 
-/home/antala/prog/lemon-1.3.1/test/test_tools.h
+/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/test/test_tools.h
 iostream
 -
 stdlib.h

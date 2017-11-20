@@ -28,6 +28,11 @@ Ush Matrix<N>::indexOfInverse(Ush i){
 }
 
 template<size_t N>
+std::vector<Ush> Matrix<N>::getData()const {
+	return data;
+}
+
+template<size_t N>
 Matrix<N>::Matrix() {
 	data = std::vector<Ush>();
 	for (size_t i = 0; i < N; i++) {
@@ -399,7 +404,7 @@ LpSolution<N> Matrix<N>::LPVectorParetoOptimal(const std::vector<double> &w) con
 }
 
 template<size_t N>
-bool Matrix<N>::testCosineParetoOptimal()const{
+std::vector<double> Matrix<N>::getCosineVector()const{
 	//initialising b:
 	std::vector<std::vector<double> > b;
 
@@ -452,8 +457,12 @@ bool Matrix<N>::testCosineParetoOptimal()const{
 	for (size_t i = 0; i < w.size(); i++){
 		w[i] /= fullSum;
 	}
+	return w;
+}
 
-	return Matrix::testVectorParetoOptimal(w);
+template<size_t N>
+bool Matrix<N>::testCosineParetoOptimal()const{
+	return Matrix::testVectorParetoOptimal(getCosineVector());
 }
 
 template<size_t N>
@@ -553,4 +562,10 @@ std::vector<double> Matrix<N>::getMeanOfSpans()const{
 template<size_t N>
 bool Matrix<N>::testAvgSpanTreeParetoOptimal()const {
 		return Matrix::testVectorParetoOptimal(getMeanOfSpans());
+}
+
+template<size_t N>
+Matrix<N - 1> Matrix<N>::cutBottom()const {
+	std::vector<Ush> v(data.begin() + N - 1, data.end());
+	return Matrix<N - 1>(v);
 }

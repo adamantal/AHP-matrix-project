@@ -65,7 +65,7 @@ class LpSolution {
       return tmp;
     }
     std::vector<double> gets(){ return s; }
-    std::vector<double> getOtherTwoVector(){
+    std::vector<double> getOtherTwoVector() {
       //determining the index:
       std::set<int> indexes;
       for (size_t i = 0; i < I.size(); i++) {
@@ -75,7 +75,7 @@ class LpSolution {
         }
       }
       int specialIndex = -1;
-      for (size_t i = 0; i < N; i++){
+      for (size_t i = 0; i < N; i++) {
         if (std::find(indexes.begin(), indexes.end(), i) == indexes.end()) {
           specialIndex = i;
           break;
@@ -87,7 +87,7 @@ class LpSolution {
 
       std::vector<std::vector<double>> returns;
       for (size_t i = 0; i < N; i++) {
-        if (i != specialIndex) {
+        if ((long)i != specialIndex) {
           std::vector<double> tmp = x;
           tmp[specialIndex] = matrix.get(specialIndex, i) * x[i];
           Matrix<N>::L1(tmp);

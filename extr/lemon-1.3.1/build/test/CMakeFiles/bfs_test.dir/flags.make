@@ -6,5 +6,5 @@ CXX_FLAGS =  -Wall -W -Wunused -Wformat=2 -Wctor-dtor-privacy -Wnon-virtual-dtor
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/antala/prog/lemon-1.3.1 -I/home/antala/prog/lemon-1.3.1/build 
+CXX_INCLUDES = -I/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1 -I/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build 
 

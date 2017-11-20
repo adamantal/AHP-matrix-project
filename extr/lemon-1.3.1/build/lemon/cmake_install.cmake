@@ -1,4 +1,4 @@
-# Install script for directory: /home/antala/prog/lemon-1.3.1/lemon
+# Install script for directory: /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/lemon
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -33,22 +33,22 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/antala/prog/lemon-1.3.1/build/lemon/libemon.a")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE STATIC_LIBRARY FILES "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/lemon/libemon.a")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "headers")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/lemon" TYPE DIRECTORY FILES
-    "/home/antala/prog/lemon-1.3.1/lemon/."
-    "/home/antala/prog/lemon-1.3.1/lemon/bits"
-    "/home/antala/prog/lemon-1.3.1/lemon/concepts"
+    "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/lemon/."
+    "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/lemon/bits"
+    "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/lemon/concepts"
     FILES_MATCHING REGEX "/[^/]*\\.h$")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "headers")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/lemon" TYPE FILE FILES "/home/antala/prog/lemon-1.3.1/build/lemon/config.h")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/lemon" TYPE FILE FILES "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/lemon/config.h")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/antala/prog/lemon-1.3.1/build/lemon/lemon.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/lemon/lemon.pc")
 endif()
 

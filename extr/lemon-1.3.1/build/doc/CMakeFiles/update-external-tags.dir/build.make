@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/antala/prog/lemon-1.3.1
+CMAKE_SOURCE_DIR = /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/antala/prog/lemon-1.3.1/build
+CMAKE_BINARY_DIR = /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build
 
 # Utility rule file for update-external-tags.
 
@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/antala/prog/lemon-1.3.1/build
 include doc/CMakeFiles/update-external-tags.dir/progress.make
 
 doc/CMakeFiles/update-external-tags:
-	cd /home/antala/prog/lemon-1.3.1/build/doc && /usr/bin/wget -N http://gcc.gnu.org/onlinedocs/gcc-4.7.3/libstdc++/api/libstdc++.tag
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/doc && /usr/bin/wget -N http://gcc.gnu.org/onlinedocs/gcc-4.7.3/libstdc++/api/libstdc++.tag
 
 update-external-tags: doc/CMakeFiles/update-external-tags
 update-external-tags: doc/CMakeFiles/update-external-tags.dir/build.make
@@ -67,10 +67,10 @@ doc/CMakeFiles/update-external-tags.dir/build: update-external-tags
 .PHONY : doc/CMakeFiles/update-external-tags.dir/build
 
 doc/CMakeFiles/update-external-tags.dir/clean:
-	cd /home/antala/prog/lemon-1.3.1/build/doc && $(CMAKE_COMMAND) -P CMakeFiles/update-external-tags.dir/cmake_clean.cmake
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/doc && $(CMAKE_COMMAND) -P CMakeFiles/update-external-tags.dir/cmake_clean.cmake
 .PHONY : doc/CMakeFiles/update-external-tags.dir/clean
 
 doc/CMakeFiles/update-external-tags.dir/depend:
-	cd /home/antala/prog/lemon-1.3.1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/antala/prog/lemon-1.3.1 /home/antala/prog/lemon-1.3.1/doc /home/antala/prog/lemon-1.3.1/build /home/antala/prog/lemon-1.3.1/build/doc /home/antala/prog/lemon-1.3.1/build/doc/CMakeFiles/update-external-tags.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1 /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/doc /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/doc /home/adam/Prog/AHP-matrix-project/extr/lemon-1.3.1/build/doc/CMakeFiles/update-external-tags.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : doc/CMakeFiles/update-external-tags.dir/depend
 

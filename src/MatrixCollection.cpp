@@ -117,7 +117,7 @@ MatrixCollection<N> MatrixCollection<N>::applyFilter(filterType filter) {
 }
 
 template<size_t N>
-void MatrixCollection<N>::generateCsv(std::string filename){
+void MatrixCollection<N>::generateCsv(std::string filename, filterType filter) {
 	std::ofstream F;
 	F.open(filename);
 	//TODO: header?
@@ -130,7 +130,23 @@ void MatrixCollection<N>::generateCsv(std::string filename){
 			<< it->getConsistencyRatio() << ", , "
 			<< it->getPrimalNormEigenvector()[0] << ", " << it->getPrimalNormEigenvector()[1] << ", " << it->getPrimalNormEigenvector()[2] << ", " << it->getPrimalNormEigenvector()[3] << ", , ";
 
-				LpSolution<N> lp = it->LPVectorParetoOptimal(it->getPrimalNormEigenvector());
+				std::vector<double> V;
+				switch (filter) {
+					case (filterType::EigenVectorMethod):
+						V = it->getPrimalNormEigenvector();
+						break;
+
+					case (filterType::CosineMethod):
+						V = it->getCosineVector();
+						break;
+
+					case (filterType::AverageSpanTreeMethod):
+						V = it->getMeanOfSpans();
+						break;
+					default :
+						throw "For this filter the CSV generator file has not yet been implemented.\n";
+				}
+				LpSolution<N> lp = it->LPVectorParetoOptimal(V);
 				std::vector<double> vec = lp.getxnorm();
 		F << vec[0] << ", " << vec[1] << ", " << vec[2] << ", " << vec[3] << ", , ";
 				std::vector<double> oth = lp.getOtherTwoVector();
@@ -139,4 +155,24 @@ void MatrixCollection<N>::generateCsv(std::string filename){
 			<< "\n";
 	}
 	F.close();
+}
+
+template<size_t N>
+bool MatrixCollection<N>::isIncluded(const Matrix<N>& M, unsigned long long int& j)const{
+	//WE ASSUME THE COLLECTION IS ORDERED
+	size_t begin, end;
+	begin = 0;
+	end = data.size() - 1;
+	while (begin != end) { //logarithmic search
+		size_t middle = (begin + end) / 2;
+		if (end - begin < 2) std::cout << end - begin << std::endl;
+		if (data[middle] < M) {
+			begin = middle;
+		} else {
+			end = middle;
+		}
+	}
+	std::cout << "end!\n";
+	j = begin;
+	return (M == data[begin]); //== data[end]
 }
