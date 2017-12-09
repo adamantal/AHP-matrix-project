@@ -58,8 +58,8 @@ class Matrix{
 		//operators:
 		bool operator==(const Matrix &)const;
 		bool operator!=(const Matrix & rhs)const{return !(*this == rhs);};
-		bool operator<(const Matrix &)const;
-		bool operator>(const Matrix & rhs)const{return !(*this < rhs && *this != rhs);};
+		bool operator<(const Matrix<N> &)const;
+		bool operator>(const Matrix & rhs)const{return !(*this < rhs && *this == rhs);};
 		bool operator<=(const Matrix & rhs)const{return !(*this > rhs);};
 		void operator++(int);
 

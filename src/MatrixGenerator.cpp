@@ -1,3 +1,5 @@
+#include<bitset>
+
 #include "MatrixCollection.h"
 #include "Matrix5Spec.cpp"
 
@@ -81,20 +83,32 @@ namespace matrixInit {
 	template<size_t N>
 	bool generateAllToFile();
 
-	void takeOutPermutationOfItSpec5(const Matrix5Spec &m, std::vector<bool> &s, const MatrixCollection<4> mc) {
+	void takeOutPermutationOfItSpec5(const Matrix5Spec &m, std::bitset<84113665016> &s, const MatrixCollection<4> mc, const size_t& outerIndex) {
 		//template specify:
 		Ush N = 5;
+		static unsigned long long int COUNT = 0;
 
 		Ush perm[N];
 		for (Ush j = 0; j < N; j++) perm[j] = j;
 
-		while ( std::next_permutation(perm, perm + N) ) {
-			Matrix<5> tmp = m.getMatrix().permutateBy(perm);
+		Matrix<5> M5 = m.getMatrix();
+
+		while ( std::next_permutation(perm, perm + N) ) { //5!
+			Matrix<5> tmp = M5.permutateBy(perm);
 			unsigned long long int i = 0;
 			if (Matrix5Spec::getIndexOutOfMatrix(tmp, i, mc)) {
+				if (outerIndex > i) {
+					std::cout << "outerIndex: " << outerIndex << std::endl;
+					std::cout << "i: " << i << std::endl;
+					std::cout << "Original matrix:\n" << M5 << std::endl << std::endl;
+					std::cout << "Permutated matrix:\n" << tmp << std::endl << std::endl;
+					throw "Error - scrolling through previously watched elements.\n";
+				}
+				if (!s[i]) COUNT++;
 				s[i] = true;
 			}
 		}
+		if (COUNT % 1000 < 100) std::cout << COUNT << std::endl;
 	}
 
 	template<>
@@ -105,32 +119,28 @@ namespace matrixInit {
 		MatrixCollection<4> mc = MatrixCollection<4>::readFromFile(PATH_4_ALL);
 
 		std::cout << "Collecting memory for vector...\n";
+		//std::vector<bool>
+		std::bitset<84113665016> s;
 		//std::vector<bool> s(84113665016); // 17^4 * 1007096
-		std::vector<bool> s(90);
 
-		std::cout << "Initialising vector...\n";
-		for (std::vector<bool>::iterator it = s.begin(); it != s.end(); it++) {
-			size_t tmpi = it - s.begin();
-			if (tmpi % 84113665 == 0) std::cout << tmpi / 84113665 << "°%" << std::endl;
-			*it = false;
-		}
+		std::cout << "Vector initialized...\n";
 
 		//checking validity:
-		std::cout << "Checking validity... \n";
-		std::vector<Ush> v = {0, 0, 0, 0, 0, 0};
-		Matrix5Spec m5(v);
-		unsigned long long int i = 99;
-		Matrix5Spec::getIndexOutOfMatrix(m5.getMatrix(), i, mc);
-		std::cout << i << std::endl;
-		if (i != 0) throw "Error: test failed - please check getIndexOutOfMatrix function.\n";
+		{
+			std::cout << "\tChecking validity... \n";
+			std::vector<Ush> v = {0, 0, 0, 0, 0, 0};
+			Matrix5Spec m5(v);
+			unsigned long long int i = 99;
+			Matrix5Spec::getIndexOutOfMatrix(m5.getMatrix(), i, mc);
+			if (i != 0) throw "Error: test failed - please check getIndexOutOfMatrix function.\n";
+			std::cout << "\tTEST OK\n";
+		}
 
 		std::cout << "Filtering...\n";
-		//"Invalid amount of elements." -- here throws an error. - after 2700 seconds (45 min.)
-		for (auto it = s.begin(); it != s.end(); it++) {
-			size_t tmpi = it - s.begin();
-			if (tmpi % 84113665 == 0) std::cout << tmpi / 84113665 << "°%" << std::endl;
+		for (unsigned long long int tmpi = 0; tmpi < 84113665016; tmpi++) {
+			//tmpi = it - s.begin();
 			if (!s[tmpi]) {
-				takeOutPermutationOfItSpec5(Matrix5Spec::getMatrixOutOfIndex(tmpi, mc), s, mc);
+				takeOutPermutationOfItSpec5(Matrix5Spec::getMatrixOutOfIndex(tmpi, mc), s, mc, tmpi);
 			}
 		}
 		return true;

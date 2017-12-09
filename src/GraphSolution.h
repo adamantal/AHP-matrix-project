@@ -39,6 +39,7 @@ class MatrixNode {
     double getX()const{ return X;}
 
     MatrixNode& operator*= (const double &rhs);
+    MatrixNode& operator/= (const double &rhs);
 };
 
 template<size_t N>

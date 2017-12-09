@@ -100,28 +100,27 @@ MatrixCollection<N> MatrixCollection<N>::applyFilter(filterType filter) {
 				}
 			}
 			break;
-		case (filterType::EigenVectorMethod) :
-		case (filterType::AverageSpanTreeMethod) :
-		case (filterType::CosineMethod) :
+		default :
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
 					if (!(it->testParetoOptimality(filter))) tmp.add(*it);
 				}
 			}
 			break;
-		default:
-			throw "Unknown filter applied.\n";
-			break;
 	}
 	return tmp;
 }
 
-template<size_t N>
-void MatrixCollection<N>::generateCsv(std::string filename, filterType filter) {
+template<>
+void MatrixCollection<4>::generateCsv(std::string filename, filterType filter) {
 	std::ofstream F;
 	F.open(filename);
 	//TODO: header?
-	F << "Index, Matrix, , , , , , Eig.val, CR, Eig.vec, , , , , LP. vec, , , , , Vec2, , , , , Vec3, , , , , \n";
+	if (filter == filterType::EigenVectorMethod) {
+		F << "Index, Matrix, , , , , , Eig.val, CR, Eig.vec, , , , , LP. vec, , , , , Vec2, , , , , Vec3, , , , , \n";
+	} else {
+		F << "Index, Matrix, , , , , , Eig.val, CR, Eig.vec, , , , , Found vector, , , , , LP. vec, , , , , Vec2, , , , , Vec3, , , , , \n";
+	}
 
 	for (auto it = data.begin(); it != data.end(); it++){
 		F << std::distance(data.begin(), it) + 1 << ", "
@@ -139,14 +138,19 @@ void MatrixCollection<N>::generateCsv(std::string filename, filterType filter) {
 					case (filterType::CosineMethod):
 						V = it->getCosineVector();
 						break;
-
 					case (filterType::AverageSpanTreeMethod):
 						V = it->getMeanOfSpans();
 						break;
 					default :
 						throw "For this filter the CSV generator file has not yet been implemented.\n";
 				}
-				LpSolution<N> lp = it->LPVectorParetoOptimal(V);
+				if (filter != filterType::EigenVectorMethod) {
+					for (size_t i = 0; i < 4; i++) {
+						F << V[i] << ", ";
+					}
+					F << ", ";
+				}
+				LpSolution<4> lp = it->LPVectorParetoOptimal(V);
 				std::vector<double> vec = lp.getxnorm();
 		F << vec[0] << ", " << vec[1] << ", " << vec[2] << ", " << vec[3] << ", , ";
 				std::vector<double> oth = lp.getOtherTwoVector();
@@ -157,6 +161,65 @@ void MatrixCollection<N>::generateCsv(std::string filename, filterType filter) {
 	F.close();
 }
 
+template<>
+void MatrixCollection<4>::printCSVWithAllData() {
+	std::ofstream F;
+	F.open("../res/all4x4OptimalityData.csv");
+	std::vector<filterType> filterTypes = {filterType::EigenVectorMethod, filterType::AverageSpanTreeMethod, filterType::CosineMethod};
+	//header:
+	F << "#,Matrix, , , , , ,Larg.eig.value,Efficiency,Methods:,Eigenvector,Spantree,Cosine,Vectors:,Eigenvector, , , , ,Spantree, , , , ,Cosine, , , ,LP return if inefficient:,Eigenvector, , , , , Spantree, , , , ,Cosine , , , , ,\n";
+
+	for (auto it = data.begin(); it != data.end(); it++) {
+		if ((std::distance(data.begin(), it) + 1) % 1000 == 0) {
+			std::cout << "[" << data.size() << "//" << std::distance(data.begin(), it) + 1 << "]" << std::endl;
+		}
+
+		//base data:
+		F << std::distance(data.begin(), it) + 1 << ", "
+			<< it->get(0,1) << ", " << it->get(0,2) << ", " << it->get(0,3) << ", " << it->get(1,2) << ", " << it->get(1,3) << ", " << it->get(2,3) << ", "
+			<< it->largestEigenvalue() << ", "
+			<< it->getConsistencyRatio() << ", , ";
+
+		for (auto const& filter : filterTypes) {
+			//for all filtering type test the matrix
+			if (it->testParetoOptimality(filter)) {
+				F << "Y, ";
+			} else {
+				F << "N, ";
+			}
+		}
+		std::vector<std::vector<double>> vectors;
+		vectors.push_back(it->getPrimalNormEigenvector());
+		vectors.push_back(it->getMeanOfSpans());
+		vectors.push_back(it->getCosineVector());
+		std::for_each(vectors.begin(), vectors.end(), &Matrix<4>::L1);
+
+		F << ", ";
+		for (const auto & vec : vectors) {
+			for (auto it = vec.begin(); it != vec.end(); it++) {
+				F << *it << ", ";
+			}
+			F << ", ";
+		}
+
+		assert(vectors.size () == filterTypes.size());
+		for (size_t i = 0; i < filterTypes.size(); i++) {
+			if (!(it->testParetoOptimality(filterTypes[i]))) {
+				LpSolution<4> lp = it->LPVectorParetoOptimal(vectors[i]);
+				std::vector<double> opt = lp.getxnorm();
+				for (size_t j = 0; j < opt.size(); j++) {
+					F << opt[j] << ", ";
+				}
+				F << ", ";
+			} else {
+				F << ", , , , , ";
+			}
+		}
+
+		F << "\n";
+	}
+}
+
 template<size_t N>
 bool MatrixCollection<N>::isIncluded(const Matrix<N>& M, unsigned long long int& j)const{
 	//WE ASSUME THE COLLECTION IS ORDERED
@@ -165,14 +228,22 @@ bool MatrixCollection<N>::isIncluded(const Matrix<N>& M, unsigned long long int&
 	end = data.size() - 1;
 	while (begin != end) { //logarithmic search
 		size_t middle = (begin + end) / 2;
-		if (end - begin < 2) std::cout << end - begin << std::endl;
-		if (data[middle] < M) {
-			begin = middle;
-		} else {
+		if (begin == middle || middle == end) {
+			if (M == data[begin]) {
+				j = begin;
+				return true;
+			} else if (M == data[end]) {
+				j = end;
+				return true;
+			} else {
+				break;
+			}
+		}
+		if (M < data[middle]) {
 			end = middle;
+		} else {
+			begin = middle;
 		}
 	}
-	std::cout << "end!\n";
-	j = begin;
-	return (M == data[begin]); //== data[end]
+	return false;
 }

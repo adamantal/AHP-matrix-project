@@ -12,7 +12,7 @@ void MatrixNode::groupIt(Ush g) {
   else
     group = g;
 }
-void MatrixNode::ungroupIt(){
+void MatrixNode::ungroupIt() {
   if (group == 0)
     throw "Node is not groupped.\n";
   else
@@ -22,7 +22,10 @@ MatrixNode& MatrixNode::operator*= (const double &rhs){
   X *= rhs;
   return *this;
 }
-
+MatrixNode& MatrixNode::operator/= (const double &rhs){
+  X /= rhs;
+  return *this;
+}
 
 template<size_t N>
 MatrixProcessor<N>::MatrixProcessor(Matrix<N> m):m(m) {
@@ -46,29 +49,38 @@ std::vector<double> MatrixProcessor<N>::run(EdgeList e) {
     Ush index = std::distance(e.begin(), it) + 1;
     if (it->first >= N || it->second >= N) throw "Invalid index in the edgelist.\n";
     if (it->first == it->second) throw "Indexes match, can't go on.\n";
-    double elem = m.get(it->second, it->first);
 
     MatrixNode* n1 = nodes[it->first];
     MatrixNode* n2 = nodes[it->second];
 
     if (!n1->isGroupped() && !n2->isGroupped()) {
-      //std::cout << "C1" << index << std::endl;
       n1->groupIt(index);
       n2->groupIt(index);
 
-      *n2 *= elem;
+      *n2 *= m.get(it->second, it->first);
 
     } else if (!(n1->isGroupped() && n2->isGroupped())) {
-      //std::cout << "C2" << index << std::endl;
-      //assert n1 groupped and n2 not:
-      if ((!n1->isGroupped()) && n2->isGroupped()) {
+      //assert n1 is groupped and n2 is not:
+      if (n2->isGroupped() && !n1->isGroupped()) {
         //std::swap(n1, n2);
         MatrixNode* tmp = n1;
         n1 = n2;
         n2 = tmp;
       }
-      n2->groupIt(n1->getGroup());
-      *n2 *= (n1->getX() * elem);
+
+      double minX = 100001;
+      for (auto nodeit = node.begin() + 1; nodeit != node.end(); nodeit++) {
+        if (nodeit->second->getGroup() == n1->getGroup()) {
+          minX = std::min(minX, m.get(n2->getLabel(), nodeit->first) ); //nodeit->second->getX());
+        }
+      }
+      if (minX > 100000) throw "Calculation error - no entry found in group.\n"
+
+      for (auto nodeit = node.begin() + 1; nodeit != node.end(); nodeit++) {
+        if (nodeit->second->getGroup() == n1->getGroup()) {
+          minX = std::min(minX, nodeit->second->getX());
+        }
+      }
 
     } else if (n1->isGroupped() && n2->isGroupped()) {
       //std::cout << "C3" << index << std::endl;
@@ -157,7 +169,7 @@ int main() {
           std::cout << v[i] << " ";
         }
         std::cout << std::endl;
-      
+
     } catch (const char* e){
       //std::cout << e;
     }

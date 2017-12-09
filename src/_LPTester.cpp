@@ -21,18 +21,31 @@ int main() {
 	Matrix<4> M4({0, 3, 8, 6, 4, 3});
 	std::vector<double> w4 = {0.404518, 0.436173, 0.110295, 0.049014};
 
-	//Matrix<5> M5({1, 1, 1, 1, 1, 1, 1, 1, 1, 1});
 	Matrix<6> M6(
 	{
-		3, 2, 0, 2, 3,
-		   6, 2, 12, 0,
-			    12, 12, 13,
-					   0, 10,
-						 	 2
+		3,  2,  0,  2,  3,
+		    6,  2, 12,  0,
+			     12, 12, 13,
+					      0, 10,
+						 	 	    2
 	});
 
-	std::cout << M6 << std::endl;
-	std::cout << M6.testParetoOptimality(filterType::CosineMethod) << std::endl;
+	/*std::cout << M6 << std::endl;
+	std::cout << M6.testParetoOptimality(filterType::CosineMethod) << std::endl;*/
+
+	Matrix<4> buggyMatrix(
+	{
+			0, 0, 4,
+			   4, 7,
+				    2
+	});
+
+	std::vector<double> span = buggyMatrix.getMeanOfSpans();
+
+	for (size_t i = 0; i < span.size(); i++) std::cout << span[i] << " ";
+	std::cout << std::endl;
+
+
 
 	//testing input/output of matrixcollection
 	/*

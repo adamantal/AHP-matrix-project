@@ -55,8 +55,8 @@ bool Matrix<N>::operator==(const Matrix &rhs) const{
 }
 
 template<size_t N>
-bool Matrix<N>::operator<(const Matrix &rhs) const{
-	for (size_t i = 0; i < N; i++) {
+bool Matrix<N>::operator<(const Matrix<N> &rhs) const{
+	for (size_t i = 0; i < N * (N - 1) / 2; i++) {
 		if (data[i] < rhs.data[i])
 			return true;
 		else if (data[i] > rhs.data[i])
@@ -213,7 +213,7 @@ std::vector<double> Matrix<N>::getPrimalEigenvector()const{
 
 	for (int i = 1; i < eigenSolver.eigenvalues().size(); i++) {
 		if (largestEigenvalue < eigenSolver.eigenvalues()[i].real()) {
-			if (abs(largestEigenvalue - eigenSolver.eigenvalues()[i].real()) < 1e-6) {
+			if (fabs(largestEigenvalue - eigenSolver.eigenvalues()[i].real()) < 1e-6) {
 				multiplicity++;
 			} else {
 				largestEigenvalue = eigenSolver.eigenvalues()[i].real();
@@ -266,7 +266,7 @@ bool Matrix<N>::testVectorParetoOptimal(const std::vector<double> &w) const {
 
 template<size_t N>
 bool Matrix<N>::testParetoOptimality(filterType filter) const{
-	switch (filter){
+	switch (filter) {
 		case (filterType::EigenVectorMethod) :
 			return Matrix::testPrimalEigenvectorIsParetoOptimal();
 			break;

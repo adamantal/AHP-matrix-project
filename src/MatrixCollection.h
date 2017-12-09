@@ -44,6 +44,7 @@ class MatrixCollection {
 		static MatrixCollection readFromFile(std::string);
 
 		void generateCsv(std::string, filterType);
+		void printCSVWithAllData();
 		//iterator:
 		typename std::vector< Matrix<N> >::iterator begin();
 		typename std::vector< Matrix<N> >::iterator end();

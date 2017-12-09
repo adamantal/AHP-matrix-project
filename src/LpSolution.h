@@ -21,7 +21,7 @@ class LpSolution {
   public:
     LpSolution(Matrix<N> m, std::vector<double> v, std::vector<spair> i,  std::vector<spair> j, double val, std::vector<double> xv, std::vector<double> sv)
       :matrix(m), initv(v), I(i), J(j), value(val), x(xv), s(sv)  {}
-    bool isOptimal() {
+    bool isOptimal() const {
       return (value > -1e-8);
     }
 
@@ -42,6 +42,7 @@ class LpSolution {
 
       std::cout << "Value: \n";
       std::cout << value << std::endl;
+      std::cout << "isOptimal: " << isOptimal() << std::endl;
 
       std::cout << "x: \n";
       for (size_t i = 0; i < N; i++) std::cout << x[i] << " ";
@@ -52,19 +53,19 @@ class LpSolution {
       std::cout << std::endl;
     }
 
-    Matrix<N> getMatrix()const{ return matrix; }
-    std::vector<double> getw(){ return initv; }
-    std::vector<double> getx(){ return x; }
-    std::vector<double> getxnorm(){
+    Matrix<N> getMatrix()const { return matrix; }
+    std::vector<double> getw() { return initv; }
+    std::vector<double> getx() { return x; }
+    std::vector<double> getxnorm() {
       std::vector<double> tmp = x;
       double sum = 0;
       for (size_t i = 0; i < N; i++) sum += x[i];
-      if (abs(sum) > 1e-6) {
+      if (fabs(sum) > 1e-6) {
         for (size_t i = 0; i < N; i++) tmp[i] /= sum;
       }
       return tmp;
     }
-    std::vector<double> gets(){ return s; }
+    std::vector<double> gets() { return s; }
     std::vector<double> getOtherTwoVector() {
       //determining the index:
       std::set<int> indexes;
@@ -81,7 +82,10 @@ class LpSolution {
           break;
         }
       }
-      if (specialIndex == -1) throw "Fundamental problem in calculation - specialIndex can not be determined.";
+      if (specialIndex == -1) {
+        printOutData();
+        throw "Fundamental problem in calculation - specialIndex can not be determined.";
+      }
       //leírni: 4x4-esre csak ez a lehetőség fordulhat elő
       //std::cout << "Ind: " << specialIndex << "\n";
 
@@ -100,7 +104,7 @@ class LpSolution {
       for (auto it = begin(returns); it != end(returns); it++) {
         bool equal = true;
         for (size_t i = 0; i < N; i++) {
-          if (abs((*it)[i] - xnorm[i]) > 1e-6) {
+          if (fabs((*it)[i] - xnorm[i]) > 1e-6) {
             equal = false;
             break;
           }
@@ -112,7 +116,7 @@ class LpSolution {
       }
 
       if (returns.size() != 2) throw "Invalid amouont of vectors - assumption not hold.";
-      //mi van ha kettő megegyezik? - ezen szűk mátrixlistákban nem fordul elő - mi van a nagyobb halmazzal?
+      //TODO: mi van ha kettő megegyezik? - ezen szűk mátrixlistákban nem fordul elő - mi van a nagyobb halmazzal?
 
       if (returns[0][0] < returns[1][0]) {
         for (size_t i = 0; i < N; i++) returns[0].push_back(returns[1][i]);
