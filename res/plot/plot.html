@@ -10,18 +10,20 @@
       var f = [];
       var g = [];
       var h = [];
+      var i = [];
 
       $.get('../basicHistogram.csv', function(data) {
           var lines = data.split('\n');
           $.each(lines, function(lineNo, line) {
-              if (lineNo != 0) {
-                var items = line.split('\t');
+              if (lineNo != 0 && lineNo < 103) {
+                var items = line.split(',');
                 c.push(items[0]);
                 d.push(parseInt(items[1]));
                 e.push(parseFloat(items[2]));
                 f.push(parseFloat(items[3]));
                 g.push(parseFloat(items[4]));
                 h.push(parseFloat(items[5]));
+                i.push(parseFloat(items[6]));
               }
           });
 
@@ -53,7 +55,14 @@
                           text: 'Percentage of matrices'
                       },
                       opposite: true
-                  }],
+                  }/*, {
+                      title: {
+                          text: 'Average number of opt vector'
+                      },
+                      opposite: true,
+                      min: 2.7,
+                      max: 3.1
+                  }*/],
 
                   series: [{
                       name: 'All',
@@ -75,7 +84,11 @@
                       name: 'Common%',
                       data: h,
                       yAxis: 1
-                  }
+                  }/*, {
+                    name: 'Number%',
+                    data: i,
+                    yAxis: 2
+                  }*/
                 ]
           };
 

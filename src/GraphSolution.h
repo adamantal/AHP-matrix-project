@@ -1,13 +1,13 @@
+#ifndef GRAPHSOLUTION_H
+#define GRAPHSOLUTION_H
+
 #include<iostream>
 #include<vector>
 #include<map>
 
 #include <lemon/lp.h>
 
-#include "Matrix.cpp"
-
-#ifndef GRAPHSOLUTION_H
-#define GRAPHSOLUTION_H
+#include "Matrix.h"
 
 typedef unsigned short Ush;
 typedef std::vector<std::pair<Ush, Ush>> EdgeList;
@@ -47,10 +47,50 @@ class MatrixProcessor {
   private:
     std::map<Ush, MatrixNode*> nodes;
     Matrix<N> m;
+
+    static const std::vector<std::pair<Ush, Ush>> edges;
+
+    std::vector<double> runForEdgeList(EdgeList);
+    bool plus(std::vector<Ush> &, EdgeList &) const;
   public:
     MatrixProcessor<N>(Matrix<N> m);
     ~MatrixProcessor<N>();
-    std::vector<double> run(EdgeList);
+    Ush run();
+    void printNodesValue();
 };
+
+class VectorEps {
+  private:
+    std::vector<std::vector<double>> data;
+
+    static const double EPS;
+    static bool isEpsClose(double x, double y) {
+      return fabs(x - y) < EPS;
+    }
+    static bool isEpsClose(std::vector<double> v1, std::vector<double> v2) {
+      if (v1.size () != v2.size()) throw "Size of vectors mismtach!\n";
+      for (size_t i = 0; i < v1.size(); i++) {
+        if (!isEpsClose(v1[i], v2[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+  public:
+    VectorEps(){}
+    void add(std::vector<double> x) {
+      bool foundVectorEps = false;
+      for (auto it = data.begin(); it != data.end(); it++) {
+        if (isEpsClose(*it, x)) foundVectorEps = true;
+      }
+      if (!foundVectorEps) data.push_back(x);
+    }
+    std::vector<std::vector<double>> getVectors()const{
+      return data;
+    }
+    size_t size() const;
+};
+
+const double VectorEps::EPS = 1e-8;
 
 #endif //GRAPHSOLUTION_H

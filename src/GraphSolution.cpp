@@ -7,7 +7,7 @@ Ush MatrixNode::getGroup()const{
   return group;
 }
 void MatrixNode::groupIt(Ush g) {
-  if (group != 0)
+  if (isGroupped())
     throw "Node is already groupped!\n";
   else
     group = g;
@@ -29,7 +29,7 @@ MatrixNode& MatrixNode::operator/= (const double &rhs){
 
 template<size_t N>
 MatrixProcessor<N>::MatrixProcessor(Matrix<N> m):m(m) {
-  for (size_t i = 0; i < N; i++){
+  for (size_t i = 0; i < N; i++) {
     //MatrixNode* n = new MatrixNode(i);
     nodes[i] = new MatrixNode(i);
   }
@@ -41,10 +41,18 @@ MatrixProcessor<N>::~MatrixProcessor() {
   }
 }
 
+template<size_t N>
+void MatrixProcessor<N>::printNodesValue() {
+  for (size_t i = 0; i < N; i++) {
+    std::cout << nodes[i]->getX() << " ";
+  }
+  std::cout << std::endl;
+}
 
 template<size_t N>
-std::vector<double> MatrixProcessor<N>::run(EdgeList e) {
+std::vector<double> MatrixProcessor<N>::runForEdgeList(EdgeList e) {
   if (e.size() + 1 != N) throw "Invalid edgelist given.\n";
+  //printNodesValue();
   for (auto it = e.begin(); it != e.end(); it++) {
     Ush index = std::distance(e.begin(), it) + 1;
     if (it->first >= N || it->second >= N) throw "Invalid index in the edgelist.\n";
@@ -52,12 +60,15 @@ std::vector<double> MatrixProcessor<N>::run(EdgeList e) {
 
     MatrixNode* n1 = nodes[it->first];
     MatrixNode* n2 = nodes[it->second];
+    //std::cout << "Groupping " << n1->getLabel() << " and " << n2->getLabel() << "\n";
 
     if (!n1->isGroupped() && !n2->isGroupped()) {
+      //std::cout << "\tNone is groupped.\n";
       n1->groupIt(index);
       n2->groupIt(index);
 
       *n2 *= m.get(it->second, it->first);
+      //std::cout << "\t The second node's value is " << m.get(it->second, it->first) <<"\n";
 
     } else if (!(n1->isGroupped() && n2->isGroupped())) {
       //assert n1 is groupped and n2 is not:
@@ -67,35 +78,48 @@ std::vector<double> MatrixProcessor<N>::run(EdgeList e) {
         n1 = n2;
         n2 = tmp;
       }
-
+      //std::cout << "\tOne is groupped.\n";
       double minX = 100001;
-      for (auto nodeit = node.begin() + 1; nodeit != node.end(); nodeit++) {
+      for (auto nodeit = nodes.begin(); nodeit != nodes.end(); nodeit++) {
         if (nodeit->second->getGroup() == n1->getGroup()) {
-          minX = std::min(minX, m.get(n2->getLabel(), nodeit->first) ); //nodeit->second->getX());
+          //std::cout << "\t\tGroup member: " << nodeit->second->getLabel() << " with value " << m.get(n2->getLabel(), nodeit->first) << "\n";
+          minX = std::min(minX, nodeit->second->getX() * m.get(n2->getLabel(), nodeit->first) ); //nodeit->second->getX());
         }
       }
-      if (minX > 100000) throw "Calculation error - no entry found in group.\n"
+      //std::cout << "\tThe min is " << minX << " assigning it to " << n2->getLabel() << "\n";
+      if (minX > 100000) throw "Calculation error - no entry found in group.\n";
 
-      for (auto nodeit = node.begin() + 1; nodeit != node.end(); nodeit++) {
-        if (nodeit->second->getGroup() == n1->getGroup()) {
-          minX = std::min(minX, nodeit->second->getX());
-        }
-      }
+      *n2 *= minX;
+      n2->groupIt(n1->getGroup());
 
     } else if (n1->isGroupped() && n2->isGroupped()) {
-      //std::cout << "C3" << index << std::endl;
-      elem *= n1->getX();
-      Ush oldGroup = n2->getGroup();
+      if (n1->getGroup() == n2->getGroup()) throw "Circle attempted.\n";
+      //we're going to merge n2's group to n1's
+      double minX = 100001;
+      for (auto n2it = nodes.begin(); n2it != nodes.end(); n2it++) {
+        MatrixNode * elementOfn2 = n2it->second;
+        if (elementOfn2->getGroup() == n2->getGroup()) {
+          for (auto n1it = nodes.begin(); n1it != nodes.end(); n1it++) {
+            MatrixNode* elementOfn1 = n1it->second;
+            if (elementOfn1->getGroup() == n1->getGroup()) {
+              minX = std::min(minX, elementOfn1->getX() * m.get(elementOfn2->getLabel(), elementOfn1->getLabel()));
+            }
+          }
+        }
+      }
+      if (minX > 100000) throw "Calculation error - no entry found in group.\n";
 
-      for (size_t i = 0; i < nodes.size(); i++) {
-        if (nodes[i]->getGroup() == oldGroup) {
-          *(nodes[i]) *= elem;
-          nodes[i]->groupIt(n1->getGroup());
+      for (auto n2it = nodes.begin(); n2it != nodes.end(); n2it++) {
+        MatrixNode * elementOfn2 = n2it->second;
+        if (elementOfn2->getGroup() == n2->getGroup()) {
+          *elementOfn2 *= minX;
+          elementOfn2->groupIt(n1->getGroup());
         }
       }
     } else {
       throw "Invalid ifelse branch.\n";
     }
+    //printNodesValue();
   }
   //checking if solution is valid:
   auto it = nodes.begin();
@@ -117,72 +141,82 @@ std::vector<double> MatrixProcessor<N>::run(EdgeList e) {
   return r;
 }
 
-bool plus(std::vector<Ush> &v) {
-  for (auto rit = v.rbegin(); rit != v.rend(); rit++) {
-    if (*rit != 7) {
-      (*rit)++;
-      return true;
-    } else {
-      *rit = 0;
-    }
+template<>
+const std::vector<std::pair<Ush, Ush>> MatrixProcessor<4>::edges = {std::make_pair<Ush, Ush>(0,1),
+  std::make_pair<Ush, Ush>(0,2), std::make_pair<Ush, Ush>(0,3), std::make_pair<Ush, Ush>(1,2),
+  std::make_pair<Ush, Ush>(1,3), std::make_pair<Ush, Ush>(2,3)};
+
+template<>
+bool MatrixProcessor<4>::plus(std::vector<Ush> &indexes, EdgeList &e) const {
+  /*for (size_t i = 0; i < indexes.size(); i++) {
+    std::cout << indexes[i] << " ";
   }
-  return false;
+  std::cout << "; ";*/
+
+  size_t i = 3;
+  do {
+    i--;
+    if (indexes[i] != 5) {
+      indexes[i]++;
+      break;
+    } else {
+      indexes[i] = 0;
+    }
+  } while (i != 0);
+
+  if (i == 0 && indexes[0] == 0) return false;
+
+  //if the tree is not spanning:
+  if ( ((indexes[0] != 2 && indexes[0] != 4 && indexes[0] != 5) &&
+       (indexes[1] != 2 && indexes[1] != 4 && indexes[1] != 5)) || //3
+       (indexes[0] % 2 != 1 && indexes[1] % 2 != 1) || //2
+       ((indexes[0] != 0 && indexes[0] != 3 && indexes[0] != 4) &&
+       (indexes[1] != 0 && indexes[1] != 3 && indexes[1] != 4)) || //1
+       indexes[0] == indexes[1] || indexes[1] == indexes[2] || indexes[0] == indexes[2]
+     )
+  {
+    return plus(indexes, e);
+  }
+
+  size_t ri = 3;
+  do {
+    ri--;
+    e[ri] = edges[indexes[ri]];
+  } while (ri != 0);
+
+  return true;
 }
 
-int main() {
-  //Matrix<5> m({1, 3, 9, 3, 10, 11, 14, 0, 6, 3});
-  Matrix<4> m({1, 3, 7, 1, 3, 1});
-  std::cout << m << std::endl << std::endl;
-  std::cout << m.getConsistencyRatio() << std::endl;
-  unsigned long int bad = 0, good = 0;
+template<>
+Ush MatrixProcessor<4>::run() {
+  VectorEps vectors;
 
-  std::vector<Ush> v;
-  for (Ush i = 0; i < 6; i++) {
-    v.push_back(0);
-  }
-  while (plus(v)) {
+  std::vector<Ush> indexes(3);
+  EdgeList e(3);
+
+  while (plus(indexes, e)) {
     MatrixProcessor<4> mp = MatrixProcessor<4>(m);
     std::vector<double> r;
     try {
-      std::pair<Ush, Ush> p1(v[0],v[1]);
-      std::pair<Ush, Ush> p2(v[2],v[3]);
-      std::pair<Ush, Ush> p3(v[4],v[5]);
-      //std::pair<Ush, Ush> p4(v[6],v[7]);
-      EdgeList e;
-      e.push_back(p1);
-      e.push_back(p2);
-      e.push_back(p3);
-      //e.push_back(p4);
-
-      r = mp.run(e);
+      r = mp.runForEdgeList(e);
       Matrix<4>::L1(r);
-      for (size_t i = 0; i < r.size(); i++) {
-        std::cout << r[i] << " ";
-      }
-      std::cout << " /////// " << ((m.testVectorParetoOptimal(r))?"OK":"BAD") << std::endl;
       if (!(m.testVectorParetoOptimal(r))) {
-        bad++;
-      } else {
-        good++;
+        throw "Error in calulcation - the received vector is not optimal.\n";
+        break;
       }
-      for (size_t i = 0; i < v.size(); i++) {
-          std::cout << v[i] << " ";
-        }
-        std::cout << std::endl;
-
-    } catch (const char* e){
+      vectors.add(r);
+    } catch (const char* e) {
       //std::cout << e;
     }
   }
-  std::cout << "Good: " << good << std::endl;
-  std::cout << "Bad: " << bad << std::endl;
+  return vectors.getVectors().size();
 
-
-  /*try {
-    r = mp.run(e);
-  } catch(const char * c){
-    std::cout << c << std::endl;
-    throw "";
+  /*std::cout << "Good vectors:\n";
+  for (size_t i = 0; i < results.size(); i++) {
+    std::cout << "(";
+    for (size_t j = 0; j < results[i].size() - 1; j++) {
+      std::cout << results[i][j] << ", ";
+    }
+    std::cout << results[i][results[i].size() - 1] << ")\n";
   }*/
-  return 0;
 }

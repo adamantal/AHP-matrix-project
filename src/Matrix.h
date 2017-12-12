@@ -69,6 +69,7 @@ class Matrix{
 		unsigned long long int getIndexOfMatrix()const;
 		static Matrix getMatrixOfIndex(unsigned long long int);
 		bool isMinimalPermutated()const;
+		Ush countParetoVectorsByAlgorithm()const;
 
 		//for generating 5x5 matrices:
 		Matrix<N - 1> cutBottom()const;

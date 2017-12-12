@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include "LpSolution.h"
+#include "GraphSolution.cpp"
 
 template<size_t N>
 const std::vector<double> Matrix<N>::elem = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,1.0/2,1.0/3,1.0/4,1.0/5,1.0/6,1.0/7,1.0/8,1.0/9};
@@ -568,4 +569,10 @@ template<size_t N>
 Matrix<N - 1> Matrix<N>::cutBottom()const {
 	std::vector<Ush> v(data.begin() + N - 1, data.end());
 	return Matrix<N - 1>(v);
+}
+
+template<size_t N>
+Ush Matrix<N>::countParetoVectorsByAlgorithm()const{
+	MatrixProcessor<N> mp(*this);
+	return mp.run();
 }
