@@ -13,7 +13,7 @@ void MatrixCollection<N>::add(Matrix<N> &m){
 
 template<size_t N>
 Matrix<N>& MatrixCollection<N>::operator[](size_t ind) {
-	return data[ind];
+	return data.at(ind);
 }
 
 template<size_t N>
@@ -22,7 +22,9 @@ size_t MatrixCollection<N>::size(){
 }
 
 template<size_t N>
-bool MatrixCollection<N>::saveToFile(std::string filename){
+bool MatrixCollection<N>::saveToFile(std::string filename) {
+	//regularize ();
+
 	std::ofstream F;
 	F.open(filename);
 
@@ -246,4 +248,27 @@ bool MatrixCollection<N>::isIncluded(const Matrix<N>& M, unsigned long long int&
 		}
 	}
 	return false;
+}
+
+template<size_t N>
+void MatrixCollection<N>::regularize () {
+	for (auto i = data.begin(); i != data.end(); i++) {
+		i->regularize ();
+	}
+}
+
+template<size_t N>
+void MatrixCollection<N>::sort () {
+	std::sort(data.begin(), data.end(),
+		[] (const Matrix<N> & a, const Matrix<N> & b) -> bool
+			{
+				Ush aT = a.countIndexOfUpperTriangle ();
+				Ush bT = b.countIndexOfUpperTriangle ();
+				if (aT != bT) {
+					return aT > bT;
+				} else {
+					return a < b;
+				}
+			}
+	);
 }

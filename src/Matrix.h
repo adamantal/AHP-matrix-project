@@ -36,14 +36,14 @@ class Matrix{
 		//we store only the indexes of the elem object:
 		std::vector<Ush> data;
 
-		Ush indexOfElement(Ush, Ush)const;
+		Ush indexOfElement(Ush, Ush) const;
 		static Ush indexOfInverse(Ush);
-		Eigen::MatrixXd toEigenMatrix()const;
+		Eigen::MatrixXd toEigenMatrix() const;
 
 	protected:
-		bool testPrimalEigenvectorIsParetoOptimal()const;
-		bool testCosineParetoOptimal()const;
-		bool testAvgSpanTreeParetoOptimal()const;
+		bool testPrimalEigenvectorIsParetoOptimal() const;
+		bool testCosineParetoOptimal() const;
+		bool testAvgSpanTreeParetoOptimal() const;
 
 	public:
 		//the same for all the matrices:
@@ -56,20 +56,20 @@ class Matrix{
 		Matrix(const std::vector<Ush>&);
 
 		//operators:
-		bool operator==(const Matrix &)const;
-		bool operator!=(const Matrix & rhs)const{return !(*this == rhs);};
-		bool operator<(const Matrix<N> &)const;
-		bool operator>(const Matrix & rhs)const{return !(*this < rhs && *this == rhs);};
-		bool operator<=(const Matrix & rhs)const{return !(*this > rhs);};
+		bool operator==(const Matrix &) const;
+		bool operator!=(const Matrix & rhs) const {return !(*this == rhs);};
+		bool operator<(const Matrix<N> &) const;
+		bool operator>(const Matrix & rhs) const {return !(*this < rhs && *this == rhs);};
+		bool operator<=(const Matrix & rhs) const {return !(*this > rhs);};
 		void operator++(int);
 
 		//getters:
-		std::vector<Ush> getData()const;
-		double get(Ush, Ush)const;
-		unsigned long long int getIndexOfMatrix()const;
+		std::vector<Ush> getData() const;
+		double get(Ush, Ush) const;
+		unsigned long long int getIndexOfMatrix() const;
 		static Matrix getMatrixOfIndex(unsigned long long int);
-		bool isMinimalPermutated()const;
-		Ush countParetoVectorsByAlgorithm()const;
+		bool isMinimalPermutated() const;
+		Ush countParetoVectorsByAlgorithm() const;
 
 		//for generating 5x5 matrices:
 		Matrix<N - 1> cutBottom()const;
@@ -79,17 +79,21 @@ class Matrix{
 		template<size_t M> friend std::ostream& operator<<(std::ostream&, const Matrix<M> &);
 
 		//functional part:
-		Matrix<N> permutateBy(Ush p[])const;
-		double largestEigenvalue()const;
-		double getConsistencyRatio()const;
+		Matrix<N> permutateBy(Ush p[]) const;
+		double largestEigenvalue() const;
+		double getConsistencyRatio() const;
 
-		std::vector<double> getPrimalEigenvector()const;
-		std::vector<double> getPrimalNormEigenvector()const;
-		std::vector<double> getMeanOfSpans()const;
-		std::vector<double> getCosineVector()const;
+		std::vector<double> getPrimalEigenvector() const;
+		std::vector<double> getPrimalNormEigenvector() const;
+		std::vector<double> getMeanOfSpans() const;
+		std::vector<double> getCosineVector() const;
 
 		bool testParetoOptimality(filterType) const;
 		bool testVectorParetoOptimal(const std::vector<double> &) const;
 		LpSolution<N> LPVectorParetoOptimal(const std::vector<double> &) const;
+
+		//utility:
+		void regularize();
+		Ush countIndexOfUpperTriangle()const;
 };
 #endif

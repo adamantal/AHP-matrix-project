@@ -56,3 +56,29 @@ baj a programmal: nem nézed meg a komponens többi csúcsát: lehet hogy hamara
 tényleg minden 5x5-ös generálható 4x4-esekből elemek hozzávételével?
 meggyőző az indoklás
 esetleg jsonba átrakni a csv-t?
+------------------------------------------------------------------------------------------------------
+dec. 12
+jól haladunk
+az 5x5 még mindig nem az igazi
+megcsinálni az ábrákat texben, ami belemehet a cikkbe is
+Az összes 4x4-et kinyomni csv-ben és átküldeni
+e-mail címemet átküldeni (amire használhatom)
+a hisztogramban az új algoritmus nem annyira hatékony a 4x4-es esetekben (5x5 és magasabban több értelme lenne)
+ábrázolni a módszerekből kapott, nem Pareto hatékony, és a javított, akár az LP-ből kapott vektorok különbségét
+akár L1, L2 normában, és boxplottal ábrázolni + ezt texben is megcsinálni, de lehet akár sima vonalakkal is
+------------------------------------------------------------------------------------------------------
+febr 16.
+megnézni a főtátló feletti nemegészek eloszlását a konzisztencia függvényében
+ezután a kijövő táblázat alapján megvizsgálni, hogy van-e valami speciális dolog, amit mondhatunk?
+esetleg összefüggés a körhármasok maximális számával?
+(megjegyzés: ugyebár a gráf nem függ a mátrixok permutálásától)
+
+megnézni, hogy pl. a koszinuszos módszer a mátrix permutáltjától független-e
+
+5x5-ösön gondolkodni továbbra is - lehetne a belső számítógépet használni
+
+hétfő-kedd délelőttökön lehet jönni konzultálni
+
+a feszítőfás algoritmussal továbbhaladni: hányat talál - ennek mi az eloszlása a konzisztencia függvényében?
++adatstruktúrálisan is leírni értelmesen a gráfos algoritmust !!! ez hosszú és macerás, de muszáj
+-> LaTeX-be le lehetne írni, és elküldeni

@@ -7,24 +7,25 @@
       var c = [];
       var d = [];
       var e = [];
-      var f = [];
-      var g = [];
-      var h = [];
-      var i = [];
+      var v0 = [];
+      var v1 = [];
+      var v2 = [];
+      var v3 = [];
 
-      $.get('../basicHistogram.csv', function(data) {
+      $.get('../basicHistogram2.csv', function(data) {
           var lines = data.split('\n');
           $.each(lines, function(lineNo, line) {
-              if (lineNo != 0 && lineNo < 103) {
-                var items = line.split(',');
+              //if (lineNo != 0 && lineNo < 103) {
+                var items = line.split('\t');
+                console.log(items);
                 c.push(items[0]);
                 d.push(parseInt(items[1]));
                 e.push(parseFloat(items[2]));
-                f.push(parseFloat(items[3]));
-                g.push(parseFloat(items[4]));
-                h.push(parseFloat(items[5]));
-                i.push(parseFloat(items[6]));
-              }
+                v0.push(parseFloat(items[3]));
+                v1.push(parseFloat(items[4]));
+                v2.push(parseFloat(items[5]));
+                v3.push(parseFloat(items[6]));
+              //}
           });
 
           var options = {
@@ -52,7 +53,7 @@
                       }
                   }, {
                       title: {
-                          text: 'Percentage of matrices'
+                          text: 'Number of int element'
                       },
                       opposite: true
                   }/*, {
@@ -69,26 +70,26 @@
                       data: d,
                       yAxis: 0
                   }, {
-                      name: 'Eigen%',
+                      name: 'Triang',
                       data: e,
                       yAxis: 1
                   }, {
-                      name: 'SpanTree%',
-                      data: f,
-                      yAxis: 1
+                      name: 'Triang0',
+                      data: v0,
+                      yAxis: 2
                   }, {
-                      name: 'Cosine%',
-                      data: g,
-                      yAxis: 1
+                      name: 'Triang1',
+                      data: v1,
+                      yAxis: 2
                   }, {
-                      name: 'Common%',
-                      data: h,
-                      yAxis: 1
-                  }/*, {
-                    name: 'Number%',
-                    data: i,
+                      name: 'Triang2',
+                      data: v2,
+                      yAxis: 2
+                  }, {
+                    name: 'Triang3',
+                    data: v3,
                     yAxis: 2
-                  }*/
+                }
                 ]
           };
 

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Matrix.h"
 #include "LpSolution.h"
 #include "GraphSolution.cpp"
@@ -142,7 +143,7 @@ bool Matrix<N>::isMinimalPermutated() const {
 }
 
 template<size_t N>
-std::string Matrix<N>::toString(bool index /*= false*/) const{
+std::string Matrix<N>::toString(bool index /*= false*/) const {
 	std::stringstream ss;
 	ss.precision(5);
 	for (size_t i = 0; i < N; i++) {
@@ -161,7 +162,7 @@ std::string Matrix<N>::toString(bool index /*= false*/) const{
 }
 
 template<size_t N>
-std::ostream& operator<<(std::ostream& os, const Matrix<N>& m){
+std::ostream& operator<<(std::ostream& os, const Matrix<N>& m) {
 	os << m.toString();
 	return os;
 }
@@ -561,18 +562,52 @@ std::vector<double> Matrix<N>::getMeanOfSpans()const{
 }
 
 template<size_t N>
-bool Matrix<N>::testAvgSpanTreeParetoOptimal()const {
+bool Matrix<N>::testAvgSpanTreeParetoOptimal() const {
 		return Matrix::testVectorParetoOptimal(getMeanOfSpans());
 }
 
 template<size_t N>
-Matrix<N - 1> Matrix<N>::cutBottom()const {
+Matrix<N - 1> Matrix<N>::cutBottom() const {
 	std::vector<Ush> v(data.begin() + N - 1, data.end());
 	return Matrix<N - 1>(v);
 }
 
 template<size_t N>
-Ush Matrix<N>::countParetoVectorsByAlgorithm()const{
+Ush Matrix<N>::countParetoVectorsByAlgorithm() const {
 	MatrixProcessor<N> mp(*this);
 	return mp.run();
+}
+
+template<size_t N>
+void Matrix<N>::regularize() {
+	//first lets order by the number of >=1 element from the upper triangle
+	std::vector<Matrix<N>> temporaryMatrices;
+	Ush maxNumOfIntegerElements = 0;
+
+	Ush perm[N];
+	for (Ush j = 0; j < N; j++) perm[j] = j;
+
+	while (std::next_permutation(perm, perm + N)) {
+		Matrix<N> tmp = permutateBy(perm);
+		if (tmp.countIndexOfUpperTriangle () > maxNumOfIntegerElements) {
+			temporaryMatrices.clear ();
+			temporaryMatrices.push_back(tmp);
+			maxNumOfIntegerElements = countIndexOfUpperTriangle ();
+		}
+	}
+
+	this->data = std::min_element( std::begin(temporaryMatrices), std::end(temporaryMatrices) )->data;
+
+	return;
+}
+
+template<size_t N>
+Ush Matrix<N>::countIndexOfUpperTriangle () const {
+	Ush k = 0;
+	for (Ush i = 0; i < N * (N - 1) / 2; i++) {
+		if (data[i] < 9) {
+			k++;
+		}
+	}
+	return k;
 }

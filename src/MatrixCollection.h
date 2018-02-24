@@ -35,6 +35,8 @@ class MatrixCollection {
 
 		//utility:
 		bool isIncluded(const Matrix<N>&, unsigned long long int&)const;
+		void regularize ();
+		void sort ();
 
 		//core function:
 		MatrixCollection applyFilter(filterType);

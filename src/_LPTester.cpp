@@ -8,9 +8,9 @@
 
 #include <lemon/lp.h>
 
-#include "Matrix.cpp"
-#include "MatrixCollection.cpp"
-#include "MatrixGenerator.cpp"
+#include "Matrix.h"
+#include "MatrixCollection.h"
+#include "MatrixGenerator.h"
 #include "LpSolution.h"
 
 int main() {

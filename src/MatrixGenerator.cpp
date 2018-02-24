@@ -1,4 +1,4 @@
-#include<bitset>
+#include <bitset>
 
 #include "MatrixCollection.h"
 #include "Matrix5Spec.cpp"
@@ -83,7 +83,7 @@ namespace matrixInit {
 	template<size_t N>
 	bool generateAllToFile();
 
-	void takeOutPermutationOfItSpec5(const Matrix5Spec &m, std::bitset<84113665016> &s, const MatrixCollection<4> mc, const size_t& outerIndex) {
+	void takeOutPermutationOfItSpec5(const Matrix5Spec &m, std::bitset<1> &s, const MatrixCollection<4> mc, const size_t& outerIndex) {
 		//template specify:
 		Ush N = 5;
 		static unsigned long long int COUNT = 0;
@@ -120,7 +120,10 @@ namespace matrixInit {
 
 		std::cout << "Collecting memory for vector...\n";
 		//std::vector<bool>
-		std::bitset<84113665016> s;
+
+		//std::bitset<84113665016> s; //UNDO THIS
+		std::bitset<1> s;
+
 		//std::vector<bool> s(84113665016); // 17^4 * 1007096
 
 		std::cout << "Vector initialized...\n";
@@ -158,6 +161,13 @@ namespace matrixInit {
 
 		std::cout << "Taking out duplicated elements...\n";
 		MatrixCollection<4> vecfiltered = takeOutAllPermutations(all);
+
+		std::cout << "Regularizing...\n";
+		vecfiltered.regularize ();
+
+		std::cout << "Sorting with custom sort...\n";
+		vecfiltered.sort();
+
 		std::cout << "Saving to file " << vecfiltered.size() << " elements.\n";
 
 		vecfiltered.saveToFile(PATH_4_ALL);

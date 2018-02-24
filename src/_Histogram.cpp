@@ -26,13 +26,13 @@ int main() {
     ratiosEigen.push_back(m[i].testParetoOptimality(filterType::EigenVectorMethod));
     ratiosSpantree.push_back(m[i].testParetoOptimality(filterType::AverageSpanTreeMethod));
     ratiosCosine.push_back(m[i].testParetoOptimality(filterType::CosineMethod));
-    numberOfPareto.push_back(m[i].countParetoVectorsByAlgorithm());
+    numberOfPareto.push_back(0);//m[i].countParetoVectorsByAlgorithm());
   }
 
   std::cout << "Consistencies calulcated.\n";
   std::cout << "Creating histogram...\n";
 
-  double steps = 0.0357;
+  double steps = 0.091;
   double maxConsistency = 3.8;
   //fmod
   std::vector<unsigned int> bucketsAll((int)floor(maxConsistency / steps));

@@ -28,8 +28,10 @@ int main(int argc, char* argv[]) {
 		if (s == "ALL4") {
 			matrixInit::generateAllToFile<4>();
 		}
-		else if (s == "COUNT4") {
+		else if (s == "SORT") {
 			MatrixCollection<4> m = MatrixCollection<4>::readFromFile(PATH_4_ALL);
+			m.sort();
+			m.saveToFile(PATH_4_ALL);
 			std::cout << "The number of 4x4 filtered matrices: " << m.size() << std::endl;
 		}
 		else if (s == "CONS") {
@@ -56,23 +58,37 @@ int main(int argc, char* argv[]) {
 		else if (s == "CSV") {
 			std::cout << "Generating csvs...\n";
 			MatrixCollection<4> meigen = MatrixCollection<4>::readFromFile(PATH_4_EIGEN);
+			meigen.regularize();
+			meigen.sort();
 			meigen.generateCsv(PATH_4_EIGEN_CSV, filterType::EigenVectorMethod);
 			std::cout << PATH_4_EIGEN_CSV << " generated.\n";
 
 			MatrixCollection<4> mst = MatrixCollection<4>::readFromFile(PATH_4_SPANTREE);
+			mst.regularize();
+			mst.sort();
 			mst.generateCsv(PATH_4_SPANTREE_CSV, filterType::AverageSpanTreeMethod);
 			std::cout << PATH_4_SPANTREE_CSV << " generated.\n";
 
 			MatrixCollection<4> mcos = MatrixCollection<4>::readFromFile(PATH_4_COSINE);
+			mcos.regularize();
+			mcos.sort();
 			mcos.generateCsv(PATH_4_COSINE_CSV, filterType::CosineMethod);
 			std::cout << PATH_4_COSINE_CSV << " generated.\n";
 		}
 		else if (s == "ALL5") {
+			std::vector<bool> v;
+			std::cout << v.max_size() << std::endl;
+			std::cout << 84113665016 << std::endl;
+			throw "Insufficient funds.\n";
+
 			matrixInit::generateAllToFile<5>();
 		}
 		else if (s == "CSVALL") {
 			MatrixCollection<4> m = MatrixCollection<4>::readFromFile(PATH_4_CONSISTENT);
 			std::cout << "Matrices are read.\n";
+			std::cout << "Sorting the data...\n";
+			m.regularize();
+			m.sort();
 			std::cout << "Printing csv...\n";
 			m.printCSVWithAllData();
 		}
