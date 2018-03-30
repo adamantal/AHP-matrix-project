@@ -25,21 +25,39 @@ int main() {
   std::vector<unsigned int> bucketsTriang2(maxIndex);
   std::vector<unsigned int> bucketsTriang3(maxIndex);
 
-  MatrixCollection<4> m = MatrixCollection<4>::readFromFile(PATH_4_ALL);
-  std::cout << "Read finished! The number of matrices is " << m.size() <<"\n";
+  MatrixCollPtr<4> m = MatrixCollection<4>::readFromFile(PATH_4_ALL);
+  std::cout << "Read finished! The number of matrices is " << m->size() <<"\n";
   std::cout << "Regularizing\n";
-  m.regularize ();
+  m->regularize ();
 
-  std::cout << "Calculating upper triangles\n"
+  std::cout << "Calculating upper triangles\n";
   std::vector<double> ratiosAll;
   std::vector<Ush> numberTriang;
-  for (size_t i = 0; i < m.size(); i++) {
+
+  //max search:
+  Matrix<4> maxMatrix0;
+  double maxInconsistency0 = 0.0;
+  Matrix<4> minMatrix2;
+  double minInconsistency2 = 3.9;
+
+  for (size_t i = 0; i < m->size(); i++) {
     if (i % 10070 == 0) {
-        std::cout << std::setprecision(2) << ((double(i)) / m.size() * 100) << "%\n";
+        std::cout << std::setprecision(2) << ((double(i)) / m->size() * 100) << "%\n";
     }
-    ratiosAll.push_back(m[i].getConsistencyRatio());
-    numberTriang.push_back(6 - m[i].countIndexOfUpperTriangle ());
+    ratiosAll.push_back(m->at(i).getConsistencyRatio());
+    numberTriang.push_back(6 - m->at(i).countIndexOfUpperTriangle ());
+    if (m->at(i).countIndexOfUpperTriangle () == 6 && m->at(i).getConsistencyRatio() > maxInconsistency0) {
+      maxMatrix0 = m->at(i);
+      maxInconsistency0 = m->at(i).getConsistencyRatio();
+    }
+    if (m->at(i).countIndexOfUpperTriangle () == 4 && m->at(i).getConsistencyRatio() < minInconsistency2) {
+      minMatrix2 = m->at(i);
+      minInconsistency2 = m->at(i).getConsistencyRatio();
+    }
   }
+
+  std::cout << maxInconsistency0 << std::endl << maxMatrix0 << std::endl;
+  std::cout << minInconsistency2 << std::endl << minMatrix2 << std::endl;
 
   std::cout << "Creating histogram...\n";
 
@@ -48,7 +66,6 @@ int main() {
 
   std::cout << ratiosAll.size() << "\n";
   for (size_t i = 0; i < ratiosAll.size(); i++) {
-    std::cout << i << "\n";
     if (ratiosAll.at(i) < maxConsistency) {
       unsigned int index = (unsigned int)floor(ratiosAll.at(i) / steps);
       if (index < bucketsAll.size()) {
@@ -103,7 +120,6 @@ int main() {
   //Header:
   iss << "consistency\t#all\tavg upper\t6 upper\t5 upper\t4 upper\t3 upper\n";
   for (size_t i = 0; i < bucketsAll.size(); i++) {
-    std::cout << i << " " << bucketsAll.size() << "\n";
     iss << i * steps << "\t" << outputAll.at(i) << "\t" <<
         outputTriang.at(i) << "\t" << outputTriang0.at(i) << "\t" << outputTriang1.at(i) << "\t" << outputTriang2.at(i) << "\t" << outputTriang3.at(i) << "\n";
   }

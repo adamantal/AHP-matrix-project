@@ -10,7 +10,7 @@
 
 #include "Matrix.h"
 #include "MatrixCollection.h"
-#include "MatrixGenerator.h"
+//#include "MatrixGenerator.cpp"
 #include "LpSolution.h"
 
 int main() {

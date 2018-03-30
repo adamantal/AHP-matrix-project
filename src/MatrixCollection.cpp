@@ -11,8 +11,14 @@ void MatrixCollection<N>::add(Matrix<N> &m){
 	data.push_back(m);
 }
 
+//TODO: delete this function
 template<size_t N>
 Matrix<N>& MatrixCollection<N>::operator[](size_t ind) {
+	return data.at(ind);
+}
+
+template<size_t N>
+Matrix<N>& MatrixCollection<N>::at(size_t ind) {
 	return data.at(ind);
 }
 
@@ -43,7 +49,7 @@ bool MatrixCollection<N>::saveToFile(std::string filename) {
 }
 
 template<size_t N>
-MatrixCollection<N> MatrixCollection<N>::readFromFile(std::string filename) {
+MatrixCollPtr<N> MatrixCollection<N>::readFromFile(std::string filename) {
 	if (N != 4) throw "The readFromFile method has not been implemented for 5 or greater dimensions.";
 	std::ifstream I;
 	I.open(filename);
@@ -53,7 +59,7 @@ MatrixCollection<N> MatrixCollection<N>::readFromFile(std::string filename) {
 		throw "FILE CAN NOT BE OPENED.";
 	}
 
-	MatrixCollection<N> mc;
+	MatrixCollPtr<N> mc = std::make_shared<MatrixCollection<N>>();
 	std::string s;
 
 	while (I >> s) {
@@ -69,7 +75,7 @@ MatrixCollection<N> MatrixCollection<N>::readFromFile(std::string filename) {
 			}
 		}
 		Matrix<N> tmpm(elements);
-		mc.add(tmpm);
+		mc->add(tmpm);
 	}
 	I.close();
 
@@ -83,14 +89,14 @@ template<size_t N>
 typename std::vector< Matrix<N> >::iterator MatrixCollection<N>::end() { return data.end(); }
 
 template<size_t N>
-MatrixCollection<N> MatrixCollection<N>::applyFilter(filterType filter) {
-	MatrixCollection tmp;
+MatrixCollPtr<N> MatrixCollection<N>::applyFilter(filterType filter) {
+	MatrixCollPtr<N> tmp = std::make_shared<MatrixCollection<N>>();
 	switch(filter) {
 		case (filterType::Inconsistency) :
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
 					double consistencyRatio = it->getConsistencyRatio();
-					if (consistencyRatio > 0.1) tmp.add(*it);
+					if (consistencyRatio > 0.1) tmp->add(*it);
 				}
 			}
 			break;
@@ -98,14 +104,14 @@ MatrixCollection<N> MatrixCollection<N>::applyFilter(filterType filter) {
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
 					double consistencyRatio = it->getConsistencyRatio();
-					if (consistencyRatio <= 0.1) tmp.add(*it);
+					if (consistencyRatio <= 0.1) tmp->add(*it);
 				}
 			}
 			break;
 		default :
 			{
 				for (auto it = data.begin(); it != data.end(); it++) {
-					if (!(it->testParetoOptimality(filter))) tmp.add(*it);
+					if (!(it->testParetoOptimality(filter))) tmp->add(*it);
 				}
 			}
 			break;
@@ -125,9 +131,9 @@ void MatrixCollection<4>::generateCsv(std::string filename, filterType filter) {
 	}
 
 	for (auto it = data.begin(); it != data.end(); it++){
-		F << std::distance(data.begin(), it) + 1 << ", "
-			<< it->get(0,1) << ", " << it->get(0,2) << ", " << it->get(0,3) << ", " << it->get(1,2) << ", " << it->get(1,3) << ", " << it->get(2,3) << ", "
-			<< it->largestEigenvalue() << ", "
+		F << std::defaultfloat << std::distance(data.begin(), it) + 1 << ", "
+			<< it->get(0,1) << ", " << it->get(0,2) << ", " << it->get(0,3) << ", " << it->get(1,2) << ", " << it->get(1,3) << ", " << it->get(2,3) << ", ";
+		F << std::fixed << std::setprecision(10) <<  it->largestEigenvalue() << ", "
 			<< it->getConsistencyRatio() << ", , "
 			<< it->getPrimalNormEigenvector()[0] << ", " << it->getPrimalNormEigenvector()[1] << ", " << it->getPrimalNormEigenvector()[2] << ", " << it->getPrimalNormEigenvector()[3] << ", , ";
 
@@ -177,9 +183,9 @@ void MatrixCollection<4>::printCSVWithAllData() {
 		}
 
 		//base data:
-		F << std::distance(data.begin(), it) + 1 << ", "
+		F << std::defaultfloat << std::distance(data.begin(), it) + 1 << ", "
 			<< it->get(0,1) << ", " << it->get(0,2) << ", " << it->get(0,3) << ", " << it->get(1,2) << ", " << it->get(1,3) << ", " << it->get(2,3) << ", "
-			<< it->largestEigenvalue() << ", "
+			<< std::fixed << std::setprecision(10) << it->largestEigenvalue() << ", "
 			<< it->getConsistencyRatio() << ", , ";
 
 		for (auto const& filter : filterTypes) {

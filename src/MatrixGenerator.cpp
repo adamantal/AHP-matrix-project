@@ -1,7 +1,7 @@
 #include <bitset>
 
 #include "MatrixCollection.h"
-#include "Matrix5Spec.cpp"
+//#include "Matrix5Spec.cpp"
 
 namespace matrixInit {
 	//const long int limit = 24137569;
@@ -83,7 +83,7 @@ namespace matrixInit {
 	template<size_t N>
 	bool generateAllToFile();
 
-	void takeOutPermutationOfItSpec5(const Matrix5Spec &m, std::bitset<1> &s, const MatrixCollection<4> mc, const size_t& outerIndex) {
+	/*void takeOutPermutationOfItSpec5(const Matrix5Spec &m, std::bitset<1> &s, const MatrixCollection<4> mc, const size_t& outerIndex) {
 		//template specify:
 		Ush N = 5;
 		static unsigned long long int COUNT = 0;
@@ -109,14 +109,14 @@ namespace matrixInit {
 			}
 		}
 		if (COUNT % 1000 < 100) std::cout << COUNT << std::endl;
-	}
+	}*/
 
-	template<>
+	/*template<>
 	bool generateAllToFile<5>() {
 		std::cout << "Procedure started.\n";
 
 		std::cout << "Reading 4x4 files...\n";
-		MatrixCollection<4> mc = MatrixCollection<4>::readFromFile(PATH_4_ALL);
+		MatrixCollPtr<4> mc = MatrixCollection<4>::readFromFile(PATH_4_ALL);
 
 		std::cout << "Collecting memory for vector...\n";
 		//std::vector<bool>
@@ -147,7 +147,7 @@ namespace matrixInit {
 			}
 		}
 		return true;
-	}
+	}*/
 
 	template<>
 	bool generateAllToFile<4>() {

@@ -20,6 +20,12 @@ const std::string PATH_4_COSINE_CSV = "../res/cosine4x4matrices.csv";
 const std::string PATH_5_ALL = "../res/all5x5matrices.mt";
 
 template<size_t N>
+class MatrixCollection;
+
+template <size_t N>
+using MatrixCollPtr = std::shared_ptr<MatrixCollection<N>>;
+
+template<size_t N>
 class MatrixCollection {
 	private:
 		std::vector< Matrix<N> > data;
@@ -32,6 +38,7 @@ class MatrixCollection {
 		size_t size();
 		void add(Matrix<N> &);
 		Matrix<N>& operator[](size_t);
+		Matrix<N>& at(size_t);
 
 		//utility:
 		bool isIncluded(const Matrix<N>&, unsigned long long int&)const;
@@ -39,11 +46,11 @@ class MatrixCollection {
 		void sort ();
 
 		//core function:
-		MatrixCollection applyFilter(filterType);
+		MatrixCollPtr<N> applyFilter(filterType);
 
 		//file interaction:
 		bool saveToFile(std::string filename);
-		static MatrixCollection readFromFile(std::string);
+		static MatrixCollPtr<N> readFromFile(std::string);
 
 		void generateCsv(std::string, filterType);
 		void printCSVWithAllData();
@@ -51,4 +58,5 @@ class MatrixCollection {
 		typename std::vector< Matrix<N> >::iterator begin();
 		typename std::vector< Matrix<N> >::iterator end();
 };
+
 #endif

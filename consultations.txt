@@ -68,7 +68,7 @@ a hisztogramban az új algoritmus nem annyira hatékony a 4x4-es esetekben (5x5 
 akár L1, L2 normában, és boxplottal ábrázolni + ezt texben is megcsinálni, de lehet akár sima vonalakkal is
 ------------------------------------------------------------------------------------------------------
 febr 16.
-megnézni a főtátló feletti nemegészek eloszlását a konzisztencia függvényében
+DONE megnézni a főtátló feletti nemegészek eloszlását a konzisztencia függvényében
 ezután a kijövő táblázat alapján megvizsgálni, hogy van-e valami speciális dolog, amit mondhatunk?
 esetleg összefüggés a körhármasok maximális számával?
 (megjegyzés: ugyebár a gráf nem függ a mátrixok permutálásától)
@@ -82,3 +82,18 @@ hétfő-kedd délelőttökön lehet jönni konzultálni
 a feszítőfás algoritmussal továbbhaladni: hányat talál - ennek mi az eloszlása a konzisztencia függvényében?
 +adatstruktúrálisan is leírni értelmesen a gráfos algoritmust !!! ez hosszú és macerás, de muszáj
 -> LaTeX-be le lehetne írni, és elküldeni
+-------------------------------------------------------------------------------------------------------
+márc 6.
+DONE témabejelentő leadása - téma: Optimalizálási feladatok páros összehasonlítási mátrixokra
+haladni a cikkel...
+[...] különböző közökre (intval értékekre) elküldeni a histogramos táblázatot .xls formátumban
+  a különböző értékek mondjuk 0.01, 0.03, 0.05, ... stb. és amelyik legesztétikusabb, az kerül bele a cikkbe
+  
+mit jelent, hogy csak egészek vannak a főátló felett
+nagyobb mátrixokra mi a helyzet?
+ihlet/indoklás: mi a különbség a leszámlált/permutációszűrt és a nem permutációszűrt mátrixok számának eloszlásában a konzisztencia függvényében 4x4 esetben
+ötlet: amikor véletlenül generálunk mátrixokat, és ezekre akarjuk az ábrát kirajzolni, súlyozzuk a mátrixokat a különböző permutációinak száma szerint, és ekkor nem kaphatunk torzított eredményt
+
+jövő héten nem konzultálunk
+DONE átolvasni a cikket, és javaslatok tenni rá
+TIPP: Xchange PDFViewer-rel lehet beleírni a pdf-be (van-e ubuntura?)

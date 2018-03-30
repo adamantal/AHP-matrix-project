@@ -13,27 +13,27 @@
 
 int main() {
   //Checking the consistency ratio for all the matrices:
-  MatrixCollection<4> m = MatrixCollection<4>::readFromFile(PATH_4_ALL);
-  std::cout << "Read finished! The number of matrices is " << m.size() <<"\n";
+  MatrixCollPtr<4> m = MatrixCollection<4>::readFromFile(PATH_4_ALL);
+  std::cout << "Read finished! The number of matrices is " << m->size() <<"\n";
 
   std::vector<double> ratiosAll;
   std::vector<bool> ratiosEigen,ratiosSpantree,ratiosCosine;
   std::vector<Ush> numberOfPareto;
 
-  for (size_t i = 0; i < m.size(); i++) {
-    if (i % 1007 == 0) std::cout << std::setprecision(2) << ((double(i)) / m.size() * 100) << "%\n";
-    ratiosAll.push_back(m[i].getConsistencyRatio());
-    ratiosEigen.push_back(m[i].testParetoOptimality(filterType::EigenVectorMethod));
-    ratiosSpantree.push_back(m[i].testParetoOptimality(filterType::AverageSpanTreeMethod));
-    ratiosCosine.push_back(m[i].testParetoOptimality(filterType::CosineMethod));
+  for (size_t i = 0; i < m->size(); i++) {
+    if (i % 1007 == 0) std::cout << std::setprecision(2) << ((double(i)) / m->size() * 100) << "%\n";
+    ratiosAll.push_back(m->at(i).getConsistencyRatio());
+    ratiosEigen.push_back(m->at(i).testParetoOptimality(filterType::EigenVectorMethod));
+    ratiosSpantree.push_back(m->at(i).testParetoOptimality(filterType::AverageSpanTreeMethod));
+    ratiosCosine.push_back(m->at(i).testParetoOptimality(filterType::CosineMethod));
     numberOfPareto.push_back(0);//m[i].countParetoVectorsByAlgorithm());
   }
 
   std::cout << "Consistencies calulcated.\n";
   std::cout << "Creating histogram...\n";
 
-  double steps = 0.091;
-  double maxConsistency = 3.8;
+  double steps = 0.1;
+  double maxConsistency = 3.7;
   //fmod
   std::vector<unsigned int> bucketsAll((int)floor(maxConsistency / steps));
   std::vector<unsigned int> bucketsEigen((int)floor(maxConsistency / steps));
