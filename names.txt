@@ -1,8 +1,0 @@
-bin: futtatható állományok
-consult: konzultációból szerzett anyagok / e-mailen átküldöttek
-extr: external contents
-res: results/all outputs
-src: sources
-
-compile.sh: a fő cpp fordításához
-consultations.txt: a konzultációs megbeszélések
