@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include "MatrixStr.h"
-#include "../Matrix.cpp"
+#include "Matrix.hpp"
 
 typedef unsigned long long int Bnum;
 const Bnum SUM5 = 2015993900449;

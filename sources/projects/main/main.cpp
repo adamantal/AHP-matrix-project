@@ -9,7 +9,8 @@
 
 #include "Matrix.hpp"
 #include "MatrixGenerator.hpp"
-#include "MatrixCollection.cpp"
+#include "MatrixCollection.hpp"
+#include "Paths.hpp"
 
 int main(int argc, char* argv[]) {
 	//It is always important, to set this:

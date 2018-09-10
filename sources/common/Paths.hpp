@@ -1,3 +1,6 @@
+#ifndef PATHS_HPP
+#define PATHS_HPP
+
 #include <string>
 
 const std::string PATH_4_ALL = "../results/all4x4matrices.mt";
@@ -11,3 +14,5 @@ const std::string PATH_4_COSINE = "../results/cosine4x4matrices.mt";
 const std::string PATH_4_COSINE_CSV = "../results/cosine4x4matrices.csv";
 
 const std::string PATH_5_ALL = "../results/all5x5matrices.mt";
+
+#endif //PATHS_HPP

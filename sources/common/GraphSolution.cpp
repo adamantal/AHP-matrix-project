@@ -1,7 +1,5 @@
 #include "GraphSolution.hpp"
 
-
-
 const double VectorEps::EPS = 1e-8;
 
 bool MatrixNode::isGroupped()const{

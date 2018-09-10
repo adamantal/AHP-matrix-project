@@ -126,15 +126,15 @@ int main() {
 
 
 	begin = clock();
-	MatrixCollection<4> C = MatrixCollection<4>::readFromFile("../res/consistents.mt");
-	std::cout << "The size is " << C.size() << " (consistents)" << std::endl;
-	size_t x = C.size();
-	C.applyFilter(filterType::Consistency);
-	std::cout << "The size is " << C.size() << " after double check." << std::endl;
-	if (x != C.size()) throw "OMG";
+	MatrixCollPtr<4> C = MatrixCollection<4>::readFromFile("../res/consistents.mt");
+	std::cout << "The size is " << C->size() << " (consistents)" << std::endl;
+	size_t x = C->size();
+	C->applyFilter(filterType::Consistency);
+	std::cout << "The size is " << C->size() << " after double check." << std::endl;
+	if (x != C->size()) throw "OMG";
 
-	C = C.applyFilter(filterType::CosineMethod);
-	std::cout << "The size is " << C.size() << " after applying cosine method filter" << std::endl;
+	C = C->applyFilter(filterType::CosineMethod);
+	std::cout << "The size is " << C->size() << " after applying cosine method filter" << std::endl;
 	//C.saveToFile("../res/consistentCosines.mt");
 	end = clock();
 	elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
