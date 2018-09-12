@@ -23,15 +23,15 @@ private:
 
 public:
     MatrixStr() {
-        std::vector<short> letters = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        std::vector<short> originalElements = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         for (Ush i = 0; i < N * (N - 1) / 2; i++)
-            inner.push_back(letters.at(i));
+            inner.push_back(originalElements.at(i));
     }
     MatrixStr(std::vector<short> l):inner(l) {}
 
     short indexOfElement(Ush i, Ush j) const {
     	if (i == j)
-    		return 0; //should probably never happen
+            throw std::invalid_argument("indexOfElement was requested with same index.");
     	else if (i < j)
     		return inner[j - 1 + (2 * N - i - 3) * i / 2];
     	else {

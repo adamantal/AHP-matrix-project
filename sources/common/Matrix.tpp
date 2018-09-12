@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include <lemon/lp.h>
+#include "lemon/lp.h"
 
 #include "Matrix.hpp"
 #include "GraphSolution.hpp"

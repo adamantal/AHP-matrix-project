@@ -27,7 +27,7 @@ std::vector<Ush> indexToVector (Bnum x) {
 Bnum vectorToIndex (std::vector<Ush> v) {
     if (v.size() != 10)
         throw "The size does not match in vectorToIndex function!\n";
-    Bnum ret;
+    Bnum ret = 0;
     for (Ush i = 0; i < v.size(); i++) {
         ret *= elements.size();
         ret += v.at(i);
