@@ -132,9 +132,8 @@ bool Matrix<N>::isMinimalPermutated() const {
 	/*std::random_shuffle(perm, perm + N);
 	Matrix<N> tmp = this -> permutateBy(perm);
 	if (*this > tmp)
-		return false;*/
-
-	for (Ush j = 0; j < N; j++) perm[j] = j;
+		return false;
+	for (Ush j = 0; j < N; j++) perm[j] = j;*/
 
 	while ( std::next_permutation(perm, perm + N) ) {
 		Matrix<N> tmp = this -> permutateBy(perm);
