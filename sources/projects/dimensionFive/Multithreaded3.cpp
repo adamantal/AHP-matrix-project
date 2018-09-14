@@ -14,12 +14,16 @@
 #include <mutex>
 
 // Matrix permutation calculator utility class
-#include "Matrix.hpp"
+//#include "Matrix.hpp"
+#include "Eigen/Dense"
+#include "Eigen/Eigenvalues"
+
 #include "MatrixStr.h"
 #include "DistributedFile.hpp"
 
 // typedefs
 typedef unsigned long long int Ulli;
+typedef unsigned short Ush;
 
 // forward declarations
 class ThreadController;
@@ -161,19 +165,50 @@ inline bool isLeftLess(std::vector<unsigned short> left, std::vector<unsigned sh
     return false;
 }
 
-void isConsistent(ThreadController* controller, Ulli index, std::vector<unsigned short> nextVector) {
-    /*bool b = true;
-    std::vector<unsigned short> v = indexToVector<5>(index);
-    for (auto it = perms->begin(); it != perms->end(); it++) {
-        std::vector<unsigned short> v2 = it->applyTo(v);
-        if (isLeftLess(v2, v)) {
-            b = false;
-            break;
-        }
-    }*/
+const std::vector<double> matrixElems = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,1.0/2,1.0/3,1.0/4,1.0/5,1.0/6,1.0/7,1.0/8,1.0/9};
 
+Ush indexOfInverse(Ush i) {
+	if (i == 0)
+		return 0;
+	if (i > 8)
+		return i - 8;
+	else
+		return i + 8;
+}
+
+Ush indexOfElement(Ush i, Ush j, std::vector<Ush> v) {
+	if (i == j)
+		return 0;
+	else if (i < j)
+		return v[j - 1 + (2 * 5 - i - 3) * i / 2];
+	else {
+		return indexOfInverse(indexOfElement(j, i, v));
+	}
+}
+
+Eigen::MatrixXd toEigenMatrix(std::vector<Ush> v) {
+	Eigen::MatrixXd m;
+	m = Eigen::MatrixXd(5,5);
+	for (size_t i = 0; i < 5; i++) {
+		for (size_t j = 0; j < 5; j++) {
+			m(i,j) = matrixElems[indexOfElement(i,j, v)];
+		}
+	}
+	return m;
+}
+
+void isConsistent(ThreadController* controller, Ulli index, std::vector<unsigned short> nextVector) {
     bool b;
-    double consistencyRatio = Matrix<5>(nextVector).getConsistencyRatio();
+	Eigen::MatrixXd m = toEigenMatrix(nextVector);
+
+    Eigen::VectorXcd eigenvals = m.eigenvalues();
+	double largestEigVal = eigenvals[0].real();
+	for (int i = 1; i < eigenvals.rows(); i++) {
+		if (largestEigVal < eigenvals[i].real()) {
+			largestEigVal = eigenvals[i].real();
+		}
+	}
+    double consistencyRatio = (largestEigVal-m.rows())/(9.435-m.rows());
     if (consistencyRatio <= 0.1)
         b = true;
     else
