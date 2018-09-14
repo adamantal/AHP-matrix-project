@@ -18,9 +18,6 @@
 #include "Eigen/Dense"
 #include "Eigen/Eigenvalues"
 
-#include "MatrixStr.h"
-#include "DistributedFile.hpp"
-
 // typedefs
 typedef unsigned long long int Ulli;
 typedef unsigned short Ush;
@@ -67,8 +64,6 @@ private:
     unsigned int maxThreads;
     unsigned int threads;
 
-    std::vector<MatrixStr<5>> perms;
-
     std::mutex fileMutex;
     std::ofstream* file;
 
@@ -95,19 +90,10 @@ public:
     ThreadController():
         finished(0),
         next(0),
-        maxThreads(10),
+        maxThreads(16),
         threads(0)
     {
         std::cout << "ThreadController setting up.\n";
-        {
-            MatrixStr<5> ms;
-            Ush perm[] = {0, 1, 2, 3, 4};
-            do {
-                MatrixStr<5> tmp = ms.permutateBy(perm);
-                perms.push_back(tmp);
-            } while (std::next_permutation (perm, perm + 5));
-        }
-        std::cout << "Permutations calculated.\n";
 
         for (unsigned short i = 0; i < 10; i++) {
             nextVector.push_back(0);
