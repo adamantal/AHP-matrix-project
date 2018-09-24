@@ -1,16 +1,42 @@
 #ifndef COLLECTOR_HPP
 #define COLLECTOR_HPP
 
-#include "Routine.hpp"
+#include <list>
 
+#include "routines/Routine.hpp"
+
+template<size_t N>
 class Collector {
 private:
-    std::list<RoutinePtr> routines;
+    std::list<RoutinePtr<N>> routines;
 
 public:
-    Collector ();
-
-    void registerRoutine(RoutinePtr);
+    void registerRoutine(RoutinePtr<N> r) {
+        routines.push_back(r);
+    }
+    void collectRoutineOutputs(Matrix<N> m) {
+        for (auto routine = routines.begin(); routine != routines.end(); routine++) {
+            (*routine)->calculate(m);
+        }
+    }
+    void updateHistories() {
+        for (auto routine = routines.begin(); routine != routines.end(); routine++) {
+            (*routine)->updateHistory();
+        }
+    }
+    bool exitConidtion() {
+        for (auto routine = routines.begin(); routine != routines.end(); routine++) {
+            if (!(*routine)->testExitCondition()) {
+                return false;
+            }
+        }
+        return true;
+    }
+    void printResults(std::ostream* out) {
+        for (auto routine = routines.begin(); routine != routines.end(); routine++) {
+            (*routine)->printResult(out);
+        }
+    }
 };
 
 #endif

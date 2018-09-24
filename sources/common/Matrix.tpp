@@ -9,7 +9,8 @@
 template<size_t N>
 const std::vector<double> Matrix<N>::elem = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,1.0/2,1.0/3,1.0/4,1.0/5,1.0/6,1.0/7,1.0/8,1.0/9};
 
-const double ConsistencyIndex[] = {0, 1, 2, 4.049, 6.652, 9.435, 12.245, 15.045};
+template<size_t N>
+const double Matrix<N>::ConsistencyIndex[] = {0, 1, 2, 4.049, 6.652, 9.435, 12.245, 15.045};
 
 template<size_t N>
 Ush Matrix<N>::indexOfElement(Ush i, Ush j) const {
@@ -142,6 +143,22 @@ bool Matrix<N>::isMinimalPermutated() const {
 		}
 	}
 	return true;
+}
+
+template<size_t N>
+Matrix<N> Matrix<N>::getItsMinimalPermutate() const {
+	Matrix<N> minm (*this);
+
+	Ush perm[N];
+	for (Ush j = 0; j < N; j++) perm[j] = j;
+
+	while ( std::next_permutation(perm, perm + N) ) {
+		Matrix<N> tmp = this -> permutateBy(perm);
+		if (minm > tmp) {
+			minm = tmp;
+		}
+	}
+	return minm;
 }
 
 template<size_t N>

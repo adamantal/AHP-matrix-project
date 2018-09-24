@@ -50,6 +50,7 @@ class Matrix
 	public:
 		//the same for all the matrices:
 		static const std::vector<double> elem;
+		static const double ConsistencyIndex[8];
 		//static functions:
 		static void L1(std::vector<double>&);
 
@@ -71,6 +72,7 @@ class Matrix
 		unsigned long long int getIndexOfMatrix() const;
 		static Matrix getMatrixOfIndex(unsigned long long int);
 		bool isMinimalPermutated() const;
+		Matrix<N> getItsMinimalPermutate() const;
 		Ush countParetoVectorsByAlgorithm() const;
 
 		//for generating 5x5 matrices:
