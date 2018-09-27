@@ -8,10 +8,11 @@ typedef unsigned long long int Ulli;
 template<size_t N>
 class MultipleHistogramRoutine : public HistogramRoutine<N> {
 private:
+    std::mutex multipleDataMutex;
     std::vector<std::vector<Ulli>> effs;
     std::vector<History> histories;
 
-    static const unsigned int numOfMethods = 2; // 3!?
+    static const unsigned int numOfMethods = 3;
 
 public:
     MultipleHistogramRoutine(double w):HistogramRoutine<N>(w) {
@@ -30,6 +31,9 @@ public:
     }
 
     virtual void updateHistory() override {
+        std::lock(HistogramRoutine<N>::counterMutex, HistogramRoutine<N>::dataMutex);
+        std::lock_guard<std::mutex> lk1(HistogramRoutine<N>::counterMutex, std::adopt_lock);
+        std::lock_guard<std::mutex> lk2(HistogramRoutine<N>::dataMutex, std::adopt_lock);
         HistogramRoutine<N>::incrementCounter();
         HistogramRoutine<N>::updateIfActive();
         if (Counter::isActive()) {
@@ -54,46 +58,45 @@ public:
         unsigned int group = HistogramRoutine<N>::getGroupFromRatio(x);
         HistogramRoutine<N>::calculateCore(x);
 
+        std::lock_guard<std::mutex> lock(multipleDataMutex);
         // EigenVectorMethod
         if (m.testParetoOptimality(filterType::EigenVectorMethod)) {
             effs.at(0).at(group)++;
         }
         // AverageSpanTreeMethod
-        /*if (m.testParetoOptimality(filterType::AverageSpanTreeMethod)) {
+        if (m.testParetoOptimality(filterType::AverageSpanTreeMethod)) {
             effs.at(1).at(group)++;
-        }*/
+        }
         // CosineMethod
         if (m.testParetoOptimality(filterType::CosineMethod)) {
-            effs.at(1).at(group)++; // 2!
+            effs.at(2).at(group)++;
         }
     }
     virtual bool testExitCondition() override {
-        if (Counter::isActive()) {
-            if (!HistogramRoutine<N>::testExitCondition()) {
-                return false;
-            } else {
-                return std::all_of(histories.begin(), histories.end(), &HistogramRoutine<N>::checkSingleHistory);
-            }
-        } else {
+        if (!HistogramRoutine<N>::testExitConditionCore()) {
             return false;
+        } else {
+            std::lock_guard<std::mutex> lock(multipleDataMutex);
+            return std::all_of(histories.begin(), histories.end(), &HistogramRoutine<N>::checkSingleHistory);
         }
     }
     virtual void printResult(std::ostream* out) override {
         HistogramRoutine<N>::printResult(out);
+        std::lock_guard<std::mutex> lock(multipleDataMutex);
         *out << "#ofEigenEffs" << HistogramRoutine<N>::delimiter;
         for (auto it = effs.at(0).begin(); it != effs.at(0).end(); it++) {
             *out << *it << HistogramRoutine<N>::delimiter;
         }
         *out << "\n";
 
-        /**out << "#ofAvgSpanTreeEffs" << HistogramRoutine<N>::delimiter;
+        *out << "#ofAvgSpanTreeEffs" << HistogramRoutine<N>::delimiter;
         for (auto it = effs.at(1).begin(); it != effs.at(1).end(); it++) {
             *out << *it << HistogramRoutine<N>::delimiter;
         }
-        *out << "\n";*/
+        *out << "\n";
 
         *out << "#ofCosineEffs" << HistogramRoutine<N>::delimiter;
-        for (auto it = effs.at(1).begin(); it != effs.at(1).end(); it++) { // 2!
+        for (auto it = effs.at(2).begin(); it != effs.at(2).end(); it++) {
             *out << *it << HistogramRoutine<N>::delimiter;
         }
         *out << "\n";

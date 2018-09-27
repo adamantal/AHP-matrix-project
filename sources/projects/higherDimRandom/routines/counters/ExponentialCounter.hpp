@@ -14,6 +14,7 @@ public:
     }
 
     void increaseUnit() {
+        std::lock_guard<std::mutex> lock(unitMutex);
         unit *= lambda;
     }
 };

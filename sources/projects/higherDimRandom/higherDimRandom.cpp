@@ -6,6 +6,8 @@
 - and then print out, what was found (Printer)
 */
 
+#include <fstream>
+
 #include "Processor.hpp"
 #include "routines/Routine.hpp"
 #include "routines/TestRoutine.hpp"
@@ -15,19 +17,43 @@
 #include "routines/PartialSaveRoutine.hpp"
 
 int main () {
+    std::cout << "Case 5\n";
     try {
-        RoutinePtr<5> r1 = std::make_shared<TestRoutine<5>> (10000);
-        RoutinePtr<5> r2 = std::make_shared<MultipleHistogramRoutine<5>> (0.1);
-        RoutinePtr<5> r3 = std::make_shared<LoggingRoutine<5>> (2000);
-        RoutinePtr<5> r4 = std::make_shared<PartialSaveRoutine<5>> (r2, 100000);
-        Processor<5> p (&std::cout);
+        const unsigned int DIM = 5;
+        RoutinePtr<DIM> r1 = std::make_shared<TestRoutine<DIM>> (10000);
+        RoutinePtr<DIM> r2 = std::make_shared<MultipleHistogramRoutine<DIM>> (0.01);
+        RoutinePtr<DIM> r3 = std::make_shared<LoggingRoutine<DIM>> (2000);
+        RoutinePtr<DIM> r4 = std::make_shared<PartialSaveRoutine<DIM>> (r2, 100000);
+        std::ostream* out = new std::ofstream("Histogram_" + std::to_string(DIM) + ".out");
+        Processor<DIM> p (out);
         p.addRoutine(r1);
         p.addRoutine(r2);
         p.addRoutine(r3);
         p.addRoutine(r4);
         p.process();
+        delete out;
     } catch (const char * c) {
         std::cout << c << std::endl;
+        std::terminate();
     }
+    /*std::cout << "Case 6\n";
+    try {
+        const unsigned int DIM = 6;
+        RoutinePtr<DIM> r1 = std::make_shared<TestRoutine<DIM>> (10000);
+        RoutinePtr<DIM> r2 = std::make_shared<MultipleHistogramRoutine<DIM>> (0.01);
+        RoutinePtr<DIM> r3 = std::make_shared<LoggingRoutine<DIM>> (2000);
+        RoutinePtr<DIM> r4 = std::make_shared<PartialSaveRoutine<DIM>> (r2, 100000);
+        std::ostream* out = new std::ofstream("Histogram_" + std::to_string(DIM) + ".out");
+        Processor<DIM> p (out);
+        p.addRoutine(r1);
+        p.addRoutine(r2);
+        p.addRoutine(r3);
+        p.addRoutine(r4);
+        p.process();
+        delete out;
+    } catch (const char * c) {
+        std::cout << c << std::endl;
+        std::terminate();
+    }*/
     return 0;
 }

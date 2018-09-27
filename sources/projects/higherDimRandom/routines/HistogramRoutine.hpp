@@ -1,6 +1,8 @@
 #ifndef HISTOGRAMROUTINE_HPP
 #define HISTOGRAMROUTINE_HPP
 
+#include <mutex>
+
 #include "Routine.hpp"
 #include "counters/ExponentialCounter.hpp"
 
@@ -12,13 +14,18 @@ const double EPS = 1e-3;
 template<size_t N>
 class HistogramRoutine : public Routine<N>, protected ExponentialCounter {
 private:
-    double width;
-    std::vector<Ulli> numberOfMatrices;
+    const double width;
 
+    std::vector<Ulli> numberOfMatrices;
     History history;
+
+protected: // snake oil
+    std::mutex dataMutex;
 
 protected:
     static const std::string delimiter;
+
+    std::mutex counterMutex;
 
 private:
     static double getMaxInconsistencyEstimate() {
@@ -31,7 +38,8 @@ protected:
         return ceil(incons / width);
     }
     unsigned int getGroupFromRatio(double x) const {
-        return floor(x / width);
+        double r = floor(x / width);
+        return isClose(r, 0.0f) ? 0 : r;
     }
 private:
     void saveCurrentStatus() {
@@ -72,6 +80,9 @@ public:
     }
 
     virtual void updateHistory() override {
+        std::lock(counterMutex, dataMutex);
+        std::lock_guard<std::mutex> lk1(counterMutex, std::adopt_lock);
+        std::lock_guard<std::mutex> lk2(dataMutex, std::adopt_lock);
         incrementCounter();
         updateIfActive();
         increaseUnitIf();
@@ -79,10 +90,11 @@ public:
 protected:
     void calculateCore(double lambda) {
         unsigned int group = getGroupFromRatio(lambda);
+        std::lock_guard<std::mutex> lock(dataMutex);
         numberOfMatrices.at(group)++;
     }
 public:
-    virtual void calculate(const Matrix<N>& m) override {
+    virtual void calculate(const Matrix<N>& m) override { // thread-safe
         double x = m.getConsistencyRatio();
         calculateCore(x);
     }
@@ -115,13 +127,21 @@ protected:
         std::cout << "checkSingleHistory exit condition TRUE.\n";
         return true;
     }
-public:
-    virtual bool testExitCondition() override {
+protected:
+    bool testExitConditionCore() {
         if (isActive()) {
             return checkSingleHistory(history);
         } else {
             return false;
         }
+    }
+
+public:
+    virtual bool testExitCondition() override {
+        std::lock(counterMutex, dataMutex);
+        std::lock_guard<std::mutex> lk1(counterMutex, std::adopt_lock);
+        std::lock_guard<std::mutex> lk2(dataMutex, std::adopt_lock);
+        return testExitConditionCore();
     }
     virtual void printResult(std::ostream* out) override {
         *out << "CR" << delimiter;
@@ -131,6 +151,7 @@ public:
         }
         *out << "\n";
 
+        std::lock_guard<std::mutex> lock(dataMutex);
         *out << "#ofMatrices" << delimiter;
         for (auto it = numberOfMatrices.begin(); it != numberOfMatrices.end(); it++) {
             *out << *it << delimiter;
