@@ -1,8 +1,6 @@
 #ifndef HISTOGRAMROUTINE_HPP
 #define HISTOGRAMROUTINE_HPP
 
-#include <mutex>
-
 #include "Routine.hpp"
 #include "ExponentialCounter.hpp"
 
@@ -19,13 +17,8 @@ private:
     std::vector<Ulli> numberOfMatrices;
     History history;
 
-protected: // snake oil
-    std::mutex dataMutex;
-
 protected:
     static const std::string delimiter;
-
-    std::mutex counterMutex;
 
 private:
     static double getMaxInconsistencyEstimate() {
@@ -80,9 +73,6 @@ public:
     }
 
     virtual void updateHistory() override {
-        std::lock(counterMutex, dataMutex);
-        std::lock_guard<std::mutex> lk1(counterMutex, std::adopt_lock);
-        std::lock_guard<std::mutex> lk2(dataMutex, std::adopt_lock);
         incrementCounter();
         updateIfActive();
         increaseUnitIf();
@@ -90,7 +80,6 @@ public:
 protected:
     void calculateCore(double lambda) {
         unsigned int group = getGroupFromRatio(lambda);
-        std::lock_guard<std::mutex> lock(dataMutex);
         numberOfMatrices.at(group)++;
     }
 public:
@@ -138,9 +127,6 @@ protected:
 
 public:
     virtual bool testExitCondition() override {
-        std::lock(counterMutex, dataMutex);
-        std::lock_guard<std::mutex> lk1(counterMutex, std::adopt_lock);
-        std::lock_guard<std::mutex> lk2(dataMutex, std::adopt_lock);
         return testExitConditionCore();
     }
     virtual void printResult(std::ostream* out) override {
@@ -151,7 +137,6 @@ public:
         }
         *out << "\n";
 
-        std::lock_guard<std::mutex> lock(dataMutex);
         *out << "#ofMatrices" << delimiter;
         for (auto it = numberOfMatrices.begin(); it != numberOfMatrices.end(); it++) {
             *out << *it << delimiter;

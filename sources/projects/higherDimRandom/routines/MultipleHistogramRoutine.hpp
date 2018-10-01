@@ -8,7 +8,6 @@ typedef unsigned long long int Ulli;
 template<size_t N>
 class MultipleHistogramRoutine : public HistogramRoutine<N> {
 private:
-    std::mutex multipleDataMutex;
     std::vector<std::vector<Ulli>> effs;
     std::vector<History> histories;
 
@@ -31,9 +30,6 @@ public:
     }
 
     virtual void updateHistory() override {
-        std::lock(HistogramRoutine<N>::counterMutex, HistogramRoutine<N>::dataMutex);
-        std::lock_guard<std::mutex> lk1(HistogramRoutine<N>::counterMutex, std::adopt_lock);
-        std::lock_guard<std::mutex> lk2(HistogramRoutine<N>::dataMutex, std::adopt_lock);
         HistogramRoutine<N>::incrementCounter();
         HistogramRoutine<N>::updateIfActive();
         if (Counter::isActive()) {
@@ -58,7 +54,6 @@ public:
         unsigned int group = HistogramRoutine<N>::getGroupFromRatio(x);
         HistogramRoutine<N>::calculateCore(x);
 
-        std::lock_guard<std::mutex> lock(multipleDataMutex);
         // EigenVectorMethod
         if (m.testParetoOptimality(filterType::EigenVectorMethod)) {
             effs.at(0).at(group)++;
@@ -76,13 +71,11 @@ public:
         if (!HistogramRoutine<N>::testExitConditionCore()) {
             return false;
         } else {
-            std::lock_guard<std::mutex> lock(multipleDataMutex);
             return std::all_of(histories.begin(), histories.end(), &HistogramRoutine<N>::checkSingleHistory);
         }
     }
     virtual void printResult(std::ostream* out) override {
         HistogramRoutine<N>::printResult(out);
-        std::lock_guard<std::mutex> lock(multipleDataMutex);
         *out << "#ofEigenEffs" << HistogramRoutine<N>::delimiter;
         for (auto it = effs.at(0).begin(); it != effs.at(0).end(); it++) {
             *out << *it << HistogramRoutine<N>::delimiter;
