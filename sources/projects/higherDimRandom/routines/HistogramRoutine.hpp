@@ -4,7 +4,7 @@
 #include <mutex>
 
 #include "Routine.hpp"
-#include "counters/ExponentialCounter.hpp"
+#include "ExponentialCounter.hpp"
 
 typedef unsigned long long int Ulli;
 typedef std::map<Ulli, std::vector<Ulli>> History;

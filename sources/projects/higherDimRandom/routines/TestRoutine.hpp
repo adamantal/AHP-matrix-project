@@ -2,7 +2,7 @@
 #define TESTROUTINE_HPP
 
 #include "Routine.hpp"
-#include "counters/Counter.hpp"
+#include "Counter.hpp"
 
 typedef unsigned long long int Ulli;
 
