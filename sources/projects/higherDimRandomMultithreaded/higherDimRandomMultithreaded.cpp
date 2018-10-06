@@ -21,6 +21,7 @@ int main () {
     try {
         const unsigned int DIM = 5;
         RoutinePtr<DIM> r1 = std::make_shared<TestRoutine<DIM>> (10000);
+        //RoutinePtr<DIM> r2 = std::make_shared<HistogramRoutine<DIM>> (0.01);
         RoutinePtr<DIM> r2 = std::make_shared<MultipleHistogramRoutine<DIM>> (0.01);
         RoutinePtr<DIM> r3 = std::make_shared<LoggingRoutine<DIM>> (10000);
         RoutinePtr<DIM> r4 = std::make_shared<PartialSaveRoutine<DIM>> (r2, 100000);

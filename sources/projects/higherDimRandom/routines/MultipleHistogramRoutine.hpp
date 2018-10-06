@@ -44,7 +44,7 @@ public:
                         ++it;
                     }
                 }
-                std::cout << "The number of history in the multiple case is " << localHistory.size() << "\n";
+                //std::cout << "The number of history in the multiple case is " << localHistory.size() << "\n"; DEBUG
             }
         }
         HistogramRoutine<N>::increaseUnitIf();
@@ -93,6 +93,87 @@ public:
             *out << *it << HistogramRoutine<N>::delimiter;
         }
         *out << "\n";
+    }
+    virtual void loadFromFolder(std::string folder) override {
+        std::set<std::string> files = scanFolder(folder);
+        for (const auto & fileName : files) {
+            std::string fullFileName = folder + "/" + fileName;
+            std::ifstream file = std::ifstream(fullFileName);
+            if (!file.is_open()) {
+                throw std::runtime_error("Could not open " + fullFileName + " file!");
+            }
+            unsigned short i = 0;
+            std::string s;
+            std::vector<Ulli> simpleSegList;
+            std::vector<std::vector<Ulli>> seglists;
+            for (unsigned short i = 0; i < numOfMethods; i++) {
+                std::vector<Ulli> vec;
+                seglists.push_back(vec);
+            }
+            while (std::getline(file, s, '\n')) {
+                if (i == 1) {
+                    std::stringstream test(s);
+                    std::string segment;
+                    bool first = true;
+                    while(std::getline(test, segment, '\t')) {
+                        if (!first && !segment.empty()) {
+                            simpleSegList.push_back(std::stoi(segment));
+                        }
+                        first = false;
+                    }
+                }
+                if (i == 2) {
+                    std::stringstream test(s);
+                    std::string segment;
+                    bool first = true;
+                    while(std::getline(test, segment, '\t')) {
+                        if (!first && !segment.empty()) {
+                            seglists.at(0).push_back(std::stoi(segment));
+                        }
+                        first = false;
+                    }
+                }
+                if (i == 3) {
+                    std::stringstream test(s);
+                    std::string segment;
+                    bool first = true;
+                    while(std::getline(test, segment, '\t')) {
+                        if (!first && !segment.empty()) {
+                            seglists.at(1).push_back(std::stoi(segment));
+                        }
+                        first = false;
+                    }
+                }
+                if (i == 4) {
+                    std::stringstream test(s);
+                    std::string segment;
+                    bool first = true;
+                    while(std::getline(test, segment, '\t')) {
+                        if (!first && !segment.empty()) {
+                            seglists.at(2).push_back(std::stoi(segment));
+                        }
+                        first = false;
+                    }
+                    break;
+                }
+                i++;
+            }
+            if (N == 5 && seglists.at(0).size() != HistogramRoutine<N>::getMaxNumberOfGroups() &&
+                          seglists.at(1).size() != HistogramRoutine<N>::getMaxNumberOfGroups() &&
+                          seglists.at(2).size() != HistogramRoutine<N>::getMaxNumberOfGroups()) {
+                std::cout << seglists.at(0).size() << " " << seglists.at(1).size() << " " << seglists.at(2).size() << std::endl;
+                throw std::runtime_error("The read numers don't have the expected size!");
+            }
+            Ulli sum = std::accumulate(simpleSegList.begin(), simpleSegList.end(), 0);
+            histories.at(0).insert(std::pair<Ulli, std::vector<Ulli>>(sum, seglists.at(0)));
+            histories.at(1).insert(std::pair<Ulli, std::vector<Ulli>>(sum, seglists.at(1)));
+            histories.at(2).insert(std::pair<Ulli, std::vector<Ulli>>(sum, seglists.at(2)));
+        }
+        for (unsigned int i = 0; i < numOfMethods; i++) {
+            std::vector<Ulli> eff = histories.at(i).rbegin()->second;
+            effs.at(i) = eff;
+        }
+        HistogramRoutine<N>::loadFromFolder(folder);
     }
 };
 

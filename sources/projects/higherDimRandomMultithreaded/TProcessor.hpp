@@ -27,6 +27,7 @@ private:
     bool stop = false;
     unsigned short activeThreads = 0;
     const unsigned short maxThreads = 4;//2 * std::thread::hardware_concurrency();
+    unsigned long long int counter = 0;
     std::mutex threadMutex;
 
     void printResults() {
@@ -44,13 +45,14 @@ public:
     void startNewThread() {
         Matrix<N> m = generator.generate();
         activeThreads++;
+        counter++;
         std::thread thread(&threadFunction<N>, &collector, m, this);
         thread.detach();
     }
     void threadExited() {
         std::lock_guard<std::mutex> lock(threadMutex);
         activeThreads--;
-        if (!stop) {
+        if (!stop && counter <= 100000) {
             startNewThread();
         }
     }
@@ -69,7 +71,7 @@ public:
         }
         while (true) {
             std::this_thread::sleep_for(std::chrono::seconds(10));
-            if (activeThreads == 0) {
+            if (activeThreads == 0 && counter <= 100000) {
                 printResults();
                 break;
             }

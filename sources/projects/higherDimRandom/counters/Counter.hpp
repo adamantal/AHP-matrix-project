@@ -35,6 +35,10 @@ public:
         std::lock_guard<std::mutex> lockU(unitMutex);
         return (counter % unit == 0);
     }
+    virtual void setCounter(Ulli x) {
+        std::lock_guard<std::mutex> lock(counterMutex);
+        counter = x;
+    }
 };
 
 #endif // COUNTER_HPP

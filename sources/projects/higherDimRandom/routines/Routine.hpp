@@ -1,6 +1,7 @@
 #ifndef ROUTINE_HPP
 #define ROUTINE_HPP
 
+#include <string>
 #include <memory>
 
 #include "Matrix.hpp"
@@ -22,6 +23,7 @@ public:
     virtual void updateHistory() = 0;
     virtual bool testExitCondition() = 0;
     virtual void printResult(std::ostream*) = 0;
+    virtual void loadFromFolder(std::string) = 0;
 };
 
 #endif

@@ -17,9 +17,11 @@ private:
 protected:
     std::mutex unitMutex;
     Ulli unit;
-
+    
 public:
     Counter(Ulli un):unit(un) {
+    }
+    virtual ~Counter() {
     }
 
     Ulli get() {

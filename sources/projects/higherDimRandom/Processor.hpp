@@ -31,6 +31,9 @@ public:
         std::cout << "Routine added\n";
         collector.registerRoutine(r);
     }
+    void loadFromFolder(std::string s) {
+        collector.loadFromFolder(s);
+    }
     void process() {
         std::cout << "Process started\n";
         processCore();

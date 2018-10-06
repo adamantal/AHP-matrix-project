@@ -24,7 +24,7 @@ public:
 
         //init vectors
         unsigned int groups = HistogramRoutine<N>::getMaxNumberOfGroups();
-        for (unsigned int i = 0; i < numOfMethods + 1; i++) {
+        for (unsigned int i = 0; i < numOfMethods/* + 1*/; i++) {
             std::vector<Ulli> vec = std::vector<Ulli> (groups);
             effs.push_back(vec);
         }
@@ -45,7 +45,7 @@ public:
                         ++it;
                     }
                 }
-                //std::cout << "The number of history in the multiple case is " << localHistory.size() << "\n"; DEBUG
+                std::cout << "The number of history in the multiple case is " << localHistory.size() << "\n"; // DEBUG
             }
         }
         HistogramRoutine<N>::increaseUnitIf(count);
@@ -67,8 +67,8 @@ public:
                 effs.at(1).at(group)++;
             if (cosine)
                 effs.at(2).at(group)++;
-            if (eigen && spanTree && cosine)
-                effs.at(3).at(group)++;
+            /*if (eigen && spanTree && cosine)
+                effs.at(3).at(group)++;*/
         }
     }
     virtual bool testExitCondition(Ulli count) override {
@@ -100,11 +100,11 @@ public:
         }
         *out << "\n";
 
-        *out << "#allOfThree" << HistogramRoutine<N>::delimiter;
+        /* *out << "#allOfThree" << HistogramRoutine<N>::delimiter;
         for (auto it = effs.at(3).begin(); it != effs.at(3).end(); it++) {
             *out << *it << HistogramRoutine<N>::delimiter;
         }
-        *out << "\n";
+        *out << "\n";*/
     }
 };
 

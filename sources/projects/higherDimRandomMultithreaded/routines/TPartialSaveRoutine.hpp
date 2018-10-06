@@ -18,7 +18,8 @@ public:
         std::system("rm -rf ../results/higherDimRandomRun");
         std::system("mkdir ../results/higherDimRandomRun");
 
-        Routine<N>::setCounter(std::make_shared<ExponentialCounter>(1));
+        CounterPtr c = std::make_shared<ExponentialCounter>(1);
+        Routine<N>::setCounter(c);
     }
     void calculate(Ulli /*count*/, const Matrix<N>& /*m*/) {
         //do nothing

@@ -17,8 +17,11 @@ template<size_t N>
 class Routine {
 private:
     CounterPtr counter = nullptr;
+
 protected:
     Routine() {
+    }
+    virtual ~Routine() {
     }
     void setCounter(CounterPtr c) {
         counter = c;
@@ -48,7 +51,7 @@ public:
     virtual void updateHistory(const Ulli count) = 0;
     virtual bool testExitCondition(const Ulli count) = 0;
 
-    virtual bool cycle(const Matrix<N>& m) {
+    virtual bool cycle(const Matrix<N> m) final {
         Ulli c = counter->getAndIncrement();
         calculate(c, m);
         updateHistory(c);

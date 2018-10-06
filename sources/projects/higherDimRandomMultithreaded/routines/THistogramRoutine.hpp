@@ -71,7 +71,8 @@ protected:
 
 public:
     HistogramRoutine(double w):width(w) {
-        Routine<N>::setCounter(std::make_shared<ExponentialCounter> (1));
+        CounterPtr c = std::make_shared<ExponentialCounter> (1);
+        Routine<N>::setCounter(c);
 
         unsigned int groups = getMaxNumberOfGroups();
         numberOfMatrices = std::vector<Ulli> (groups);
@@ -93,6 +94,15 @@ protected:
 public:
     virtual void calculate(Ulli /*count*/, const Matrix<N>& m) override {
         double x = m.getConsistencyRatio();
+
+        //bool eigen = m.testParetoOptimality(filterType::EigenVectorMethod);
+        //bool spanTree = m.testParetoOptimality(filterType::AverageSpanTreeMethod);
+        //bool cosine = m.testParetoOptimality(filterType::CosineMethod);
+
+        //(void)eigen;
+        //(void)spanTree;
+        //(void)cosine;
+
         calculateCore(x);
     }
 protected:

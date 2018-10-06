@@ -17,6 +17,12 @@ public:
         std::lock_guard<std::mutex> lock(unitMutex);
         unit *= lambda;
     }
+    virtual void setCounter(Ulli x) override {
+        Counter::setCounter(x);
+        while (getCounter() / 20 > getUnit()) {
+            increaseUnit();
+        }
+    }
 };
 
 #endif // EXPONENTIALCOUNTER_HPP

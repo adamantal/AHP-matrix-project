@@ -25,7 +25,7 @@ class LpSolution {
       return (value > -1e-8);
     }
 
-    void printOutData()const{
+    void printOutData() const {
       std::cout << "Matrix: \n";
       std::cout << matrix << std::endl;
 
@@ -53,7 +53,9 @@ class LpSolution {
       std::cout << std::endl;
     }
 
-    Matrix<N> getMatrix()const { return matrix; }
+    Matrix<N> getMatrix() const {
+        return matrix; 
+    }
     std::vector<double> getw() { return initv; }
     std::vector<double> getx() { return x; }
     std::vector<double> getxnorm() {

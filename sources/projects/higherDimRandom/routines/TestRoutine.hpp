@@ -28,7 +28,10 @@ public:
         incrementCounter();
     }
     virtual void printResult(std::ostream* out) override {
-        *out << getCounter() << " matrix generated!\n";
+        *out << getCounter() << " matrix generated since (re)start!\n";
+    }
+    virtual void loadFromFolder(std::string) override {
+        //do nothing
     }
 };
 

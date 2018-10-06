@@ -273,7 +273,7 @@ void Matrix<N>::L1(std::vector<double> &v){
 }
 
 template<size_t N>
-bool Matrix<N>::testPrimalEigenvectorIsParetoOptimal()const{
+bool Matrix<N>::testPrimalEigenvectorIsParetoOptimal() const {
 	std::vector<double> lambda_1 = getPrimalNormEigenvector();
 
 	return Matrix::testVectorParetoOptimal(lambda_1);
@@ -286,7 +286,7 @@ bool Matrix<N>::testVectorParetoOptimal(const std::vector<double> &w) const {
 }
 
 template<size_t N>
-bool Matrix<N>::testParetoOptimality(filterType filter) const{
+bool Matrix<N>::testParetoOptimality(filterType filter) const {
 	switch (filter) {
 		case (filterType::EigenVectorMethod) :
 			return Matrix::testPrimalEigenvectorIsParetoOptimal();
@@ -425,7 +425,7 @@ LpSolution<N> Matrix<N>::LPVectorParetoOptimal(const std::vector<double> &w) con
 }
 
 template<size_t N>
-std::vector<double> Matrix<N>::getCosineVector()const{
+std::vector<double> Matrix<N>::getCosineVector() const {
 	//initialising b:
 	std::vector<std::vector<double> > b;
 
@@ -2012,7 +2012,7 @@ std::vector<double> Matrix<N>::getMeanOfSpans()const{
 
 template<size_t N>
 bool Matrix<N>::testAvgSpanTreeParetoOptimal() const {
-		return Matrix::testVectorParetoOptimal(getMeanOfSpans());
+	return Matrix::testVectorParetoOptimal(getMeanOfSpans());
 }
 
 template<size_t N>

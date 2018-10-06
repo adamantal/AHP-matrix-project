@@ -9,7 +9,8 @@ template<size_t N>
 class LoggingRoutine : public Routine<N> {
 public:
     LoggingRoutine(Ulli num) {
-        Routine<N>::setCounter(std::make_shared<Counter> (num));
+        CounterPtr c = std::make_shared<Counter> (num);
+        Routine<N>::setCounter(c);
     }
 
     void calculate(const Ulli count, const Matrix<N>& /*m*/) override {

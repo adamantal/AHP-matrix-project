@@ -3,11 +3,12 @@
 
 #include "Routine.hpp"
 #include "ExponentialCounter.hpp"
+#include "../FileUtil.hpp"
 
 typedef unsigned long long int Ulli;
 typedef std::map<Ulli, std::vector<Ulli>> History;
 
-const double EPS = 1e-3;
+const double EPS = 1e-5;
 
 template<size_t N>
 class HistogramRoutine : public Routine<N>, protected ExponentialCounter {
@@ -54,7 +55,7 @@ protected:
                     ++it;
                 }
             }
-            std::cout << "The number of history is " << history.size() << "\n";
+            //std::cout << "The number of history is " << history.size() << "\n"; DEBUG
         }
     }
     void increaseUnitIf() {
@@ -142,6 +143,44 @@ public:
             *out << *it << delimiter;
         }
         *out << "\n";
+    }
+public:
+    virtual void loadFromFolder(std::string folder) override {
+        std::set<std::string> files = scanFolder(folder);
+        for (const auto & fileName : files) {
+            std::string fullFileName = folder + "/" + fileName;
+            std::ifstream file = std::ifstream(fullFileName);
+            if (!file.is_open()) {
+                throw std::runtime_error("Could not open " + fullFileName + " file!");
+            }
+            unsigned short i = 0;
+            std::string s;
+            std::vector<Ulli> seglist;
+            while (std::getline(file, s, '\n')) {
+                if (i == 1) {
+                    std::stringstream test(s);
+                    std::string segment;
+                    bool first = true;
+                    while(std::getline(test, segment, '\t')) {
+                        if (!first && !segment.empty()) {
+                            seglist.push_back(std::stoi(segment));
+                        }
+                        first = false;
+                    }
+                    break;
+                }
+                i++;
+            }
+            if (seglist.size() != getMaxNumberOfGroups()) {
+                std::cout << seglist.size() << std::endl;
+                throw std::runtime_error("The read numers don't have the expected size!");
+            }
+            Ulli sum = std::accumulate(seglist.begin(), seglist.end(), 0);
+            history.insert(std::pair<Ulli, std::vector<Ulli>>(sum, seglist));
+        }
+        Ulli maxElem = history.rbegin()->first;
+        numberOfMatrices = history.rbegin()->second;
+        setCounter(maxElem);
     }
 };
 

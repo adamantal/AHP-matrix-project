@@ -1,4 +1,0 @@
-Routine: van benn egy counter
-a counter ha elér egy pontot, akkor kell egy signalt küldenie KINEK? Collectornak?
-
-leválasztani a Routine algoritmusait az adattárolásról, és elég az adattárolást párhuzamosítani

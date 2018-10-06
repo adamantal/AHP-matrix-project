@@ -24,6 +24,11 @@ public:
             (*routine)->updateHistory();
         }
     }
+    void loadFromFolder(std::string s) {
+        for (auto routine = routines.begin(); routine != routines.end(); routine++) {
+            (*routine)->loadFromFolder(s);
+        }
+    }
     bool exitConidtion() {
         for (auto routine = routines.begin(); routine != routines.end(); routine++) {
             if (!(*routine)->testExitCondition()) {
